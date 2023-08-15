@@ -10,20 +10,23 @@ class ItemGridView extends ConsumerWidget {
     final itemsAsyncValue = ref.watch(itemListProvider);
 
     return itemsAsyncValue.when(
-      data: (items) => GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+      data: (items) => RefreshIndicator(
+        onRefresh:()=> ref.refresh(itemListProvider.future),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+          ),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return Column(
+              children: [
+                Image.network(item.photo.first.photo),
+                Text(item.name),
+              ],
+            );
+          },
         ),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return Column(
-            children: [
-              Image.network(item.photo!.first.photo),
-              Text(item.name!),
-            ],
-          );
-        },
       ),
       loading: () => const CircularProgressIndicator(),
       error: (err, stack) {
