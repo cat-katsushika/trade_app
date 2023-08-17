@@ -27,7 +27,12 @@ class _TopViewState extends ConsumerState<TopView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Trade"),
+        title: const Text(
+            "Trade",
+          style: TextStyle(
+            color: MyColors.primary,
+          ),
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(50.0),
           child: SizedBox(
@@ -59,13 +64,12 @@ class _TopViewState extends ConsumerState<TopView> {
                   ),
                 ),
                 onFieldSubmitted: (value) async {
-                  isLoading = true;
                   debugPrint('onFieldSubmitted: $value');
                   final query = {
                     "search":value,
                     "page":0,
                   };
-                  if(!isLoading)_fetchItems(query);
+                  _fetchItems(query);
                 },
               ),
             ),

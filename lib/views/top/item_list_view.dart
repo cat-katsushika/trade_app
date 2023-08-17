@@ -80,9 +80,11 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
             itemCount: items.length,
           ),
           if (isLoading)
-            const Center(child: CircularProgressIndicator(
+            const Center(
+                child: CircularProgressIndicator(
               color: MyColors.primary,
-            )),
+                ),
+            ),
           if (isError)
             const Center(child: Text('エラーが発生しました。')),
         ],
