@@ -1,20 +1,28 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final itemQueryProvider = StateNotifierProvider<ItemQueryNotifier, Map<String, dynamic>>((ref) {
-  return ItemQueryNotifier();
+final itemsQueryProvider = StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>((ref) {
+  return ItemsQueryNotifier();
 });
 
-class ItemQueryNotifier extends StateNotifier<Map<String, dynamic>> {
-  ItemQueryNotifier() :  super({
+class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
+  ItemsQueryNotifier() :  super({
     "search":"",
     "page":0
   });
 
-  void incrementPage() {
-    state["page"]++;
+  void changeQuery(Map<String, dynamic> query) {
+    state=query;
   }
 
-  void resetItemQuery(){
+  void changeSearch(String search) {
+    state = {...state, "search": search};
+  }
+
+  void incrementPage() {
+    state = {...state, "page": state["page"] + 1};
+  }
+
+  void resetItemsQuery(){
     state={
       "search":"",
       "page":"0"
