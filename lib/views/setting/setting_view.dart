@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/app_bar_module.dart';
 import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
+import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/constant/settings.dart';
 import 'package:trade_app/views/item_detail/setting_item_component.dart';
 
@@ -37,8 +38,11 @@ class _SettingViewState extends ConsumerState {
       // backgroundColor: MyColors.ghostWhiteColor,
       appBar: AppBar(
         title: const Text(
-          'Setting'
-        )
+          'Setting',
+          style: TextStyle(
+            color: MyColors.primary
+          ),
+        ),
       ),
       body: Column(
         children: [
