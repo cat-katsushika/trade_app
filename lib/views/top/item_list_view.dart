@@ -20,25 +20,20 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
   @override
   void initState() {
     super.initState();
-    ref.read(itemsProvider.notifier).fetchItems({
-      "search":"",
-      "page":0
-    },
+    ref.read(itemsProvider.notifier).fetchItems(
+      {"search": "", "page": 0},
     );
 
     debugPrint(isLoading.toString());
     debugPrint("a");
-    _scrollController.addListener(
-        _loadMoreData);
+    _scrollController.addListener(_loadMoreData);
   }
 
   _loadMoreData() async {
     if (isLoading) return;
     final query = ref.read(itemsQueryProvider);
     final pageNumber = query["page"];
-    final itemCount = ref
-        .read(itemsProvider)
-        .length;
+    final itemCount = ref.read(itemsProvider).length;
     print(pageNumber);
     print(itemCount);
     if (_scrollController.position.pixels >
@@ -46,9 +41,9 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
       isLoading = true;
       isError = false;
       try {
-      debugPrint("c");
-      ref.read(itemsQueryProvider.notifier).incrementPage();
-      await ref.read(itemsProvider.notifier).fetchItems(query);
+        debugPrint("c");
+        ref.read(itemsQueryProvider.notifier).incrementPage();
+        await ref.read(itemsProvider.notifier).fetchItems(query);
         setState(() {
           isLoading = false;
         });
@@ -62,33 +57,32 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
         });
         debugPrint("d");
       }
-      }
     }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final items=ref.watch(itemsProvider);
+    final items = ref.watch(itemsProvider);
     return Stack(
-        children: [
-          GridView.builder(
-            controller: _scrollController,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-            ),
-            itemBuilder: (context, index) {
-              return ItemCard(item: items[index]);
-            },
-            itemCount: items.length,
+      children: [
+        GridView.builder(
+          controller: _scrollController,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
           ),
-          if (isLoading)
-            const Center(
-                child: CircularProgressIndicator(
+          itemBuilder: (context, index) {
+            return ItemCard(item: items[index]);
+          },
+          itemCount: items.length,
+        ),
+        if (isLoading)
+          const Center(
+            child: CircularProgressIndicator(
               color: MyColors.primary,
-                ),
             ),
-          if (isError)
-            const Center(child: Text('エラーが発生しました。')),
-        ],
+          ),
+        if (isError) const Center(child: Text('エラーが発生しました。')),
+      ],
     );
   }
 
