@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trade_app/component/app_bar_module.dart';
 import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/settings.dart';
@@ -33,9 +34,14 @@ class _SettingViewState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: MyColors.ghostWhiteColor,
+      appBar: AppBar(
+        title: const Text(
+          'Setting'
+        )
+      ),
       body: Column(
         children: [
-          const SizedBox(height: 40),
           SettingsItemComponent(
             title: '学籍番号',
             trailing: Text(
