@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
+import 'package:trade_app/views/top/item_card.dart';
 import 'package:trade_app/views/top/item_list_view_model.dart';
 import 'package:trade_app/views/top/items_query_provider.dart';
 
@@ -75,7 +76,7 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
               crossAxisCount: 3,
             ),
             itemBuilder: (context, index) {
-              return Image.network(items[index].photo.first.photo);
+              return ItemCard(item: items[index]);
             },
             itemCount: items.length,
           ),
