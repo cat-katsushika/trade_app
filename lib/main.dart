@@ -18,6 +18,7 @@ class TradeApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: MyColors.primary),
         useMaterial3: true,
+        scaffoldBackgroundColor: MyColors.ghostWhiteColor
       ),
       home: const NavigationRoot(),
     );
