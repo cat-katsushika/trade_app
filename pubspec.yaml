@@ -44,6 +44,8 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   shared_preferences: ^2.2.0
   image_picker: ^1.0.2
+  flutter_image_compress: ^2.0.4
+  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:
