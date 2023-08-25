@@ -45,7 +45,7 @@ class _TopViewState extends ConsumerState<TopView> {
                 autocorrect: true,
                 controller: textEditingController,
                 decoration: InputDecoration(
-                  hintText: 'Search',
+                  hintText: Texts.searchHintText,
                   prefixIcon: const Icon(Icons.search, size: 25, color: MyColors.secondary,),
                   isDense: true,
                   contentPadding: const EdgeInsets.fromLTRB(10, 12, 12, 10),
