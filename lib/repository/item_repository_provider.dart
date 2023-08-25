@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:trade_app/models/item_model.dart';
+import 'package:trade_app/models/post_item_model.dart';
 
 //商品一覧データを取得
 class ItemRepository {
@@ -14,6 +18,32 @@ class ItemRepository {
       return jsonData.map((itemData) => Item.fromJson(itemData)).toList();
     } else {
       throw Exception('Failed to load items');
+    }
+  }
+
+  static Future<void> postItem(PostItem item) async {
+    const url =
+        "https://your-api-url.com/items"; // こちらのURLを実際のAPIのURLに置き換えてください
+    final dio = Dio();
+
+    try {
+      final response = await dio.post(
+        url,
+        data: jsonEncode(item.toJson()),
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        debugPrint("Item successfully posted");
+      } else {
+        debugPrint("Error posting item: ${response.data}");
+      }
+    } catch (e) {
+      debugPrint("Exception: $e");
     }
   }
 }

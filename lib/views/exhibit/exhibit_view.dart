@@ -1,41 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:dio/dio.dart';
+import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
+import 'package:trade_app/models/post_item_model.dart';
 import 'package:trade_app/models/product_condition.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-
-class Item {
-  final List<File>? images;
-  final String? name;
-  final String? description;
-  final ProductCondition? condition;
-
-  Item({this.images, this.name, this.description, this.condition});
-
-  Map<String, dynamic> toJson() {
-    List<Map<String, dynamic>> imageSet = [];
-    if (images != null) {
-      for (var image in images!) {
-        imageSet.add({
-          'photo': base64Encode(image.readAsBytesSync()),
-        });
-      }
-    }
-
-    return {
-      'image_set': imageSet,
-      'name': name,
-      'description': description,
-      'condition': condition.toString().split('.').last.toLowerCase(),
-    };
-  }
-}
+import 'package:trade_app/repository/item_repository_provider.dart';
 
 class ExhibitView extends StatefulWidget {
   const ExhibitView({super.key});
@@ -47,10 +21,9 @@ class ExhibitView extends StatefulWidget {
 class _ExhibitViewState extends State<ExhibitView> {
   List<File> images = [];
   final _productNameController = TextEditingController();
-
-  // final _conditionController = TextEditingController();
   final _productDetailsController = TextEditingController();
   ProductCondition? productCondition;
+  String? campus = "";
 
   Future<File?> _compressAndGetFile(File file, String targetPath) async {
     var result = await FlutterImageCompress.compressAndGetFile(
@@ -62,30 +35,24 @@ class _ExhibitViewState extends State<ExhibitView> {
     return result != null ? File(result.path) : null;
   }
 
-  Future<void> _postItem(Item item) async {
-    const url =
-        "https://your-api-url.com/items"; // こちらのURLを実際のAPIのURLに置き換えてください
-    final dio = Dio();
+  @override
+  void initState() {
+    super.initState();
+  }
 
-    try {
-      final response = await dio.post(
-        url,
-        data: jsonEncode(item.toJson()),
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-          },
+  Future<List<DropdownMenuEntry<String>>> _loadCampusData() async {
+    final campusList = await UserPreferences.getCampusList();
+    final List<DropdownMenuEntry<String>> campusEntries =
+    <DropdownMenuEntry<String>>[];
+    for (final String campus in campusList) {
+      campusEntries.add(
+        DropdownMenuEntry<String>(
+          value: campus,
+          label: campus,
         ),
       );
-
-      if (response.statusCode == 201) {
-        debugPrint("Item successfully posted");
-      } else {
-        debugPrint("Error posting item: ${response.data}");
-      }
-    } catch (e) {
-      debugPrint("Exception: $e");
     }
+    return campusEntries;
   }
 
   @override
@@ -307,14 +274,35 @@ class _ExhibitViewState extends State<ExhibitView> {
               const SizedBox(height: 16),
               DropdownMenu<ProductCondition>(
                 initialSelection: ProductCondition.clean,
-                // controller: _conditionController,
-                label: const Text('Color'),
+                label: const Text('商品の状態'),
                 dropdownMenuEntries: colorEntries,
                 onSelected: (value) {
                   setState(() {
                     productCondition = value;
                   });
                 },
+              ),
+              const SizedBox(height: 16),
+              FutureBuilder<List<DropdownMenuEntry<String>>>(
+                future: _loadCampusData(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return DropdownMenu<String>(
+                      initialSelection: snapshot.data!.first.value,
+                      label: const Text('キャンパス'),
+                      dropdownMenuEntries: snapshot.data!,
+                      onSelected: (value) {
+                        setState(() {
+                          campus = value;
+                        });
+                      },
+                    );
+                  } else if(snapshot.hasError) {
+                    return const Text("エラー");
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                }
               ),
               const SizedBox(height: 16),
               TextField(
@@ -335,13 +323,13 @@ class _ExhibitViewState extends State<ExhibitView> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      final item = Item(
+                      final item = PostItem(
                         images: images,
                         name: _productNameController.text,
                         description: _productDetailsController.text,
                         condition: productCondition,
                       );
-                      _postItem(item);
+                      ItemRepository.postItem(item);
                     },
                     child: Text(
                       '出品',

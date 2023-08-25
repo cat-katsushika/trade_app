@@ -86,6 +86,14 @@ class _SettingViewState extends ConsumerState {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          print(await UserPreferences.getCampusList());
+          await UserPreferences.saveCampusList(["キャンパス1", "キャンパス2", "キャンパス3"]);
+          setState(() {
+          });
+        },
+      ),
     );
   }
 }
