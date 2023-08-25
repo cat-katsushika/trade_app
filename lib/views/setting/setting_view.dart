@@ -5,6 +5,7 @@ import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/constant/settings.dart';
+import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/views/item_detail/setting_item_component.dart';
 
 class SettingView extends ConsumerStatefulWidget {
@@ -35,25 +36,23 @@ class _SettingViewState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: MyColors.ghostWhiteColor,
       appBar: AppBar(
+        backgroundColor: MyColors.ghostWhiteColor,
         title: const Text(
-          'Setting',
-          style: TextStyle(
-            color: MyColors.primary
-          ),
+          Texts.setting,
+          style: TextStyle(color: MyColors.primary),
         ),
       ),
       body: Column(
         children: [
           SettingsItemComponent(
-            title: '学籍番号',
+            title: Texts.studentNumberHintText,
             trailing: Text(
               _retrievedStudentNumber,
             ),
           ),
           SettingsItemComponent(
-            title: 'メールアドレス',
+            title: Texts.emailHintText,
             trailing: Text(
               _retrievedEmail,
             ),
@@ -69,9 +68,14 @@ class _SettingViewState extends ConsumerState {
               Navigator.push<MaterialPageRoute<dynamic>>(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const LicensePage(
-                    applicationName: Settings.appName,
-                    applicationVersion: Settings.appVersion,
+                  builder: (context) => Theme(
+                    data: Theme.of(context).copyWith(
+                      cardColor: MyColors.ghostWhiteColor,
+                    ),
+                    child: const LicensePage(
+                      applicationName: Settings.appName,
+                      applicationVersion: Settings.appVersion,
+                    ),
                   ),
                 ),
               );
@@ -85,14 +89,6 @@ class _SettingViewState extends ConsumerState {
             },
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          print(await UserPreferences.getCampusList());
-          await UserPreferences.saveCampusList(["キャンパス1", "キャンパス2", "キャンパス3"]);
-          setState(() {
-          });
-        },
       ),
     );
   }

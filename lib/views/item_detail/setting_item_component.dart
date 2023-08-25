@@ -21,9 +21,9 @@ class SettingsItemComponent extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding:
-        EdgeInsets.symmetric(vertical: logOut ? 8 : 12, horizontal: 12),
+            EdgeInsets.symmetric(vertical: logOut ? 8 : 12, horizontal: 12),
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: MyColors.ghostWhiteColor,
           border: Border(
             bottom: BorderSide(color: MyColors.primary, width: 1),
           ),

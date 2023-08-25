@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/views/exhibit/exhibit_view.dart';
 import 'package:trade_app/views/setting/setting_view.dart';
 import 'package:trade_app/views/top/top_view.dart';
@@ -33,9 +34,9 @@ class _NavigationRootState extends State<NavigationRoot> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.list),label: "フィード"),
-          BottomNavigationBarItem(icon: Icon(Icons.camera),label: "出品"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined),label: "設定"),
+          BottomNavigationBarItem(icon: Icon(Icons.list),label: Texts.top),
+          BottomNavigationBarItem(icon: Icon(Icons.camera),label: Texts.exhibit),
+          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined),label: Texts.setting),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,
