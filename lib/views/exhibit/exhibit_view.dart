@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
+import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/models/post_item_model.dart';
 import 'package:trade_app/models/product_condition.dart';
 import 'package:photo_view/photo_view.dart';
@@ -69,7 +70,10 @@ class _ExhibitViewState extends State<ExhibitView> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('出品ページ'),
+        backgroundColor: MyColors.ghostWhiteColor,
+        title: const Text(
+          Texts.exhibit,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
