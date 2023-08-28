@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'item_model.dart';
+part of 'post_item_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,55 +14,46 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Item _$ItemFromJson(Map<String, dynamic> json) {
-  return _Item.fromJson(json);
-}
-
 /// @nodoc
-mixin _$Item {
-  List<Photo> get imageSet =>
-      throw _privateConstructorUsedError; // Default to empty list
-  String get id => throw _privateConstructorUsedError;
+mixin _$PostItem {
+  List<File> get images => throw _privateConstructorUsedError;
   String get listingStatus => throw _privateConstructorUsedError;
-  int get price => throw _privateConstructorUsedError; // Default to 0
+  int get price => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get condition => throw _privateConstructorUsedError;
   String get writingState => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
   String get seller => throw _privateConstructorUsedError;
   String get buyer => throw _privateConstructorUsedError;
   String get receivableCampus => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
+  $PostItemCopyWith<PostItem> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ItemCopyWith<$Res> {
-  factory $ItemCopyWith(Item value, $Res Function(Item) then) =
-      _$ItemCopyWithImpl<$Res, Item>;
+abstract class $PostItemCopyWith<$Res> {
+  factory $PostItemCopyWith(PostItem value, $Res Function(PostItem) then) =
+      _$PostItemCopyWithImpl<$Res, PostItem>;
   @useResult
   $Res call(
-      {List<Photo> imageSet,
-      String id,
+      {List<File> images,
       String listingStatus,
       int price,
       String name,
       String description,
       String condition,
       String writingState,
-      DateTime? createdAt,
       String seller,
       String buyer,
       String receivableCampus});
 }
 
 /// @nodoc
-class _$ItemCopyWithImpl<$Res, $Val extends Item>
-    implements $ItemCopyWith<$Res> {
-  _$ItemCopyWithImpl(this._value, this._then);
+class _$PostItemCopyWithImpl<$Res, $Val extends PostItem>
+    implements $PostItemCopyWith<$Res> {
+  _$PostItemCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -72,28 +63,22 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? imageSet = null,
-    Object? id = null,
+    Object? images = null,
     Object? listingStatus = null,
     Object? price = null,
     Object? name = null,
     Object? description = null,
     Object? condition = null,
     Object? writingState = null,
-    Object? createdAt = freezed,
     Object? seller = null,
     Object? buyer = null,
     Object? receivableCampus = null,
   }) {
     return _then(_value.copyWith(
-      imageSet: null == imageSet
-          ? _value.imageSet
-          : imageSet // ignore: cast_nullable_to_non_nullable
-              as List<Photo>,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<File>,
       listingStatus: null == listingStatus
           ? _value.listingStatus
           : listingStatus // ignore: cast_nullable_to_non_nullable
@@ -118,10 +103,6 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.writingState
           : writingState // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
       seller: null == seller
           ? _value.seller
           : seller // ignore: cast_nullable_to_non_nullable
@@ -139,57 +120,52 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
 }
 
 /// @nodoc
-abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
-  factory _$$_ItemCopyWith(_$_Item value, $Res Function(_$_Item) then) =
-      __$$_ItemCopyWithImpl<$Res>;
+abstract class _$$_PostItemCopyWith<$Res> implements $PostItemCopyWith<$Res> {
+  factory _$$_PostItemCopyWith(
+          _$_PostItem value, $Res Function(_$_PostItem) then) =
+      __$$_PostItemCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {List<Photo> imageSet,
-      String id,
+      {List<File> images,
       String listingStatus,
       int price,
       String name,
       String description,
       String condition,
       String writingState,
-      DateTime? createdAt,
       String seller,
       String buyer,
       String receivableCampus});
 }
 
 /// @nodoc
-class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
-    implements _$$_ItemCopyWith<$Res> {
-  __$$_ItemCopyWithImpl(_$_Item _value, $Res Function(_$_Item) _then)
+class __$$_PostItemCopyWithImpl<$Res>
+    extends _$PostItemCopyWithImpl<$Res, _$_PostItem>
+    implements _$$_PostItemCopyWith<$Res> {
+  __$$_PostItemCopyWithImpl(
+      _$_PostItem _value, $Res Function(_$_PostItem) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? imageSet = null,
-    Object? id = null,
+    Object? images = null,
     Object? listingStatus = null,
     Object? price = null,
     Object? name = null,
     Object? description = null,
     Object? condition = null,
     Object? writingState = null,
-    Object? createdAt = freezed,
     Object? seller = null,
     Object? buyer = null,
     Object? receivableCampus = null,
   }) {
-    return _then(_$_Item(
-      imageSet: null == imageSet
-          ? _value._imageSet
-          : imageSet // ignore: cast_nullable_to_non_nullable
-              as List<Photo>,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_$_PostItem(
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<File>,
       listingStatus: null == listingStatus
           ? _value.listingStatus
           : listingStatus // ignore: cast_nullable_to_non_nullable
@@ -214,10 +190,6 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
           ? _value.writingState
           : writingState // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
       seller: null == seller
           ? _value.seller
           : seller // ignore: cast_nullable_to_non_nullable
@@ -235,45 +207,35 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$_Item implements _Item {
-  const _$_Item(
-      {final List<Photo> imageSet = const [],
-      this.id = "",
-      this.listingStatus = "",
+
+class _$_PostItem implements _PostItem {
+  const _$_PostItem(
+      {required final List<File> images,
+      this.listingStatus = "unpurchased",
       this.price = 0,
       this.name = "",
       this.description = "",
-      this.condition = "",
-      this.writingState = "",
-      this.createdAt,
+      this.condition = "new",
+      this.writingState = "none",
       this.seller = "",
       this.buyer = "",
       this.receivableCampus = ""})
-      : _imageSet = imageSet;
+      : _images = images;
 
-  factory _$_Item.fromJson(Map<String, dynamic> json) => _$$_ItemFromJson(json);
-
-  final List<Photo> _imageSet;
+  final List<File> _images;
   @override
-  @JsonKey()
-  List<Photo> get imageSet {
-    if (_imageSet is EqualUnmodifiableListView) return _imageSet;
+  List<File> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_imageSet);
+    return EqualUnmodifiableListView(_images);
   }
 
-// Default to empty list
-  @override
-  @JsonKey()
-  final String id;
   @override
   @JsonKey()
   final String listingStatus;
   @override
   @JsonKey()
   final int price;
-// Default to 0
   @override
   @JsonKey()
   final String name;
@@ -287,8 +249,6 @@ class _$_Item implements _Item {
   @JsonKey()
   final String writingState;
   @override
-  final DateTime? createdAt;
-  @override
   @JsonKey()
   final String seller;
   @override
@@ -300,16 +260,15 @@ class _$_Item implements _Item {
 
   @override
   String toString() {
-    return 'Item(imageSet: $imageSet, id: $id, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, createdAt: $createdAt, seller: $seller, buyer: $buyer, receivableCampus: $receivableCampus)';
+    return 'PostItem(images: $images, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, seller: $seller, buyer: $buyer, receivableCampus: $receivableCampus)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Item &&
-            const DeepCollectionEquality().equals(other._imageSet, _imageSet) &&
-            (identical(other.id, id) || other.id == id) &&
+            other is _$_PostItem &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.listingStatus, listingStatus) ||
                 other.listingStatus == listingStatus) &&
             (identical(other.price, price) || other.price == price) &&
@@ -320,27 +279,22 @@ class _$_Item implements _Item {
                 other.condition == condition) &&
             (identical(other.writingState, writingState) ||
                 other.writingState == writingState) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
             (identical(other.seller, seller) || other.seller == seller) &&
             (identical(other.buyer, buyer) || other.buyer == buyer) &&
             (identical(other.receivableCampus, receivableCampus) ||
                 other.receivableCampus == receivableCampus));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_imageSet),
-      id,
+      const DeepCollectionEquality().hash(_images),
       listingStatus,
       price,
       name,
       description,
       condition,
       writingState,
-      createdAt,
       seller,
       buyer,
       receivableCampus);
@@ -348,43 +302,30 @@ class _$_Item implements _Item {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ItemCopyWith<_$_Item> get copyWith =>
-      __$$_ItemCopyWithImpl<_$_Item>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ItemToJson(
-      this,
-    );
-  }
+  _$$_PostItemCopyWith<_$_PostItem> get copyWith =>
+      __$$_PostItemCopyWithImpl<_$_PostItem>(this, _$identity);
 }
 
-abstract class _Item implements Item {
-  const factory _Item(
-      {final List<Photo> imageSet,
-      final String id,
+abstract class _PostItem implements PostItem {
+  const factory _PostItem(
+      {required final List<File> images,
       final String listingStatus,
       final int price,
       final String name,
       final String description,
       final String condition,
       final String writingState,
-      final DateTime? createdAt,
       final String seller,
       final String buyer,
-      final String receivableCampus}) = _$_Item;
-
-  factory _Item.fromJson(Map<String, dynamic> json) = _$_Item.fromJson;
+      final String receivableCampus}) = _$_PostItem;
 
   @override
-  List<Photo> get imageSet;
-  @override // Default to empty list
-  String get id;
+  List<File> get images;
   @override
   String get listingStatus;
   @override
   int get price;
-  @override // Default to 0
+  @override
   String get name;
   @override
   String get description;
@@ -393,8 +334,6 @@ abstract class _Item implements Item {
   @override
   String get writingState;
   @override
-  DateTime? get createdAt;
-  @override
   String get seller;
   @override
   String get buyer;
@@ -402,5 +341,140 @@ abstract class _Item implements Item {
   String get receivableCampus;
   @override
   @JsonKey(ignore: true)
-  _$$_ItemCopyWith<_$_Item> get copyWith => throw _privateConstructorUsedError;
+  _$$_PostItemCopyWith<_$_PostItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$ImageSet {
+  File get photo => throw _privateConstructorUsedError;
+  String get parentItem => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ImageSetCopyWith<ImageSet> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ImageSetCopyWith<$Res> {
+  factory $ImageSetCopyWith(ImageSet value, $Res Function(ImageSet) then) =
+      _$ImageSetCopyWithImpl<$Res, ImageSet>;
+  @useResult
+  $Res call({File photo, String parentItem});
+}
+
+/// @nodoc
+class _$ImageSetCopyWithImpl<$Res, $Val extends ImageSet>
+    implements $ImageSetCopyWith<$Res> {
+  _$ImageSetCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? photo = null,
+    Object? parentItem = null,
+  }) {
+    return _then(_value.copyWith(
+      photo: null == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as File,
+      parentItem: null == parentItem
+          ? _value.parentItem
+          : parentItem // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_ImageSetCopyWith<$Res> implements $ImageSetCopyWith<$Res> {
+  factory _$$_ImageSetCopyWith(
+          _$_ImageSet value, $Res Function(_$_ImageSet) then) =
+      __$$_ImageSetCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({File photo, String parentItem});
+}
+
+/// @nodoc
+class __$$_ImageSetCopyWithImpl<$Res>
+    extends _$ImageSetCopyWithImpl<$Res, _$_ImageSet>
+    implements _$$_ImageSetCopyWith<$Res> {
+  __$$_ImageSetCopyWithImpl(
+      _$_ImageSet _value, $Res Function(_$_ImageSet) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? photo = null,
+    Object? parentItem = null,
+  }) {
+    return _then(_$_ImageSet(
+      photo: null == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as File,
+      parentItem: null == parentItem
+          ? _value.parentItem
+          : parentItem // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_ImageSet implements _ImageSet {
+  const _$_ImageSet({required this.photo, this.parentItem = ""});
+
+  @override
+  final File photo;
+  @override
+  @JsonKey()
+  final String parentItem;
+
+  @override
+  String toString() {
+    return 'ImageSet(photo: $photo, parentItem: $parentItem)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_ImageSet &&
+            (identical(other.photo, photo) || other.photo == photo) &&
+            (identical(other.parentItem, parentItem) ||
+                other.parentItem == parentItem));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, photo, parentItem);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ImageSetCopyWith<_$_ImageSet> get copyWith =>
+      __$$_ImageSetCopyWithImpl<_$_ImageSet>(this, _$identity);
+}
+
+abstract class _ImageSet implements ImageSet {
+  const factory _ImageSet(
+      {required final File photo, final String parentItem}) = _$_ImageSet;
+
+  @override
+  File get photo;
+  @override
+  String get parentItem;
+  @override
+  @JsonKey(ignore: true)
+  _$$_ImageSetCopyWith<_$_ImageSet> get copyWith =>
+      throw _privateConstructorUsedError;
 }

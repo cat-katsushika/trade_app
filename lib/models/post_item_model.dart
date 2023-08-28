@@ -1,30 +1,28 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:trade_app/models/product_condition.dart';
 
-class PostItem {
-  final List<File>? images;
-  final String? name;
-  final String? description;
-  final ProductCondition? condition;
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'post_item_model.freezed.dart';
 
-  PostItem({this.images, this.name, this.description, this.condition});
+@freezed
+abstract class PostItem with _$PostItem {
+  const factory PostItem({
+    required List<File> images,
+    @Default("unpurchased") String listingStatus,
+    @Default(0) int price,
+    @Default("") String name,
+    @Default("") String description,
+    @Default("new") String condition,
+    @Default("none") String writingState,
+    @Default("") String seller,
+    @Default("") String buyer,
+    @Default("") String receivableCampus,
+  }) = _PostItem;
+}
 
-  Map<String, dynamic> toJson() {
-    List<Map<String, dynamic>> imageSet = [];
-    if (images != null) {
-      for (var image in images!) {
-        imageSet.add({
-          'photo': base64Encode(image.readAsBytesSync()),
-        });
-      }
-    }
-
-    return {
-      'image_set': imageSet,
-      'name': name,
-      'description': description,
-      'condition': condition.toString().split('.').last.toLowerCase(),
-    };
-  }
+@freezed
+abstract class ImageSet with _$ImageSet {
+  const factory ImageSet({
+    required File photo,
+    @Default("") String parentItem,
+  }) = _ImageSet;
 }

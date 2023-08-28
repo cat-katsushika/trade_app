@@ -28,14 +28,18 @@ class _NavigationRootState extends State<NavigationRoot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt((_selectedIndex)),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _widgetOptions,
       ),
+      // body: Center(
+      //   child: _widgetOptions.elementAt((_selectedIndex)),
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.list),label: Texts.top),
-          BottomNavigationBarItem(icon: Icon(Icons.camera),label: Texts.exhibit),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag_outlined),label: Texts.top),
+          BottomNavigationBarItem(icon: Icon(Icons.photo_camera_outlined),label: Texts.exhibit),
           BottomNavigationBarItem(icon: Icon(Icons.settings_outlined),label: Texts.setting),
         ],
         currentIndex: _selectedIndex,

@@ -63,27 +63,31 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
   @override
   Widget build(BuildContext context) {
     final items = ref.watch(itemsProvider);
-    return Stack(
-      children: [
-        GridView.builder(
-          controller: _scrollController,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-          ),
-          itemBuilder: (context, index) {
-            return ItemCard(item: items[index]);
-          },
-          itemCount: items.length,
-        ),
-        if (isLoading)
-          const Center(
-            child: CircularProgressIndicator(
-              color: MyColors.primary,
+    if (items.isNotEmpty) {
+      return Stack(
+        children: [
+          GridView.builder(
+            controller: _scrollController,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
             ),
+            itemBuilder: (context, index) {
+              return ItemCard(item: items[index]);
+            },
+            itemCount: items.length,
           ),
-        if (isError) const Center(child: Text('エラーが発生しました。')),
-      ],
-    );
+          if (isLoading)
+            const Center(
+              child: CircularProgressIndicator(
+                color: MyColors.primary,
+              ),
+            ),
+          if (isError) const Center(child: Text('エラーが発生しました。')),
+        ],
+      );
+    } else {
+      return const Center(child: CircularProgressIndicator());
+    }
   }
 
   @override
