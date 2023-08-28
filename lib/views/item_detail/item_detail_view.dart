@@ -5,6 +5,11 @@ import 'package:trade_app/constant/item_detail_key.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/models/item_model.dart';
+import 'package:trade_app/models/listing_status.dart';
+import 'package:trade_app/models/product_condition.dart';
+import 'package:trade_app/views/item_detail/comments_view.dart';
+import 'package:trade_app/views/item_detail/item_detail_common_view.dart';
+import 'package:trade_app/views/item_detail/purchase_button_view.dart';
 
 class ItemDetailView extends StatelessWidget {
   const ItemDetailView(this.item, {super.key});
@@ -12,80 +17,18 @@ class ItemDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController();
-    final List<String> itemDetailData =  [item.sellerId, item.condition, item.receivableCampus];
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    final listingStatus = ListingStatus.values.byName(item.listingStatus);
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
           children: [
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 50.0),
+                padding: const EdgeInsets.only(bottom: 50),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: PageView.builder(
-                        controller: controller,
-                        itemCount: item.photo.length,
-                        itemBuilder: (BuildContext context, int index) => Image.network(
-                          item.photo[index].photo,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.name,
-                            style: const TextStyle(
-                              color: MyColors.primary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            "¥${item.price.toString()}",
-                            style: const TextStyle(
-                              color: MyColors.primary,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 8.0),
-                          const Text(
-                            "商品の説明",
-                            style: TextStyle(
-                              color: MyColors.primary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 8.0),
-                         Text(
-                             item.description,
-                            style: const TextStyle(
-                              color: MyColors.primary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 8.0),
-                          Row(
-                            children: [
-                              const ItemDetailDataView(dataList: ItemDetailKey.itemDetailKey, textStyle: MyTextStyles.mediumBold),
-                              ItemDetailDataView(dataList: itemDetailData, textStyle: MyTextStyles.mediumNormal),
-                            ],
-                          ),
-
-                        ],
-                      ),
-                    )
+                    ItemDetailCommonView(item: item),
+                    const CommentsView(),
                   ],
                 ),
               ),
@@ -106,26 +49,7 @@ class ItemDetailView extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 100,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showDialog(context: context, builder: (_) {
-                        return const PurchaseDialog();
-                      });
-                    },
-                    child: const Text(
-                      "購入"
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
+            PurchaseButtonView(listingStatus: listingStatus),
           ],
         ),
       ),

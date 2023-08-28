@@ -29,7 +29,7 @@ class _ItemCardState extends State<ItemCard> {
           borderRadius: BorderRadius.circular(5.0),
           child: Stack(
             children: [
-              Image.network(widget.item.photo.first.photo),
+              Image.network(widget.item.imageSet.first.photo),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(

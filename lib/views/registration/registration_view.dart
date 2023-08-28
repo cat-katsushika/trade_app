@@ -13,6 +13,7 @@ class RegistrationView extends ConsumerWidget {
   final _studentNumberController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _rePasswordController = TextEditingController();
 
   RegistrationView({super.key});
 
@@ -34,16 +35,6 @@ class RegistrationView extends ConsumerWidget {
               controller: _emailController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: Texts.studentNumberHintText,
-                hintText: Texts.studentNumberHintText,
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
                 labelText: Texts.emailHintText,
                 hintText: Texts.emailHintText,
               ),
@@ -59,6 +50,16 @@ class RegistrationView extends ConsumerWidget {
               ),
               obscureText: true,
             ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _rePasswordController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: Texts.rePasswordHintText,
+                hintText: Texts.rePasswordHintText,
+              ),
+              obscureText: true,
+            ),
             const Spacer(),
             SizedBox(
               height: 50,
@@ -69,11 +70,16 @@ class RegistrationView extends ConsumerWidget {
                 ),
                 onPressed: () {
                   viewModel.registration(
-                    UserModel(
                       email: _emailController.text,
                       password: _passwordController.text,
-                    ),
-                  );
+                      rePassword: _rePasswordController.text,
+                      snackFunction: (value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(value),
+                          ),
+                        );
+                      });
                 },
                 child: const Text('登録'),
               ),
