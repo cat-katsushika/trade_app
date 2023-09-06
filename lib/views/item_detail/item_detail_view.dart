@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:trade_app/component/item_detail_data_view.dart';
-import 'package:trade_app/component/purchase_dialog.dart';
-import 'package:trade_app/constant/item_detail_key.dart';
 import 'package:trade_app/constant/my_colors.dart';
-import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
-import 'package:trade_app/models/product_condition.dart';
 import 'package:trade_app/views/item_detail/comments_view.dart';
 import 'package:trade_app/views/item_detail/item_detail_common_view.dart';
 import 'package:trade_app/views/item_detail/purchase_button_view.dart';
 
-class ItemDetailView extends StatelessWidget {
+class ItemDetailView extends StatefulWidget {
   const ItemDetailView(this.item, {super.key});
+
   final Item item;
 
   @override
+  State<ItemDetailView> createState() => _ItemDetailViewState();
+}
+
+class _ItemDetailViewState extends State<ItemDetailView> {
+  final newCommentController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    final listingStatus = ListingStatus.values.byName(item.listingStatus);
+    final listingStatus =
+        ListingStatus.values.byName(widget.item.listingStatus);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -27,8 +31,8 @@ class ItemDetailView extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 50),
                 child: Column(
                   children: [
-                    ItemDetailCommonView(item: item),
-                    const CommentsView(),
+                    ItemDetailCommonView(item: widget.item),
+                    CommentsView(newCommentController: newCommentController),
                   ],
                 ),
               ),
@@ -44,12 +48,16 @@ class ItemDetailView extends StatelessWidget {
                   icon: const Icon(
                     Icons.arrow_back_ios,
                     color: MyColors.secondary,
-
                   ),
                 ),
               ),
             ),
-            PurchaseButtonView(listingStatus: listingStatus),
+            PurchaseButtonView(
+              listingStatus: listingStatus,
+              onTapUnpurchased: (value) {
+
+              },
+            ),
           ],
         ),
       ),

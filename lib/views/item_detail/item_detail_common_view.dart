@@ -4,10 +4,8 @@ import 'package:trade_app/constant/item_detail_key.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/models/item_model.dart';
-import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/models/product_condition.dart';
 import 'package:trade_app/models/writing_state.dart';
-import 'package:trade_app/views/item_detail/comments_view.dart';
 
 class ItemDetailCommonView extends StatelessWidget {
   const ItemDetailCommonView({Key? key, required this.item}) : super(key: key);
@@ -16,10 +14,9 @@ class ItemDetailCommonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productCondition = ProductCondition.values.byName(item.condition);
-    final listingStatus = ListingStatus.values.byName(item.listingStatus);
     final writingState = WritingState.values.byName(item.writingState);
     final PageController controller = PageController();
-    final List<String> itemDetailData =  [item.seller, productCondition.jpName, writingState.jpName, item.receivableCampus];
+    final List<String> itemDetailData =  [item.seller, productCondition.jpName, writingState.jpName];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -80,6 +77,12 @@ class ItemDetailCommonView extends StatelessWidget {
                 children: [
                   const ItemDetailDataView(dataList: ItemDetailKey.itemDetailKey, textStyle: MyTextStyles.mediumBold),
                   ItemDetailDataView(dataList: itemDetailData, textStyle: MyTextStyles.mediumNormal),
+                ],
+              ),
+              Row(
+                children: [
+                  const ItemDetailDataView(dataList: ['受取可能キャンパス'], textStyle: MyTextStyles.mediumBold),
+                  ItemDetailDataView(dataList: [item.receivableCampus], textStyle: MyTextStyles.mediumNormal),
                 ],
               ),
             ],

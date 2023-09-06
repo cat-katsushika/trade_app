@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/models/post_item_model.dart';
@@ -12,22 +12,23 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:trade_app/models/writing_state.dart';
 import 'package:trade_app/repository/item_repository_provider.dart';
+import 'package:trade_app/views/start/my_data_provider.dart';
 
-class ExhibitView extends StatefulWidget {
+class ExhibitView extends ConsumerStatefulWidget {
   const ExhibitView({super.key});
 
   @override
-  State<ExhibitView> createState() => _ExhibitViewState();
+  ConsumerState createState() => _ExhibitViewState();
 }
 
-class _ExhibitViewState extends State<ExhibitView> {
+class _ExhibitViewState extends ConsumerState<ExhibitView> {
   List<File> images = [];
   final _productNameController = TextEditingController();
   final _productDescriptionController = TextEditingController();
   final _productPriceController = TextEditingController();
-  ProductCondition? productCondition;
-  WritingState? writingState;
-  String? campus = "";
+  ProductCondition productCondition = ProductCondition.brandNew;
+  WritingState writingState = WritingState.none;
+  String? campus = '';
 
   Future<File?> _compressAndGetFile(File file, String targetPath) async {
     var result = await FlutterImageCompress.compressAndGetFile(
@@ -44,11 +45,12 @@ class _ExhibitViewState extends State<ExhibitView> {
     super.initState();
   }
 
-  Future<List<DropdownMenuEntry<String>>> _loadCampusData() async {
-    final campusList = await UserPreferences.getCampusList();
+  Future<List<DropdownMenuEntry<String>>> _loadCampusData(WidgetRef ref) async {
+    final campuses = ref.read(myDataProvider).campuses;
+    campus=campuses.first;
     final List<DropdownMenuEntry<String>> campusEntries =
         <DropdownMenuEntry<String>>[];
-    for (final String campus in campusList) {
+    for (final String campus in campuses) {
       campusEntries.add(
         DropdownMenuEntry<String>(
           value: campus,
@@ -282,7 +284,7 @@ class _ExhibitViewState extends State<ExhibitView> {
                   dropdownMenuEntries: productConditionEntries,
                   onSelected: (value) {
                     setState(() {
-                      productCondition = value;
+                      if(value!=null)productCondition = value;
                     });
                   },
                 ),
@@ -293,13 +295,13 @@ class _ExhibitViewState extends State<ExhibitView> {
                   dropdownMenuEntries: writingStateEntries,
                   onSelected: (value) {
                     setState(() {
-                      writingState = value;
+                      if(value!=null)writingState = value;
                     });
                   },
                 ),
                 const SizedBox(height: 16),
                 FutureBuilder<List<DropdownMenuEntry<String>>>(
-                    future: _loadCampusData(),
+                    future: _loadCampusData(ref),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return DropdownMenu<String>(
@@ -308,7 +310,7 @@ class _ExhibitViewState extends State<ExhibitView> {
                           dropdownMenuEntries: snapshot.data!,
                           onSelected: (value) {
                             setState(() {
-                              campus = value;
+                              if(value!=null)campus = value;
                             });
                           },
                         );
@@ -338,7 +340,7 @@ class _ExhibitViewState extends State<ExhibitView> {
                     alignLabelWithHint: true,
                     hintText: '詳細情報を記入してください',
                   ),
-                  maxLines: 5,
+                  maxLines: 10,
                 ),
                 const SizedBox(height: 16),
                 Padding(
@@ -348,15 +350,15 @@ class _ExhibitViewState extends State<ExhibitView> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (images.isNotEmpty&&(_productPriceController.text!='')) {
+                        if (images.isNotEmpty&&_productNameController.text!=''&&_productPriceController.text!='') {
                           final item = PostItem(
                             images: images,
                             name: _productNameController.text,
-                            condition: productCondition!.name,
-                            writingState: writingState!.name,
+                            condition: productCondition.name,
+                            writingState: writingState.name,
                             receivableCampus: campus ?? "",
                             price: int.parse(_productPriceController.text),
-                            description: _productDescriptionController.text,
+                            description: _productDescriptionController.text ?? '',
                           );
                           ItemRepository.exhibitItem(item)
                               .then((isSuccess) {
