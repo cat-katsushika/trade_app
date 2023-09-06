@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:trade_app/models/listing_status.dart';
 
 class PurchaseButtonView extends StatelessWidget {
-  const PurchaseButtonView({Key? key, required this.listingStatus})
+  const PurchaseButtonView({Key? key, required this.listingStatus, required this.onTapUnpurchased})
       : super(key: key);
   final ListingStatus listingStatus;
+  final Function(String) onTapUnpurchased;
 
   Widget _buttonView(ListingStatus listingStatus) {
     if (listingStatus == ListingStatus.unpurchased) {

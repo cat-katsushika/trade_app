@@ -7,6 +7,7 @@ import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/constant/settings.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/views/item_detail/setting_item_component.dart';
+import 'package:trade_app/views/start/my_data_provider.dart';
 
 class SettingView extends ConsumerStatefulWidget {
   const SettingView({Key? key}) : super(key: key);
@@ -16,25 +17,15 @@ class SettingView extends ConsumerStatefulWidget {
 }
 
 class _SettingViewState extends ConsumerState {
-  String _retrievedStudentNumber = '';
-  String _retrievedEmail = '';
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-  }
-
-  _loadUserData() async {
-    final data = await UserPreferences.getUserData();
-    setState(() {
-      _retrievedStudentNumber = data['studentNumber']!;
-      _retrievedEmail = data['email']!;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final myData = ref.read(myDataProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.ghostWhiteColor,
@@ -45,16 +36,16 @@ class _SettingViewState extends ConsumerState {
       ),
       body: Column(
         children: [
-          SettingsItemComponent(
-            title: Texts.studentNumberHintText,
-            trailing: Text(
-              _retrievedStudentNumber,
-            ),
-          ),
+          // SettingsItemComponent(
+          //   title: Texts.studentNumberHintText,
+          //   trailing: Text(
+          //     _retrievedStudentNumber,
+          //   ),
+          // ),
           SettingsItemComponent(
             title: Texts.emailHintText,
             trailing: Text(
-              _retrievedEmail,
+              myData.email,
             ),
           ),
           SettingsItemComponent(

@@ -33,7 +33,7 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
     if (isLoading) return;
     final query = ref.read(itemsQueryProvider);
     final pageNumber = query["page"];
-    final itemCount = ref.read(itemsProvider).length;
+    final itemCount = ref.read(itemsProvider).value!.length;
     print(pageNumber);
     print(itemCount);
     if (_scrollController.position.pixels >
@@ -50,6 +50,7 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
       } catch (error) {
         setState(() {
           isError = true;
+          throw Exception();
         });
       } finally {
         setState(() {
@@ -62,32 +63,31 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
 
   @override
   Widget build(BuildContext context) {
-    final items = ref.watch(itemsProvider);
-    if (items.isNotEmpty) {
-      return Stack(
-        children: [
-          GridView.builder(
-            controller: _scrollController,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-            ),
-            itemBuilder: (context, index) {
-              return ItemCard(item: items[index]);
-            },
-            itemCount: items.length,
-          ),
-          if (isLoading)
-            const Center(
-              child: CircularProgressIndicator(
-                color: MyColors.primary,
+    return ref.watch(itemsProvider).when(
+          data: (items) => Stack(
+            children: [
+              GridView.builder(
+                controller: _scrollController,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemBuilder: (context, index) {
+                  return ItemCard(item: items[index]);
+                },
+                itemCount: items.length,
               ),
-            ),
-          if (isError) const Center(child: Text('エラーが発生しました。')),
-        ],
-      );
-    } else {
-      return const Center(child: CircularProgressIndicator());
-    }
+              if (isLoading)
+                const Center(
+                  child: CircularProgressIndicator(
+                    color: MyColors.primary,
+                  ),
+                ),
+              if (isError) const Center(child: Text('エラーが発生しました。')),
+            ],
+          ),
+          error: (error, stacktrace) => Text(error.toString()),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        );
   }
 
   @override
