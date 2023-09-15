@@ -20,9 +20,8 @@ Photo _$PhotoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Photo {
-  String get id => throw _privateConstructorUsedError;
-  String get parentItem => throw _privateConstructorUsedError;
-  String get photo => throw _privateConstructorUsedError;
+  int get order => throw _privateConstructorUsedError;
+  String get photoPath => throw _privateConstructorUsedError;
   DateTime? get uploadedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +34,7 @@ abstract class $PhotoCopyWith<$Res> {
   factory $PhotoCopyWith(Photo value, $Res Function(Photo) then) =
       _$PhotoCopyWithImpl<$Res, Photo>;
   @useResult
-  $Res call({String id, String parentItem, String photo, DateTime? uploadedAt});
+  $Res call({int order, String photoPath, DateTime? uploadedAt});
 }
 
 /// @nodoc
@@ -51,23 +50,18 @@ class _$PhotoCopyWithImpl<$Res, $Val extends Photo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? parentItem = null,
-    Object? photo = null,
+    Object? order = null,
+    Object? photoPath = null,
     Object? uploadedAt = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      parentItem: null == parentItem
-          ? _value.parentItem
-          : parentItem // ignore: cast_nullable_to_non_nullable
-              as String,
-      photo: null == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
+      order: null == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as int,
+      photoPath: null == photoPath
+          ? _value.photoPath
+          : photoPath // ignore: cast_nullable_to_non_nullable
               as String,
       uploadedAt: freezed == uploadedAt
           ? _value.uploadedAt
@@ -83,7 +77,7 @@ abstract class _$$_PhotoCopyWith<$Res> implements $PhotoCopyWith<$Res> {
       __$$_PhotoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String parentItem, String photo, DateTime? uploadedAt});
+  $Res call({int order, String photoPath, DateTime? uploadedAt});
 }
 
 /// @nodoc
@@ -95,23 +89,18 @@ class __$$_PhotoCopyWithImpl<$Res> extends _$PhotoCopyWithImpl<$Res, _$_Photo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? parentItem = null,
-    Object? photo = null,
+    Object? order = null,
+    Object? photoPath = null,
     Object? uploadedAt = freezed,
   }) {
     return _then(_$_Photo(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      parentItem: null == parentItem
-          ? _value.parentItem
-          : parentItem // ignore: cast_nullable_to_non_nullable
-              as String,
-      photo: null == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
+      order: null == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as int,
+      photoPath: null == photoPath
+          ? _value.photoPath
+          : photoPath // ignore: cast_nullable_to_non_nullable
               as String,
       uploadedAt: freezed == uploadedAt
           ? _value.uploadedAt
@@ -122,29 +111,26 @@ class __$$_PhotoCopyWithImpl<$Res> extends _$PhotoCopyWithImpl<$Res, _$_Photo>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Photo implements _Photo {
-  const _$_Photo(
-      {this.id = "", this.parentItem = "", this.photo = "", this.uploadedAt});
+  const _$_Photo({this.order = 0, this.photoPath = "", this.uploadedAt});
 
   factory _$_Photo.fromJson(Map<String, dynamic> json) =>
       _$$_PhotoFromJson(json);
 
   @override
   @JsonKey()
-  final String id;
+  final int order;
   @override
   @JsonKey()
-  final String parentItem;
-  @override
-  @JsonKey()
-  final String photo;
+  final String photoPath;
   @override
   final DateTime? uploadedAt;
 
   @override
   String toString() {
-    return 'Photo(id: $id, parentItem: $parentItem, photo: $photo, uploadedAt: $uploadedAt)';
+    return 'Photo(order: $order, photoPath: $photoPath, uploadedAt: $uploadedAt)';
   }
 
   @override
@@ -152,18 +138,16 @@ class _$_Photo implements _Photo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Photo &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.parentItem, parentItem) ||
-                other.parentItem == parentItem) &&
-            (identical(other.photo, photo) || other.photo == photo) &&
+            (identical(other.order, order) || other.order == order) &&
+            (identical(other.photoPath, photoPath) ||
+                other.photoPath == photoPath) &&
             (identical(other.uploadedAt, uploadedAt) ||
                 other.uploadedAt == uploadedAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, parentItem, photo, uploadedAt);
+  int get hashCode => Object.hash(runtimeType, order, photoPath, uploadedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -181,19 +165,16 @@ class _$_Photo implements _Photo {
 
 abstract class _Photo implements Photo {
   const factory _Photo(
-      {final String id,
-      final String parentItem,
-      final String photo,
+      {final int order,
+      final String photoPath,
       final DateTime? uploadedAt}) = _$_Photo;
 
   factory _Photo.fromJson(Map<String, dynamic> json) = _$_Photo.fromJson;
 
   @override
-  String get id;
+  int get order;
   @override
-  String get parentItem;
-  @override
-  String get photo;
+  String get photoPath;
   @override
   DateTime? get uploadedAt;
   @override

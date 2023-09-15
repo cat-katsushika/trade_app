@@ -20,11 +20,10 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
-  List<Photo> get imageSet =>
-      throw _privateConstructorUsedError; // Default to empty list
+  List<Photo> get images => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get listingStatus => throw _privateConstructorUsedError;
-  int get price => throw _privateConstructorUsedError; // Default to 0
+  int get price => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get condition => throw _privateConstructorUsedError;
@@ -45,7 +44,7 @@ abstract class $ItemCopyWith<$Res> {
       _$ItemCopyWithImpl<$Res, Item>;
   @useResult
   $Res call(
-      {List<Photo> imageSet,
+      {List<Photo> images,
       String id,
       String listingStatus,
       int price,
@@ -72,7 +71,7 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? imageSet = null,
+    Object? images = null,
     Object? id = null,
     Object? listingStatus = null,
     Object? price = null,
@@ -86,9 +85,9 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
     Object? receivableCampus = null,
   }) {
     return _then(_value.copyWith(
-      imageSet: null == imageSet
-          ? _value.imageSet
-          : imageSet // ignore: cast_nullable_to_non_nullable
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
               as List<Photo>,
       id: null == id
           ? _value.id
@@ -145,7 +144,7 @@ abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {List<Photo> imageSet,
+      {List<Photo> images,
       String id,
       String listingStatus,
       int price,
@@ -168,7 +167,7 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? imageSet = null,
+    Object? images = null,
     Object? id = null,
     Object? listingStatus = null,
     Object? price = null,
@@ -182,9 +181,9 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
     Object? receivableCampus = null,
   }) {
     return _then(_$_Item(
-      imageSet: null == imageSet
-          ? _value._imageSet
-          : imageSet // ignore: cast_nullable_to_non_nullable
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
               as List<Photo>,
       id: null == id
           ? _value.id
@@ -235,10 +234,11 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Item implements _Item {
   const _$_Item(
-      {final List<Photo> imageSet = const [],
+      {final List<Photo> images = const [Photo(order: 1, photoPath: "")],
       this.id = "",
       this.listingStatus = "",
       this.price = 0,
@@ -250,20 +250,19 @@ class _$_Item implements _Item {
       this.seller = "",
       this.buyer = "",
       this.receivableCampus = ""})
-      : _imageSet = imageSet;
+      : _images = images;
 
   factory _$_Item.fromJson(Map<String, dynamic> json) => _$$_ItemFromJson(json);
 
-  final List<Photo> _imageSet;
+  final List<Photo> _images;
   @override
   @JsonKey()
-  List<Photo> get imageSet {
-    if (_imageSet is EqualUnmodifiableListView) return _imageSet;
+  List<Photo> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_imageSet);
+    return EqualUnmodifiableListView(_images);
   }
 
-// Default to empty list
   @override
   @JsonKey()
   final String id;
@@ -273,7 +272,6 @@ class _$_Item implements _Item {
   @override
   @JsonKey()
   final int price;
-// Default to 0
   @override
   @JsonKey()
   final String name;
@@ -300,7 +298,7 @@ class _$_Item implements _Item {
 
   @override
   String toString() {
-    return 'Item(imageSet: $imageSet, id: $id, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, createdAt: $createdAt, seller: $seller, buyer: $buyer, receivableCampus: $receivableCampus)';
+    return 'Item(images: $images, id: $id, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, createdAt: $createdAt, seller: $seller, buyer: $buyer, receivableCampus: $receivableCampus)';
   }
 
   @override
@@ -308,7 +306,7 @@ class _$_Item implements _Item {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Item &&
-            const DeepCollectionEquality().equals(other._imageSet, _imageSet) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.listingStatus, listingStatus) ||
                 other.listingStatus == listingStatus) &&
@@ -332,7 +330,7 @@ class _$_Item implements _Item {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_imageSet),
+      const DeepCollectionEquality().hash(_images),
       id,
       listingStatus,
       price,
@@ -361,7 +359,7 @@ class _$_Item implements _Item {
 
 abstract class _Item implements Item {
   const factory _Item(
-      {final List<Photo> imageSet,
+      {final List<Photo> images,
       final String id,
       final String listingStatus,
       final int price,
@@ -377,14 +375,14 @@ abstract class _Item implements Item {
   factory _Item.fromJson(Map<String, dynamic> json) = _$_Item.fromJson;
 
   @override
-  List<Photo> get imageSet;
-  @override // Default to empty list
+  List<Photo> get images;
+  @override
   String get id;
   @override
   String get listingStatus;
   @override
   int get price;
-  @override // Default to 0
+  @override
   String get name;
   @override
   String get description;

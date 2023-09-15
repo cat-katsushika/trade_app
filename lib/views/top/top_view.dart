@@ -33,12 +33,6 @@ class _TopViewState extends ConsumerState<TopView> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: MyColors.ghostWhiteColor,
-          // title: const Text(
-          //     Texts.top,
-          //   style: TextStyle(
-          //     color: MyColors.primary,
-          //   ),
-          // ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(30.0),
             child: SizedBox(
@@ -72,7 +66,7 @@ class _TopViewState extends ConsumerState<TopView> {
                   onFieldSubmitted: (value) async {
                     debugPrint('onFieldSubmitted: $value');
                     final query = {
-                      "search":value,
+                      "name":value,
                       "page":0,
                     };
                     _fetchItems(query);
@@ -91,12 +85,10 @@ class _TopViewState extends ConsumerState<TopView> {
                   return ItemDetailView(
                     Item(
                           id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                          imageSet: [
+                          images: [
                             Photo(
-                              id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                              photo: "https://picsum.photos/id/1/300",
+                              photoPath: "https://picsum.photos/id/1/300",
                               uploadedAt: DateTime.now(),
-                              parentItem: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                             )
                           ],
                           listingStatus: "unpurchased",

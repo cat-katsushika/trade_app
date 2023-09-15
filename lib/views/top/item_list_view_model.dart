@@ -6,32 +6,33 @@ final itemRepositoryProvider = Provider<ItemRepository>((ref) {
   return ItemRepository();
 });
 
-final itemsProvider = StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
+final itemsProvider =
+    StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
   return ItemsNotifier(ref.read(itemRepositoryProvider));
 });
 
-
 //アプリの状態を管理し、必要に応じてItemRepositoryを使用して商品一覧データを取得
-class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>>{
-  ItemsNotifier(this._repository) :  super(const AsyncValue.loading());
+class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
+  ItemsNotifier(this._repository) : super(const AsyncValue.loading());
 
   final ItemRepository _repository;
 
   void addItems(List<Item> items) {
     final oldData = state.value ?? [];
-    state = AsyncData([...oldData, ...items]);
+    state = AsyncValue.data([...oldData, ...items]);
   }
 
   void removeAll() {
-    state = const AsyncData([]);
+    state = const AsyncValue.data([]);
   }
 
-  Future<void> fetchItems(Map<String,dynamic>? query) async {
+  Future<void> fetchItems(Map<String, dynamic>? query) async {
+    state = const AsyncValue.loading();
     try {
       final items = await _repository.fetchItems(query);
       addItems(items);
-    } catch (e) {
-      throw Exception('Failed to load items');
+    } catch (err, stack) {
+      state = AsyncValue.error(err, stack);
     }
   }
 }
