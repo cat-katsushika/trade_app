@@ -29,7 +29,16 @@ class _ItemCardState extends State<ItemCard> {
           borderRadius: BorderRadius.circular(5.0),
           child: Stack(
             children: [
-              Image.network(widget.item.imageSet.first.photo),
+              Image.network(
+                widget.item.images.first.photoPath,
+                errorBuilder: (c, o, s) {
+                  print('Load failed : ${c.toString()}');
+                  return const Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  );
+                },
+              ),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(

@@ -5,10 +5,10 @@ part 'photo_model.g.dart';
 
 @freezed
 class Photo with _$Photo {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Photo({
-    @Default("") String id,
-    @Default("") String parentItem,
-    @Default("") String photo,
+    @Default(0) int order,
+    @Default("") String photoPath,
     DateTime? uploadedAt,
   }) = _Photo;
 

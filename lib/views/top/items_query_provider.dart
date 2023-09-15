@@ -6,7 +6,7 @@ final itemsQueryProvider = StateNotifierProvider<ItemsQueryNotifier, Map<String,
 
 class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
   ItemsQueryNotifier() :  super({
-    "search":"",
+    "name":"",
     "page":0
   });
 
@@ -15,7 +15,7 @@ class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
   }
 
   void changeSearch(String search) {
-    state = {...state, "search": search};
+    state = {...state, "name": search};
   }
 
   void incrementPage() {
@@ -24,8 +24,8 @@ class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
 
   void resetItemsQuery(){
     state={
-      "search":"",
-      "page":"0"
+      "name":"",
+      "page": 0
     };
   }
 }

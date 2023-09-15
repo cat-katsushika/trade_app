@@ -7,17 +7,15 @@ part of 'photo_model.dart';
 // **************************************************************************
 
 _$_Photo _$$_PhotoFromJson(Map<String, dynamic> json) => _$_Photo(
-      id: json['id'] as String? ?? "",
-      parentItem: json['parentItem'] as String? ?? "",
-      photo: json['photo'] as String? ?? "",
-      uploadedAt: json['uploadedAt'] == null
+      order: json['order'] as int? ?? 0,
+      photoPath: json['photo_path'] as String? ?? "",
+      uploadedAt: json['uploaded_at'] == null
           ? null
-          : DateTime.parse(json['uploadedAt'] as String),
+          : DateTime.parse(json['uploaded_at'] as String),
     );
 
 Map<String, dynamic> _$$_PhotoToJson(_$_Photo instance) => <String, dynamic>{
-      'id': instance.id,
-      'parentItem': instance.parentItem,
-      'photo': instance.photo,
-      'uploadedAt': instance.uploadedAt?.toIso8601String(),
+      'order': instance.order,
+      'photo_path': instance.photoPath,
+      'uploaded_at': instance.uploadedAt?.toIso8601String(),
     };

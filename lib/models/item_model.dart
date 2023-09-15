@@ -4,14 +4,14 @@ import 'package:trade_app/models/photo_model.dart';
 part 'item_model.freezed.dart';
 part 'item_model.g.dart';
 
-// @JsonSerializable(fieldRename: FieldRename.snake)
 @freezed
 class Item with _$Item {
+@JsonSerializable(fieldRename: FieldRename.snake)
   const factory Item({
-    @Default([]) List<Photo> imageSet, // Default to empty list
+    @Default([Photo(order: 1, photoPath: "")]) List<Photo> images,
     @Default("") String id,
     @Default("") String listingStatus,
-    @Default(0) int price, // Default to 0
+    @Default(0) int price,
     @Default("") String name,
     @Default("") String description,
     @Default("") String condition,

@@ -32,7 +32,10 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                 child: Column(
                   children: [
                     ItemDetailCommonView(item: widget.item),
-                    CommentsView(newCommentController: newCommentController),
+                    CommentsView(
+                      newCommentController: newCommentController,
+                      item: widget.item,
+                    ),
                   ],
                 ),
               ),
@@ -54,9 +57,7 @@ class _ItemDetailViewState extends State<ItemDetailView> {
             ),
             PurchaseButtonView(
               listingStatus: listingStatus,
-              onTapUnpurchased: (value) {
-
-              },
+              onTapUnpurchased: (value) {},
             ),
           ],
         ),

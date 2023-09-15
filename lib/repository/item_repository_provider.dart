@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -18,7 +18,6 @@ class ItemRepository {
       url,
       options: Options(
         headers: {
-          "Authorization": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkzMTIwMzA3LCJpYXQiOjE2OTMxMTY3MDcsImp0aSI6IjMxY2RmNWQyNTA3ZTQ3OTliMTI4NTIzOTk4Yjc4YmZiIiwidXNlcl9pZCI6ImRiOTk4OTZmLWViOGItNDI2YS1iMDIwLTg0YWQ4MDE4YTY4ZiJ9.E8Aw5MBG2dYMpyHCn2HvLe8bvkxp0zwqsYHAb8NcAwg",
           "Content-Type": "application/json",
         },
       ),
@@ -26,6 +25,7 @@ class ItemRepository {
     );
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = response.data;
+      log(jsonData.toString());
       return jsonData.map((itemData) => Item.fromJson(itemData)).toList();
     } else {
       throw Exception('Failed to load items');
@@ -35,6 +35,7 @@ class ItemRepository {
   static final Uri _uriHost = Uri.parse(Url.apiUrl);
 
   static Future<bool> exhibitItem(PostItem item) async {
+    //TODO:出品関数実装
     try {
       Dio dio = Dio();
       await _prepareDio(dio);

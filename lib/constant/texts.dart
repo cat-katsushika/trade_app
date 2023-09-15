@@ -1,7 +1,6 @@
 class Texts {
-  static const alertMessage = [
-    '購入しますか？', '購入', 'キャンセル',
-  ];
+  static const alertMessage = ['購入しますか？', '購入', 'キャンセル'];
+  static const itemDetailKey = ['出品者', '状態', '書き込み'];
   static const purchase = '購入';
   static const register = '登録';
   static const login = 'ログイン';
@@ -10,7 +9,7 @@ class Texts {
   static const setting = '設定';
   static const notLoginText = 'ログインせずにwebで試す';
   static const studentNumberHintText = '学籍番号';
-  static const emailHintText = '大学のメールアドレス';
+  static const emailHintText = 'メールアドレス';
   static const passwordHintText = 'パスワード';
   static const rePasswordHintText = 'パスワードを再度入力';
   static const searchHintText = 'Search';
