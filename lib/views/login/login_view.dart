@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
-import 'package:trade_app/constant/url.dart';
-import 'package:trade_app/models/user_model.dart';
 import 'package:trade_app/views/NavigationRoot/navigation_root.dart';
-import 'package:trade_app/views/login/login_view_model.dart';
-import 'package:trade_app/views/registration/registration_view.dart';
 
 class LoginView extends ConsumerWidget {
   final _emailController = TextEditingController();
@@ -16,8 +13,7 @@ class LoginView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(loginViewModelProvider);
-
+    final userDataNotifier = ref.watch(userDataProvider.notifier);
     return Scaffold(
       backgroundColor: MyColors.ghostWhiteColor,
       appBar: AppBar(backgroundColor: MyColors.ghostWhiteColor),
@@ -54,19 +50,28 @@ class LoginView extends ConsumerWidget {
                   backgroundColor: MyColors.tertiary,
                   foregroundColor: MyColors.white,
                 ),
-                onPressed: () {
-                  // ViewModelのログインメソッドを呼び出す
-                  viewModel.login(
-                    UserModel(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                    ),
+                onPressed: () async {
+                  userDataNotifier.setMailAndPW(
+                      _emailController.text, _passwordController.text);
+                  final isLogin = await userDataNotifier.login(
+                    context: context,
+                    errMsg: 'エラー 再度ログインしてください。',
                   );
+                  Future(() {
+                    if (isLogin) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NavigationRoot(),
+                        ),
+                        (_) => false,
+                      );
+                    }
+                  });
                 },
                 child: const Text(Texts.login),
               ),
             ),
-
             const SizedBox(height: 16),
             const Spacer(),
           ],

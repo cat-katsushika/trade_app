@@ -13,6 +13,10 @@ final userDataProvider =
 class UserDataNotifier extends StateNotifier<UserData> {
   UserDataNotifier() : super(const UserData());
 
+  void loadUserData() {
+
+  }
+
   void setMailAndPW(String email, String password) {
     state = state.copyWith(
       email: email,
