@@ -2,24 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
-import 'package:trade_app/constant/url.dart';
-import 'package:trade_app/models/user_model.dart';
-import 'package:trade_app/views/NavigationRoot/navigation_root.dart';
-import 'package:trade_app/views/login/login_view.dart';
+import 'package:trade_app/views/registration/activation_wait_view.dart';
 import 'package:trade_app/views/registration/registration_view_model.dart';
 
-class RegistrationView extends ConsumerWidget {
-  // テキストコントローラーの定義
-  final _studentNumberController = TextEditingController();
+class RegistrationView extends ConsumerStatefulWidget {
+  const RegistrationView({super.key});
+
+  @override
+  ConsumerState createState() => _RegistrationViewState();
+}
+
+class _RegistrationViewState extends ConsumerState<RegistrationView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _rePasswordController = TextEditingController();
+  bool isButtonDisabled = false;
 
-  RegistrationView({super.key});
+  Future<void> handleButtonPress(RegistrationViewModel viewModel) async {
+    setState(() => isButtonDisabled = true);
+    var isRegistration = false;
+    try {
+      isRegistration = await viewModel.registration(
+        email: _emailController.text,
+        password: _passwordController.text,
+        rePassword: _rePasswordController.text,
+        snackFunction: (value) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(value),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      if (isRegistration) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) {
+              return  ActivationWaitView(
+                email: _emailController.text,
+                password: _passwordController.text,
+              );
+            },
+          ),
+        );
+      }
+    }
+    setState(() => isButtonDisabled = false);
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // ViewModelのインスタンスを取得
+  Widget build(BuildContext context) {
     final viewModel = ref.read(registrationViewModelProvider);
 
     return Scaffold(
@@ -68,19 +103,11 @@ class RegistrationView extends ConsumerWidget {
                   backgroundColor: MyColors.primary,
                   foregroundColor: MyColors.white,
                 ),
-                onPressed: () {
-                  viewModel.registration(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                      rePassword: _rePasswordController.text,
-                      snackFunction: (value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(value),
-                          ),
-                        );
-                      });
-                },
+                onPressed: isButtonDisabled
+                    ? null
+                    : () {
+                        handleButtonPress(viewModel);
+                      },
                 child: const Text('登録'),
               ),
             ),

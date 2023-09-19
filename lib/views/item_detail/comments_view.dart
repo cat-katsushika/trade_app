@@ -28,18 +28,26 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
       return Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  "コメント",
-                  style: MyTextStyles.mediumBold,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: const Text(
+                    "コメント",
+                    style: MyTextStyles.mediumBold,
+                  ),
                 ),
                 for (var comment in comments) CommentCard(comment),
-                const SizedBox(height: 16)
               ],
             ),
+            // if(comments.isEmpty)
+            //   Padding(
+            //     padding: const EdgeInsets.fromLTRB(0, 0, 8, 16),
+            //     child: const Text('コメントはまだありません。'),
+            //   ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

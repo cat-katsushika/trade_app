@@ -36,6 +36,7 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                       newCommentController: newCommentController,
                       item: widget.item,
                     ),
+                    const SizedBox(height: 32),
                   ],
                 ),
               ),

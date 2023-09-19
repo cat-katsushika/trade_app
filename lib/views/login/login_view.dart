@@ -9,7 +9,6 @@ import 'package:trade_app/views/login/login_view_model.dart';
 import 'package:trade_app/views/registration/registration_view.dart';
 
 class LoginView extends ConsumerWidget {
-  // テキストコントローラーの定義
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -17,7 +16,6 @@ class LoginView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ViewModelのインスタンスを取得
     final viewModel = ref.read(loginViewModelProvider);
 
     return Scaffold(
