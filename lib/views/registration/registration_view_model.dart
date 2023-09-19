@@ -12,7 +12,7 @@ class RegistrationViewModel {
 
   final String _apiEndpoint = '${Url.apiUrl}auth/users/';
 
-  Future<void> registration({required String email, required String password, required String rePassword, required Function(String value) snackFunction}) async {
+  Future<bool> registration({required String email, required String password, required String rePassword, required Function(String value) snackFunction}) async {
     try {
       final response = await _dio.post(
         _apiEndpoint,
@@ -23,16 +23,19 @@ class RegistrationViewModel {
         },
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         debugPrint('registration successful: ${response.data}');
         snackFunction("登録に成功しました");
+        return true;
       } else {
         debugPrint('registration failed: ${response.data}');
         snackFunction("登録に失敗しました${response.data}");
+        return false;
       }
     } catch (e) {
       snackFunction("登録に失敗しました\n");
       debugPrint('Error during registration: $e');
+      return false;
     }
   }
 }
