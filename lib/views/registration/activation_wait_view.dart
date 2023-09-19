@@ -40,14 +40,6 @@ class _ActivationWaitViewState extends ConsumerState<ActivationWaitView> {
             ),
             (_) => false,
           );
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) {
-          //       return const NavigationRoot();
-          //     },
-          //   ),
-          // );
         }
       }
     });
