@@ -21,7 +21,8 @@ mixin _$UserData {
   String get password => throw _privateConstructorUsedError;
   String get accessToken => throw _privateConstructorUsedError;
   String get refreshToken => throw _privateConstructorUsedError;
-  List<String> get campuses => throw _privateConstructorUsedError;
+  List<Campus> get campuses => throw _privateConstructorUsedError;
+  bool get isLogin => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserDataCopyWith<UserData> get copyWith =>
@@ -39,7 +40,8 @@ abstract class $UserDataCopyWith<$Res> {
       String password,
       String accessToken,
       String refreshToken,
-      List<String> campuses});
+      List<Campus> campuses,
+      bool isLogin});
 }
 
 /// @nodoc
@@ -61,6 +63,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? accessToken = null,
     Object? refreshToken = null,
     Object? campuses = null,
+    Object? isLogin = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -86,7 +89,11 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
       campuses: null == campuses
           ? _value.campuses
           : campuses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Campus>,
+      isLogin: null == isLogin
+          ? _value.isLogin
+          : isLogin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -104,7 +111,8 @@ abstract class _$$_UserDataCopyWith<$Res> implements $UserDataCopyWith<$Res> {
       String password,
       String accessToken,
       String refreshToken,
-      List<String> campuses});
+      List<Campus> campuses,
+      bool isLogin});
 }
 
 /// @nodoc
@@ -124,6 +132,7 @@ class __$$_UserDataCopyWithImpl<$Res>
     Object? accessToken = null,
     Object? refreshToken = null,
     Object? campuses = null,
+    Object? isLogin = null,
   }) {
     return _then(_$_UserData(
       id: null == id
@@ -149,7 +158,11 @@ class __$$_UserDataCopyWithImpl<$Res>
       campuses: null == campuses
           ? _value._campuses
           : campuses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Campus>,
+      isLogin: null == isLogin
+          ? _value.isLogin
+          : isLogin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -163,7 +176,8 @@ class _$_UserData implements _UserData {
       this.password = '',
       this.accessToken = '',
       this.refreshToken = '',
-      final List<String> campuses = const []})
+      final List<Campus> campuses = const [],
+      this.isLogin = false})
       : _campuses = campuses;
 
   @override
@@ -181,18 +195,22 @@ class _$_UserData implements _UserData {
   @override
   @JsonKey()
   final String refreshToken;
-  final List<String> _campuses;
+  final List<Campus> _campuses;
   @override
   @JsonKey()
-  List<String> get campuses {
+  List<Campus> get campuses {
     if (_campuses is EqualUnmodifiableListView) return _campuses;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_campuses);
   }
 
   @override
+  @JsonKey()
+  final bool isLogin;
+
+  @override
   String toString() {
-    return 'UserData(id: $id, email: $email, password: $password, accessToken: $accessToken, refreshToken: $refreshToken, campuses: $campuses)';
+    return 'UserData(id: $id, email: $email, password: $password, accessToken: $accessToken, refreshToken: $refreshToken, campuses: $campuses, isLogin: $isLogin)';
   }
 
   @override
@@ -208,12 +226,13 @@ class _$_UserData implements _UserData {
                 other.accessToken == accessToken) &&
             (identical(other.refreshToken, refreshToken) ||
                 other.refreshToken == refreshToken) &&
-            const DeepCollectionEquality().equals(other._campuses, _campuses));
+            const DeepCollectionEquality().equals(other._campuses, _campuses) &&
+            (identical(other.isLogin, isLogin) || other.isLogin == isLogin));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, email, password, accessToken,
-      refreshToken, const DeepCollectionEquality().hash(_campuses));
+      refreshToken, const DeepCollectionEquality().hash(_campuses), isLogin);
 
   @JsonKey(ignore: true)
   @override
@@ -229,7 +248,8 @@ abstract class _UserData implements UserData {
       final String password,
       final String accessToken,
       final String refreshToken,
-      final List<String> campuses}) = _$_UserData;
+      final List<Campus> campuses,
+      final bool isLogin}) = _$_UserData;
 
   @override
   String get id;
@@ -242,7 +262,9 @@ abstract class _UserData implements UserData {
   @override
   String get refreshToken;
   @override
-  List<String> get campuses;
+  List<Campus> get campuses;
+  @override
+  bool get isLogin;
   @override
   @JsonKey(ignore: true)
   _$$_UserDataCopyWith<_$_UserData> get copyWith =>

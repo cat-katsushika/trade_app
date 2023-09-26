@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/comment_card.dart';
+import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/models/item_model.dart';
+import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/views/item_detail/comments_view_model.dart';
 
 class CommentsView extends ConsumerStatefulWidget {
-  const CommentsView({Key? key, required this.newCommentController, required this.item})
-      : super(key: key);
-  final TextEditingController newCommentController;
+  const CommentsView({Key? key, required this.item}) : super(key: key);
   final Item item;
 
   @override
@@ -16,6 +16,8 @@ class CommentsView extends ConsumerStatefulWidget {
 }
 
 class _CommentsViewState extends ConsumerState<CommentsView> {
+  final newCommentController = TextEditingController();
+
   @override
   void initState() {
     ref.read(commentViewModelProvider.notifier).fetchComments(widget.item.id);
@@ -24,6 +26,9 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
 
   @override
   Widget build(BuildContext context) {
+    final listingStatus =
+        ListingStatus.values.byName(widget.item.listingStatus);
+    final userDataState = ref.read(userDataProvider);
     return ref.watch(commentViewModelProvider).when(data: (comments) {
       return Padding(
         padding: const EdgeInsets.all(8),
@@ -33,9 +38,9 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
                     "コメント",
                     style: MyTextStyles.mediumBold,
                   ),
@@ -43,47 +48,65 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
                 for (var comment in comments) CommentCard(comment),
               ],
             ),
-            // if(comments.isEmpty)
-            //   Padding(
-            //     padding: const EdgeInsets.fromLTRB(0, 0, 8, 16),
-            //     child: const Text('コメントはまだありません。'),
-            //   ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: TextField(
-                    controller: widget.newCommentController,
-                    decoration: const InputDecoration(
-                      labelText: 'コメント',
-                      border: OutlineInputBorder(),
-                      alignLabelWithHint: true,
-                      hintText: 'コメント',
+            if (listingStatus == ListingStatus.unpurchased)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: TextField(
+                        controller: newCommentController,
+                        decoration: const InputDecoration(
+                          labelText: 'コメント',
+                          border: OutlineInputBorder(),
+                          alignLabelWithHint: true,
+                          hintText: 'コメント',
+                        ),
+                        maxLines: 1,
+                      ),
                     ),
-                    maxLines: 1,
-                  ),
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        onPressed: () async {
+                          if (newCommentController.text != '') {
+                            final isPost = await ref
+                                .watch(commentViewModelProvider.notifier)
+                                .postComment(
+                                  widget.item.id,
+                                  newCommentController.text,
+                                  userDataState.id,
+                                );
+                            if (isPost) {
+                              newCommentController.text = '';
+                              ref
+                                  .read(commentViewModelProvider.notifier)
+                                  .fetchComments(widget.item.id);
+                            } else {
+                              Future(() =>
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('投稿できませんでした'),
+                                    ),
+                                  ));
+                            }
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.send,
+                          size: 40,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    onPressed: () {
-                      //TODO  providerに変更 コメント送信
-                    },
-                    icon: const Icon(Icons.send),
-                  ),
-                ),
-              ],
-            ),
+              ),
           ],
         ),
       );
     }, error: (err, stack) {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text('エラー'),
-      //   ),
-      // );
       return const Center(child: Text('コメントが読み込めません'));
     }, loading: () {
       return const Center(child: CircularProgressIndicator());

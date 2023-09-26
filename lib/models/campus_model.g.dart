@@ -9,8 +9,7 @@ part of 'campus_model.dart';
 _$_Campus _$$_CampusFromJson(Map<String, dynamic> json) => _$_Campus(
       id: json['id'] as String,
       campus: json['campus'] as String,
-      university:
-          University.fromJson(json['university'] as Map<String, dynamic>),
+      university: json['university'] as String,
     );
 
 Map<String, dynamic> _$$_CampusToJson(_$_Campus instance) => <String, dynamic>{

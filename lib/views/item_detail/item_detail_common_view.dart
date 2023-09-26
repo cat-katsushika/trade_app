@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trade_app/component/item_detail_data_view.dart';
+import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/models/item_model.dart';
+import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/models/product_condition.dart';
 import 'package:trade_app/models/writing_state.dart';
 
@@ -13,8 +15,14 @@ class ItemDetailCommonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productCondition = ProductCondition.values.byName(item.condition);
+    //brand_newに対してbyNameが使えないため例外処理
+    var productCondition = ProductCondition.brandNew;
+    if (item.condition != 'brand_new') {
+      productCondition = ProductCondition.values.byName(item.condition);
+    }
     final writingState = WritingState.values.byName(item.writingState);
+    final listingStatus =
+    ListingStatus.values.byName(item.listingStatus);
     final PageController controller = PageController();
     //出品者、状態、書き込みのデータをStringに変換
     final List<String> itemDetailData = [
@@ -25,22 +33,33 @@ class ItemDetailCommonView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: PageView.builder(
-            controller: controller,
-            itemCount: item.images.length,
-            itemBuilder: (BuildContext context, int index) => Image.network(
-              item.images[index].photoPath,
-              fit: BoxFit.cover,
-              errorBuilder: (c, o, s) {
-                return const Icon(
-                  Icons.error,
-                  color: Colors.red,
-                );
-              },
+        Stack(
+          children: [
+            AspectRatio(
+              aspectRatio: 1,
+              child: item.images.isNotEmpty
+                  ? PageView.builder(
+                      controller: controller,
+                      itemCount: item.images.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image.network(
+                          item.images[index].photoPath,
+                          fit: BoxFit.contain,
+                          errorBuilder: (c, o, s) {
+                            return const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            );
+                          },
+                        );
+                      })
+                  : Center(
+                      child: Image.asset(ImagePath.errorImage),
+                    ),
             ),
-          ),
+            if (listingStatus != ListingStatus.unpurchased)
+              IgnorePointer(child: Positioned.fill(child: Image.asset(ImagePath.soldOutImage))),
+          ],
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

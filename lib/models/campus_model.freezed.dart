@@ -22,7 +22,7 @@ Campus _$CampusFromJson(Map<String, dynamic> json) {
 mixin _$Campus {
   String get id => throw _privateConstructorUsedError;
   String get campus => throw _privateConstructorUsedError;
-  University get university => throw _privateConstructorUsedError;
+  String get university => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,9 +34,7 @@ abstract class $CampusCopyWith<$Res> {
   factory $CampusCopyWith(Campus value, $Res Function(Campus) then) =
       _$CampusCopyWithImpl<$Res, Campus>;
   @useResult
-  $Res call({String id, String campus, University university});
-
-  $UniversityCopyWith<$Res> get university;
+  $Res call({String id, String campus, String university});
 }
 
 /// @nodoc
@@ -68,16 +66,8 @@ class _$CampusCopyWithImpl<$Res, $Val extends Campus>
       university: null == university
           ? _value.university
           : university // ignore: cast_nullable_to_non_nullable
-              as University,
+              as String,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $UniversityCopyWith<$Res> get university {
-    return $UniversityCopyWith<$Res>(_value.university, (value) {
-      return _then(_value.copyWith(university: value) as $Val);
-    });
   }
 }
 
@@ -87,10 +77,7 @@ abstract class _$$_CampusCopyWith<$Res> implements $CampusCopyWith<$Res> {
       __$$_CampusCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String campus, University university});
-
-  @override
-  $UniversityCopyWith<$Res> get university;
+  $Res call({String id, String campus, String university});
 }
 
 /// @nodoc
@@ -119,7 +106,7 @@ class __$$_CampusCopyWithImpl<$Res>
       university: null == university
           ? _value.university
           : university // ignore: cast_nullable_to_non_nullable
-              as University,
+              as String,
     ));
   }
 }
@@ -138,7 +125,7 @@ class _$_Campus implements _Campus {
   @override
   final String campus;
   @override
-  final University university;
+  final String university;
 
   @override
   String toString() {
@@ -178,7 +165,7 @@ abstract class _Campus implements Campus {
   const factory _Campus(
       {required final String id,
       required final String campus,
-      required final University university}) = _$_Campus;
+      required final String university}) = _$_Campus;
 
   factory _Campus.fromJson(Map<String, dynamic> json) = _$_Campus.fromJson;
 
@@ -187,7 +174,7 @@ abstract class _Campus implements Campus {
   @override
   String get campus;
   @override
-  University get university;
+  String get university;
   @override
   @JsonKey(ignore: true)
   _$$_CampusCopyWith<_$_Campus> get copyWith =>

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
-import 'package:trade_app/views/start/start_view_check.dart';
+import 'package:trade_app/views/splash_screen/splash_screen_view.dart';
 
 void main() {
   runApp(const ProviderScope(child: TradeApp()));
@@ -25,7 +25,7 @@ class _TradeAppState extends State<TradeApp> {
           scaffoldBackgroundColor: MyColors.ghostWhiteColor),
       home: const Scaffold(
         body: Center(
-          child: StartViewCheck(),
+          child: SplashScreenView(),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/app_bar_module.dart';
+import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
@@ -25,7 +26,7 @@ class _SettingViewState extends ConsumerState {
 
   @override
   Widget build(BuildContext context) {
-    final myData = ref.read(myDataProvider);
+    final myData = ref.read(userDataProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.ghostWhiteColor,
@@ -36,12 +37,6 @@ class _SettingViewState extends ConsumerState {
       ),
       body: Column(
         children: [
-          // SettingsItemComponent(
-          //   title: Texts.studentNumberHintText,
-          //   trailing: Text(
-          //     _retrievedStudentNumber,
-          //   ),
-          // ),
           SettingsItemComponent(
             title: Texts.emailHintText,
             trailing: Text(

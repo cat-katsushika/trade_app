@@ -4,15 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
+import 'package:trade_app/models/campus_model.dart';
 import 'package:trade_app/models/post_item_model.dart';
 import 'package:trade_app/models/product_condition.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:trade_app/models/writing_state.dart';
 import 'package:trade_app/repository/item_repository_provider.dart';
-import 'package:trade_app/views/start/my_data_provider.dart';
 
 class ExhibitView extends ConsumerStatefulWidget {
   const ExhibitView({super.key});
@@ -28,7 +29,16 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
   final _productPriceController = TextEditingController();
   ProductCondition productCondition = ProductCondition.brandNew;
   WritingState writingState = WritingState.none;
-  String? campus = '';
+  Campus? campus;
+
+  @override
+  void initState() {
+    Future(() async {
+      await ref.watch(userDataProvider.notifier).fetchCampuses();
+      setState(() {});
+    });
+    super.initState();
+  }
 
   Future<File?> _compressAndGetFile(File file, String targetPath) async {
     var result = await FlutterImageCompress.compressAndGetFile(
@@ -40,21 +50,16 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
     return result != null ? File(result.path) : null;
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<List<DropdownMenuEntry<String>>> _loadCampusData(WidgetRef ref) async {
-    final campuses = ref.read(myDataProvider).campuses;
-    campus=campuses.first;
-    final List<DropdownMenuEntry<String>> campusEntries =
-        <DropdownMenuEntry<String>>[];
-    for (final String campus in campuses) {
+  Future<List<DropdownMenuEntry<Campus>>> _loadCampusData(WidgetRef ref) async {
+    final campuses = ref.read(userDataProvider).campuses;
+    campus = campuses.first;
+    final List<DropdownMenuEntry<Campus>> campusEntries =
+        <DropdownMenuEntry<Campus>>[];
+    for (final Campus campus in campuses) {
       campusEntries.add(
-        DropdownMenuEntry<String>(
+        DropdownMenuEntry<Campus>(
           value: campus,
-          label: campus,
+          label: campus.campus,
         ),
       );
     }
@@ -85,12 +90,6 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
     }
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: MyColors.ghostWhiteColor,
-        //   title: const Text(
-        //     Texts.exhibit,
-        //   ),
-        // ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -153,7 +152,8 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                                         ));
                                       },
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                         child: Image.file(
                                           images[index],
                                           width: 80,
@@ -284,7 +284,7 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                   dropdownMenuEntries: productConditionEntries,
                   onSelected: (value) {
                     setState(() {
-                      if(value!=null)productCondition = value;
+                      if (value != null) productCondition = value;
                     });
                   },
                 ),
@@ -295,22 +295,22 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                   dropdownMenuEntries: writingStateEntries,
                   onSelected: (value) {
                     setState(() {
-                      if(value!=null)writingState = value;
+                      if (value != null) writingState = value;
                     });
                   },
                 ),
                 const SizedBox(height: 16),
-                FutureBuilder<List<DropdownMenuEntry<String>>>(
+                FutureBuilder<List<DropdownMenuEntry<Campus>>>(
                     future: _loadCampusData(ref),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return DropdownMenu<String>(
+                        return DropdownMenu<Campus>(
                           initialSelection: snapshot.data!.first.value,
                           label: const Text('キャンパス'),
                           dropdownMenuEntries: snapshot.data!,
                           onSelected: (value) {
                             setState(() {
-                              if(value!=null)campus = value;
+                              if (value != null) campus = value;
                             });
                           },
                         );
@@ -326,10 +326,9 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   controller: _productPriceController,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: '価格',
-                    hintText: '1000'
-                  ),
+                      border: OutlineInputBorder(),
+                      labelText: '価格',
+                      hintText: '1000'),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -350,32 +349,46 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (images.isNotEmpty&&_productNameController.text!=''&&_productPriceController.text!='') {
+                        if (images.isNotEmpty &&
+                            _productNameController.text != '' &&
+                            _productPriceController.text != '') {
                           final item = PostItem(
                             images: images,
                             name: _productNameController.text,
                             condition: productCondition.name,
                             writingState: writingState.name,
-                            receivableCampus: campus ?? "",
+                            receivableCampus:
+                                campus != null ? campus!.campus : '',
                             price: int.parse(_productPriceController.text),
-                            description: _productDescriptionController.text ?? '',
+                            description: _productDescriptionController.text,
                           );
-                          ItemRepository.exhibitItem(item)
-                              .then((isSuccess) {
-                            if (isSuccess) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('出品が完了しました！'),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('エラー   もう一度やり直して下さい。'),
-                                ),
-                              );
-                            }
-                          });
+                          final newItemData = {
+                            'seller': '1@ed.tus.ac.jp',
+                            'price': 1000,
+                            'name': 'Sample Item',
+                            'description': 'This is a sample item description.',
+                            'condition': 'brandNew',
+                            'writing_state': 'none',
+                            'receivable_campus': '8b9af37b-20b8-44c6-a6bd-25f876c5a89c',
+                          };
+
+                          // final imageFiles = [File('path/to/image1.jpg'), File('path/to/image2.jpg')];
+                          ItemRepository.createItemWithDio(newItemData, images);
+                          // ItemRepository.exhibitItem(item).then((isSuccess) {
+                          //   if (isSuccess) {
+                          //     ScaffoldMessenger.of(context).showSnackBar(
+                          //       const SnackBar(
+                          //         content: Text('出品が完了しました！'),
+                          //       ),
+                          //     );
+                          //   } else {
+                          //     ScaffoldMessenger.of(context).showSnackBar(
+                          //       const SnackBar(
+                          //         content: Text('エラー   もう一度やり直して下さい。'),
+                          //       ),
+                          //     );
+                          //   }
+                          // });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

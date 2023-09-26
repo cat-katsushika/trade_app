@@ -9,7 +9,7 @@ class Campus with _$Campus {
   const factory Campus({
     required String id,
     required String campus,
-    required University university,
+    required String university,
   }) = _Campus;
 
   factory Campus.fromJson(Map<String, dynamic> json) => _$CampusFromJson(json);

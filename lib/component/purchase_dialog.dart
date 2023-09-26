@@ -3,8 +3,8 @@ import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
 
 class PurchaseDialog extends StatelessWidget {
-  const PurchaseDialog({Key? key}) : super(key: key);
-
+  const PurchaseDialog({Key? key, required this.onTapUnpurchased,}) : super(key: key);
+  final VoidCallback onTapUnpurchased;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -19,7 +19,9 @@ class PurchaseDialog extends StatelessWidget {
       ),
       actions: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            onTapUnpurchased();
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(

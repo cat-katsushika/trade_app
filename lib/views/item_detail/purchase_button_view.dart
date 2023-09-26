@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trade_app/component/purchase_dialog.dart';
 import 'package:trade_app/models/listing_status.dart';
 
-class PurchaseButtonView extends StatelessWidget {
+class PurchaseButtonView extends ConsumerWidget {
   const PurchaseButtonView({Key? key, required this.listingStatus, required this.onTapUnpurchased})
       : super(key: key);
   final ListingStatus listingStatus;
-  final Function(String) onTapUnpurchased;
+  final VoidCallback onTapUnpurchased;
 
-  Widget _buttonView(ListingStatus listingStatus) {
+  Widget _buttonView(ListingStatus listingStatus, BuildContext context) {
     if (listingStatus == ListingStatus.unpurchased) {
       return ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(context: context, builder: (_) => PurchaseDialog(
+           onTapUnpurchased: onTapUnpurchased,
+          ));
+        },
         child: const Text("購入"),
       );
     } else if (listingStatus == ListingStatus.purchased) {
@@ -32,7 +38,7 @@ class PurchaseButtonView extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
@@ -40,7 +46,7 @@ class PurchaseButtonView extends StatelessWidget {
         child: SizedBox(
           height: 50,
           width: 200,
-          child: _buttonView(listingStatus),
+          child: _buttonView(listingStatus, context),
         ),
       ),
     );

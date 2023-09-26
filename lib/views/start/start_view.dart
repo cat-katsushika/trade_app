@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/constant/url.dart';
@@ -23,8 +24,8 @@ class _StartViewState extends State<StartView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(flex:2,child: Container()),
-            const Expanded(flex: 3,child: Image(image: AssetImage('assets/images/app_icon.png'))),
+            Expanded(flex:3,child: Container()),
+            const Expanded(flex: 3,child: Image(image: AssetImage(ImagePath.appIconTransplant))),
             Expanded(child: Container()),
             SizedBox(
               height: 50,
@@ -66,7 +67,7 @@ class _StartViewState extends State<StartView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RegistrationView(),
+                      builder: (context) => const RegistrationView(),
                     ),
                   );
                   debugPrint('登録ボタンが押されました');
@@ -88,19 +89,10 @@ class _StartViewState extends State<StartView> {
                 ),
               ),
             ),
-            Expanded(child: Container()),
+            const SizedBox(height: 32),
+            // Expanded(child: Container()),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NavigationRoot(),
-            ),
-          );
-        },
       ),
     );
   }
