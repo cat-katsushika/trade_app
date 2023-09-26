@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PostItem {
+  String get receivableCampus => throw _privateConstructorUsedError;
   List<File> get images => throw _privateConstructorUsedError;
   String get listingStatus => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
@@ -23,9 +24,8 @@ mixin _$PostItem {
   String get description => throw _privateConstructorUsedError;
   String get condition => throw _privateConstructorUsedError;
   String get writingState => throw _privateConstructorUsedError;
-  String get seller => throw _privateConstructorUsedError;
   String get buyer => throw _privateConstructorUsedError;
-  String get receivableCampus => throw _privateConstructorUsedError;
+  String get seller => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PostItemCopyWith<PostItem> get copyWith =>
@@ -38,16 +38,16 @@ abstract class $PostItemCopyWith<$Res> {
       _$PostItemCopyWithImpl<$Res, PostItem>;
   @useResult
   $Res call(
-      {List<File> images,
+      {String receivableCampus,
+      List<File> images,
       String listingStatus,
       int price,
       String name,
       String description,
       String condition,
       String writingState,
-      String seller,
       String buyer,
-      String receivableCampus});
+      String seller});
 }
 
 /// @nodoc
@@ -63,6 +63,7 @@ class _$PostItemCopyWithImpl<$Res, $Val extends PostItem>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? receivableCampus = null,
     Object? images = null,
     Object? listingStatus = null,
     Object? price = null,
@@ -70,11 +71,14 @@ class _$PostItemCopyWithImpl<$Res, $Val extends PostItem>
     Object? description = null,
     Object? condition = null,
     Object? writingState = null,
-    Object? seller = null,
     Object? buyer = null,
-    Object? receivableCampus = null,
+    Object? seller = null,
   }) {
     return _then(_value.copyWith(
+      receivableCampus: null == receivableCampus
+          ? _value.receivableCampus
+          : receivableCampus // ignore: cast_nullable_to_non_nullable
+              as String,
       images: null == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
@@ -103,17 +107,13 @@ class _$PostItemCopyWithImpl<$Res, $Val extends PostItem>
           ? _value.writingState
           : writingState // ignore: cast_nullable_to_non_nullable
               as String,
-      seller: null == seller
-          ? _value.seller
-          : seller // ignore: cast_nullable_to_non_nullable
-              as String,
       buyer: null == buyer
           ? _value.buyer
           : buyer // ignore: cast_nullable_to_non_nullable
               as String,
-      receivableCampus: null == receivableCampus
-          ? _value.receivableCampus
-          : receivableCampus // ignore: cast_nullable_to_non_nullable
+      seller: null == seller
+          ? _value.seller
+          : seller // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -127,16 +127,16 @@ abstract class _$$_PostItemCopyWith<$Res> implements $PostItemCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {List<File> images,
+      {String receivableCampus,
+      List<File> images,
       String listingStatus,
       int price,
       String name,
       String description,
       String condition,
       String writingState,
-      String seller,
       String buyer,
-      String receivableCampus});
+      String seller});
 }
 
 /// @nodoc
@@ -150,6 +150,7 @@ class __$$_PostItemCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? receivableCampus = null,
     Object? images = null,
     Object? listingStatus = null,
     Object? price = null,
@@ -157,11 +158,14 @@ class __$$_PostItemCopyWithImpl<$Res>
     Object? description = null,
     Object? condition = null,
     Object? writingState = null,
-    Object? seller = null,
     Object? buyer = null,
-    Object? receivableCampus = null,
+    Object? seller = null,
   }) {
     return _then(_$_PostItem(
+      receivableCampus: null == receivableCampus
+          ? _value.receivableCampus
+          : receivableCampus // ignore: cast_nullable_to_non_nullable
+              as String,
       images: null == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
@@ -190,17 +194,13 @@ class __$$_PostItemCopyWithImpl<$Res>
           ? _value.writingState
           : writingState // ignore: cast_nullable_to_non_nullable
               as String,
-      seller: null == seller
-          ? _value.seller
-          : seller // ignore: cast_nullable_to_non_nullable
-              as String,
       buyer: null == buyer
           ? _value.buyer
           : buyer // ignore: cast_nullable_to_non_nullable
               as String,
-      receivableCampus: null == receivableCampus
-          ? _value.receivableCampus
-          : receivableCampus // ignore: cast_nullable_to_non_nullable
+      seller: null == seller
+          ? _value.seller
+          : seller // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -210,18 +210,21 @@ class __$$_PostItemCopyWithImpl<$Res>
 
 class _$_PostItem implements _PostItem {
   const _$_PostItem(
-      {required final List<File> images,
+      {this.receivableCampus = "",
+      required final List<File> images,
       this.listingStatus = "unpurchased",
       this.price = 0,
       this.name = "",
       this.description = "",
-      this.condition = "new",
+      this.condition = "brand_new",
       this.writingState = "none",
-      this.seller = "",
       this.buyer = "",
-      this.receivableCampus = ""})
+      this.seller = ""})
       : _images = images;
 
+  @override
+  @JsonKey()
+  final String receivableCampus;
   final List<File> _images;
   @override
   List<File> get images {
@@ -250,17 +253,14 @@ class _$_PostItem implements _PostItem {
   final String writingState;
   @override
   @JsonKey()
-  final String seller;
-  @override
-  @JsonKey()
   final String buyer;
   @override
   @JsonKey()
-  final String receivableCampus;
+  final String seller;
 
   @override
   String toString() {
-    return 'PostItem(images: $images, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, seller: $seller, buyer: $buyer, receivableCampus: $receivableCampus)';
+    return 'PostItem(receivableCampus: $receivableCampus, images: $images, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, buyer: $buyer, seller: $seller)';
   }
 
   @override
@@ -268,6 +268,8 @@ class _$_PostItem implements _PostItem {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PostItem &&
+            (identical(other.receivableCampus, receivableCampus) ||
+                other.receivableCampus == receivableCampus) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.listingStatus, listingStatus) ||
                 other.listingStatus == listingStatus) &&
@@ -279,15 +281,14 @@ class _$_PostItem implements _PostItem {
                 other.condition == condition) &&
             (identical(other.writingState, writingState) ||
                 other.writingState == writingState) &&
-            (identical(other.seller, seller) || other.seller == seller) &&
             (identical(other.buyer, buyer) || other.buyer == buyer) &&
-            (identical(other.receivableCampus, receivableCampus) ||
-                other.receivableCampus == receivableCampus));
+            (identical(other.seller, seller) || other.seller == seller));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      receivableCampus,
       const DeepCollectionEquality().hash(_images),
       listingStatus,
       price,
@@ -295,9 +296,8 @@ class _$_PostItem implements _PostItem {
       description,
       condition,
       writingState,
-      seller,
       buyer,
-      receivableCampus);
+      seller);
 
   @JsonKey(ignore: true)
   @override
@@ -308,17 +308,19 @@ class _$_PostItem implements _PostItem {
 
 abstract class _PostItem implements PostItem {
   const factory _PostItem(
-      {required final List<File> images,
+      {final String receivableCampus,
+      required final List<File> images,
       final String listingStatus,
       final int price,
       final String name,
       final String description,
       final String condition,
       final String writingState,
-      final String seller,
       final String buyer,
-      final String receivableCampus}) = _$_PostItem;
+      final String seller}) = _$_PostItem;
 
+  @override
+  String get receivableCampus;
   @override
   List<File> get images;
   @override
@@ -334,11 +336,9 @@ abstract class _PostItem implements PostItem {
   @override
   String get writingState;
   @override
-  String get seller;
-  @override
   String get buyer;
   @override
-  String get receivableCampus;
+  String get seller;
   @override
   @JsonKey(ignore: true)
   _$$_PostItemCopyWith<_$_PostItem> get copyWith =>

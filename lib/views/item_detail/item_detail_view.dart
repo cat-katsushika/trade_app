@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
+import 'package:trade_app/repository/item_repository_provider.dart';
+import 'package:trade_app/views/NavigationRoot/navigation_root.dart';
 import 'package:trade_app/views/item_detail/comments_view.dart';
 import 'package:trade_app/views/item_detail/item_detail_common_view.dart';
 import 'package:trade_app/views/item_detail/purchase_button_view.dart';
@@ -16,7 +18,6 @@ class ItemDetailView extends StatefulWidget {
 }
 
 class _ItemDetailViewState extends State<ItemDetailView> {
-  final newCommentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,6 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                   children: [
                     ItemDetailCommonView(item: widget.item),
                     CommentsView(
-                      newCommentController: newCommentController,
                       item: widget.item,
                     ),
                     const SizedBox(height: 32),
@@ -57,9 +57,27 @@ class _ItemDetailViewState extends State<ItemDetailView> {
               ),
             ),
             PurchaseButtonView(
-              listingStatus: listingStatus,
-              onTapUnpurchased: (value) {},
-            ),
+                listingStatus: listingStatus,
+                onTapUnpurchased: () async {
+                  print('on');
+                  if (await ItemRepository.purchaseItem(widget.item.id)) {
+                    Future(() {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NavigationRoot(snackMessage: '購入が完了しました！'),
+                        ),
+                            (_) => false,
+                      );
+                    });
+                  } else {
+                    Future(() => ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('購入できませんでした'),
+                          ),
+                        ));
+                  }
+                }),
           ],
         ),
       ),

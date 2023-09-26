@@ -6,16 +6,16 @@ part 'post_item_model.freezed.dart';
 @freezed
 abstract class PostItem with _$PostItem {
   const factory PostItem({
+    @Default("") String receivableCampus,
     required List<File> images,
     @Default("unpurchased") String listingStatus,
     @Default(0) int price,
     @Default("") String name,
     @Default("") String description,
-    @Default("new") String condition,
+    @Default("brand_new") String condition,
     @Default("none") String writingState,
-    @Default("") String seller,
     @Default("") String buyer,
-    @Default("") String receivableCampus,
+    @Default("") String seller,
   }) = _PostItem;
 }
 

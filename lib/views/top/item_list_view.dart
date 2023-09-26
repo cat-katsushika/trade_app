@@ -20,9 +20,15 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
   @override
   void initState() {
     super.initState();
-    ref.read(itemsProvider.notifier).fetchItems(
-      {"name": "", "page": 0},
-    );
+    Future(() => {
+          ref.read(itemsProvider.notifier).removeAll(),
+          ref.read(itemsProvider.notifier).fetchItems({
+            "name": "",
+            "page": 0,
+            "listing_status":"unpurchased",
+          }),
+          ref.read(itemsQueryProvider.notifier).incrementPage(),
+        });
 
     debugPrint(isLoading.toString());
     _scrollController.addListener(_loadMoreData);
@@ -62,16 +68,15 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
           data: (items) {
             if (items.isEmpty) {
               return const Center(
-                child: Text(
-                  '検索結果は0件です。'
-                ),
+                child: Text('検索結果は0件です。'),
               );
             } else {
               return Stack(
                 children: [
                   GridView.builder(
                     controller: _scrollController,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                     ),
                     itemBuilder: (context, index) {

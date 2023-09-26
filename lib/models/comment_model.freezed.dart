@@ -21,7 +21,8 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Comment {
   String get comment => throw _privateConstructorUsedError;
-  String get createdAt => throw _privateConstructorUsedError;
+  @DateTimeConverter()
+  DateTime get createdAt => throw _privateConstructorUsedError;
   String get itemId => throw _privateConstructorUsedError;
   String get user => throw _privateConstructorUsedError;
 
@@ -35,7 +36,11 @@ abstract class $CommentCopyWith<$Res> {
   factory $CommentCopyWith(Comment value, $Res Function(Comment) then) =
       _$CommentCopyWithImpl<$Res, Comment>;
   @useResult
-  $Res call({String comment, String createdAt, String itemId, String user});
+  $Res call(
+      {String comment,
+      @DateTimeConverter() DateTime createdAt,
+      String itemId,
+      String user});
 }
 
 /// @nodoc
@@ -64,7 +69,7 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       itemId: null == itemId
           ? _value.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
@@ -84,7 +89,11 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
       __$$_CommentCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String comment, String createdAt, String itemId, String user});
+  $Res call(
+      {String comment,
+      @DateTimeConverter() DateTime createdAt,
+      String itemId,
+      String user});
 }
 
 /// @nodoc
@@ -110,7 +119,7 @@ class __$$_CommentCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       itemId: null == itemId
           ? _value.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
@@ -124,11 +133,12 @@ class __$$_CommentCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Comment implements _Comment {
-  const _$_Comment(
+  _$_Comment(
       {this.comment = '',
-      this.createdAt = '',
+      @DateTimeConverter() required this.createdAt,
       this.itemId = '',
       this.user = ''});
 
@@ -139,8 +149,8 @@ class _$_Comment implements _Comment {
   @JsonKey()
   final String comment;
   @override
-  @JsonKey()
-  final String createdAt;
+  @DateTimeConverter()
+  final DateTime createdAt;
   @override
   @JsonKey()
   final String itemId;
@@ -185,9 +195,9 @@ class _$_Comment implements _Comment {
 }
 
 abstract class _Comment implements Comment {
-  const factory _Comment(
+  factory _Comment(
       {final String comment,
-      final String createdAt,
+      @DateTimeConverter() required final DateTime createdAt,
       final String itemId,
       final String user}) = _$_Comment;
 
@@ -196,7 +206,8 @@ abstract class _Comment implements Comment {
   @override
   String get comment;
   @override
-  String get createdAt;
+  @DateTimeConverter()
+  DateTime get createdAt;
   @override
   String get itemId;
   @override

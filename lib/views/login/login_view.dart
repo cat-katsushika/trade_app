@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/config/user_data_provider.dart';
+import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/views/NavigationRoot/navigation_root.dart';
@@ -14,6 +15,7 @@ class LoginView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userDataNotifier = ref.watch(userDataProvider.notifier);
+    var userDataState = ref.read(userDataProvider);
     return Scaffold(
       backgroundColor: MyColors.ghostWhiteColor,
       appBar: AppBar(backgroundColor: MyColors.ghostWhiteColor),
@@ -52,11 +54,22 @@ class LoginView extends ConsumerWidget {
                 ),
                 onPressed: () async {
                   userDataNotifier.setMailAndPW(
-                      _emailController.text, _passwordController.text);
+                    _emailController.text,
+                    _passwordController.text,
+                  );
                   final isLogin = await userDataNotifier.login(
                     context: context,
                     errMsg: 'エラー 再度ログインしてください。',
                   );
+                  userDataState = ref.read(userDataProvider);
+                  if (isLogin) {
+                    // ユーザーデータをShared Preferencesに保存
+                    UserPreferences.saveUserData(
+                      id: userDataState.id,
+                      email: userDataState.email,
+                      password: userDataState.password,
+                    );
+                  }
                   Future(() {
                     if (isLogin) {
                       Navigator.pushAndRemoveUntil(

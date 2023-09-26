@@ -49,6 +49,10 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   json_annotation: ^4.8.1
   url_launcher: ^6.1.12
+  cookie_jar: ^4.0.8
+  dio_cookie_manager: ^3.1.0+1
+  path_provider: ^2.1.1
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +73,9 @@ flutter:
   assets:
     - assets/images/textbook.jpeg
     - assets/images/app_icon.png
+    - assets/images/mark_question.png
+    - assets/images/sold_out.png
+    - assets/images/app_icon_transparent.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
