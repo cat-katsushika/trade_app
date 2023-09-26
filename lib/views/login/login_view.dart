@@ -14,8 +14,6 @@ class LoginView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userDataNotifier = ref.watch(userDataProvider.notifier);
-    var userDataState = ref.read(userDataProvider);
     return Scaffold(
       backgroundColor: MyColors.ghostWhiteColor,
       appBar: AppBar(backgroundColor: MyColors.ghostWhiteColor),
@@ -53,15 +51,15 @@ class LoginView extends ConsumerWidget {
                   foregroundColor: MyColors.white,
                 ),
                 onPressed: () async {
-                  userDataNotifier.setMailAndPW(
+                  ref.watch(userDataProvider.notifier).setMailAndPW(
                     _emailController.text,
                     _passwordController.text,
                   );
-                  final isLogin = await userDataNotifier.login(
+                  final isLogin = await ref.watch(userDataProvider.notifier).login(
                     context: context,
                     errMsg: 'エラー 再度ログインしてください。',
                   );
-                  userDataState = ref.read(userDataProvider);
+                  final userDataState = ref.read(userDataProvider);
                   if (isLogin) {
                     // ユーザーデータをShared Preferencesに保存
                     UserPreferences.saveUserData(

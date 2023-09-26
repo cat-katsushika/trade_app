@@ -4,8 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserPreferences {
   static const String _userIdKey = 'user_id';
   static const String _emailKey = 'email';
-  static const String _campusListKey = 'campus_list';
-  static const String _campusIdListKey = 'campus_id_list';
   static const String _passwordKey = 'password';
 
   // ユーザーデータを保存
@@ -44,32 +42,4 @@ class UserPreferences {
     debugPrint('clear user data');
   }
 
-
-  //キャンパス名のリスト
-  static Future<void> saveCampusList(List<String> strings) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(_campusListKey, strings);
-  }
-  static Future<List<String>> getCampusList() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_campusListKey) ?? [];
-  }
-  static Future<void> clearCampusList() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove(_campusListKey);
-  }
-
-  //キャンパスIDのリスト
-  static Future<void> saveCampusIdList(List<String> strings) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(_campusIdListKey, strings);
-  }
-  static Future<List<String>> getCampusIdList() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_campusIdListKey) ?? [];
-  }
-  static Future<void> clearCampusIdList() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove(_campusIdListKey);
-  }
 }

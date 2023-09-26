@@ -78,7 +78,7 @@ class _StartViewState extends State<StartView> {
             const SizedBox(height: 16),
             InkWell(
               onTap: () {
-                Url.launchWebVer();
+                Url.launch(Url.webVerUrl);
               },
               child: const Text(
                 Texts.notLoginText,

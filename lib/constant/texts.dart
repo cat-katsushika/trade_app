@@ -1,5 +1,4 @@
 class Texts {
-  static const alertMessage = ['購入しますか？', '購入', 'キャンセル'];
   static const itemDetailKey = ['出品者', '状態', '書き込み'];
   static const purchase = '購入';
   static const register = '登録';
