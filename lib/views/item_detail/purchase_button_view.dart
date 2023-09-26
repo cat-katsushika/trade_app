@@ -4,7 +4,8 @@ import 'package:trade_app/component/purchase_dialog.dart';
 import 'package:trade_app/models/listing_status.dart';
 
 class PurchaseButtonView extends ConsumerWidget {
-  const PurchaseButtonView({Key? key, required this.listingStatus, required this.onTapUnpurchased})
+  const PurchaseButtonView(
+      {Key? key, required this.listingStatus, required this.onTapUnpurchased})
       : super(key: key);
   final ListingStatus listingStatus;
   final VoidCallback onTapUnpurchased;
@@ -13,9 +14,15 @@ class PurchaseButtonView extends ConsumerWidget {
     if (listingStatus == ListingStatus.unpurchased) {
       return ElevatedButton(
         onPressed: () {
-          showDialog(context: context, builder: (_) => PurchaseDialog(
-           onTapUnpurchased: onTapUnpurchased,
-          ));
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialogComponent(
+              alertMessage: '購入しますか？',
+              leftText: '購入',
+              rightText: 'キャンセル',
+              onTap: onTapUnpurchased,
+            ),
+          );
         },
         child: const Text("購入"),
       );
@@ -23,7 +30,7 @@ class PurchaseButtonView extends ConsumerWidget {
       return const ElevatedButton(
         onPressed: null,
         child: Text(
-            "SOLD OUT",
+          "SOLD OUT",
           textAlign: TextAlign.center,
         ),
       );

@@ -22,7 +22,6 @@ class RegistrationViewModel {
           're_password': rePassword,
         },
       );
-
       if (response.statusCode == 201) {
         debugPrint('registration successful: ${response.data}');
         snackFunction("登録に成功しました");
@@ -33,7 +32,7 @@ class RegistrationViewModel {
         return false;
       }
     } catch (e) {
-      snackFunction("登録に失敗しました\n");
+      snackFunction("登録に失敗しました$e");
       debugPrint('Error during registration: $e');
       return false;
     }

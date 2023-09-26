@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_app/component/item_detail_data_view.dart';
 import 'package:trade_app/constant/image_path.dart';
@@ -42,15 +43,16 @@ class ItemDetailCommonView extends StatelessWidget {
                       controller: controller,
                       itemCount: item.images.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Image.network(
-                          item.images[index].photoPath,
+                        return CachedNetworkImage(
+                          imageUrl: item.images[index].photoPath,
                           fit: BoxFit.contain,
-                          errorBuilder: (c, o, s) {
-                            return const Icon(
-                              Icons.error,
-                              color: Colors.red,
-                            );
-                          },
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                value: downloadProgress.progress,
+                              ),
+                          errorWidget: (context, url, dynamic error) =>
+                          const Icon(Icons.error),
                         );
                       })
                   : Center(

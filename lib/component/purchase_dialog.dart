@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
 
-class PurchaseDialog extends StatelessWidget {
-  const PurchaseDialog({Key? key, required this.onTapUnpurchased,}) : super(key: key);
-  final VoidCallback onTapUnpurchased;
+class AlertDialogComponent extends StatelessWidget {
+  const AlertDialogComponent({
+    Key? key,
+    required this.onTap,
+    required this.alertMessage,
+    required this.leftText,
+    required this.rightText,
+  }) : super(key: key);
+  final VoidCallback onTap;
+  final String alertMessage;
+  final String leftText;
+  final String rightText;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -14,18 +24,18 @@ class PurchaseDialog extends StatelessWidget {
         ),
       ),
       title: Text(
-        Texts.alertMessage[0],
+        alertMessage,
         style: const TextStyle(color: MyColors.primary),
       ),
       actions: [
         InkWell(
           onTap: () {
-            onTapUnpurchased();
+            onTap();
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              Texts.alertMessage[1],
+              leftText,
               style: const TextStyle(color: MyColors.primary),
             ),
           ),
@@ -37,7 +47,7 @@ class PurchaseDialog extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              Texts.alertMessage[2],
+              rightText,
               style: const TextStyle(color: MyColors.primary),
             ),
           ),

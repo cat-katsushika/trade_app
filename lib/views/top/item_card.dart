@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/models/item_model.dart';
@@ -36,19 +37,16 @@ class _ItemCardState extends State<ItemCard> {
             children: [
               widget.item.images.isNotEmpty
                   ? Center(
-                      child: Image.network(
-                        widget.item.images.first.photoPath,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.item.images.first.photoPath,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                        ),
+                        errorWidget: (context, url, dynamic error) =>
+                            const Icon(Icons.error),
                         fit: BoxFit.contain,
-                        errorBuilder: (c, o, s) {
-                          print('Load failed : ${c.toString()}');
-                          return const Center(
-                            child: Icon(
-                              Icons.error,
-                              color: Colors.red,
-                              size: 30,
-                            ),
-                          );
-                        },
                       ),
                     )
                   : Center(

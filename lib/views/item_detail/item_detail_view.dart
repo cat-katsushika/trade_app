@@ -59,7 +59,6 @@ class _ItemDetailViewState extends State<ItemDetailView> {
             PurchaseButtonView(
                 listingStatus: listingStatus,
                 onTapUnpurchased: () async {
-                  print('on');
                   if (await ItemRepository.purchaseItem(widget.item.id)) {
                     Future(() {
                       Navigator.pushAndRemoveUntil(
