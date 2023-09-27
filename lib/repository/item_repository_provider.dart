@@ -28,10 +28,9 @@ class ItemRepository {
     }
   }
 
-  Future<List<Item>> fetchItems(Map<String, dynamic>? query) async {
+  Future<List<Item>> fetchItems(Map<String, dynamic>? query, String url) async {
     var dio = Dio();
     dio = await OtherRepository.addCookie(dio);
-    const url = '${Url.apiUrl}items/';
     dio.interceptors.add(LogInterceptor());
     final response = await dio.get(
       url,

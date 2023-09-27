@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/views/exhibit/exhibit_view.dart';
+import 'package:trade_app/views/my_page/my_page_view.dart';
 import 'package:trade_app/views/setting/setting_view.dart';
 import 'package:trade_app/views/top/top_view.dart';
 
@@ -29,6 +30,7 @@ class _NavigationRootState extends State<NavigationRoot> {
         snackMessage: widget.snackMessage,
       ),
       const ExhibitView(),
+      const MyPageView(),
       const SettingView()
     ];
 
@@ -47,6 +49,8 @@ class _NavigationRootState extends State<NavigationRoot> {
               icon: Icon(Icons.shopping_bag_outlined), label: Texts.top),
           BottomNavigationBarItem(
               icon: Icon(Icons.photo_camera_outlined), label: Texts.exhibit),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.people), label: Texts.myPage),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined), label: Texts.setting),
         ],
