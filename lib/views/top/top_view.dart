@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
-import 'package:trade_app/views/top/item_list_view.dart';
+import 'package:trade_app/constant/url.dart';
+import 'package:trade_app/views/top/item_grid_view.dart';
 import 'package:trade_app/views/top/item_list_view_model.dart';
 import 'package:trade_app/views/top/items_query_provider.dart';
 
@@ -39,7 +40,8 @@ class _TopViewState extends ConsumerState<TopView> {
   Future<void> _fetchItems() async {
     ref.read(itemsProvider.notifier).removeAll();
     final query = ref.read(itemsQueryProvider);
-    ref.read(itemsProvider.notifier).fetchItems(query);
+    ref.read(itemsProvider.notifier).fetchItems(query, '${Url.apiUrl}items/');
+    print('${Url.apiUrl}items/');
     ref.read(itemsQueryProvider.notifier).incrementPage();
   }
 
@@ -134,7 +136,11 @@ class _TopViewState extends ConsumerState<TopView> {
             ),
           ),
         ),
-        body: const ItemGridView(),
+        body: ItemGridView(
+          url: '${Url.apiUrl}items/',
+          provider: itemsProvider,
+          queryProvider: itemsQueryProvider,
+        ),
       ),
     );
   }

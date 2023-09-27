@@ -5,6 +5,7 @@ class Texts {
   static const login = 'ログイン';
   static const top = '購入';
   static const exhibit = '出品';
+  static const myPage = 'マイページ';
   static const setting = '設定';
   static const notLoginText = 'ログインせずにwebで試す';
   static const studentNumberHintText = '学籍番号';

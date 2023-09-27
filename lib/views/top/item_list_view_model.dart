@@ -2,16 +2,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/repository/item_repository_provider.dart';
 
-final itemRepositoryProvider = Provider<ItemRepository>((ref) {
-  return ItemRepository();
-});
-
+//全体の商品
 final itemsProvider =
     StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
   return ItemsNotifier(ref.read(itemRepositoryProvider));
 });
 
-//アプリの状態を管理し、必要に応じてItemRepositoryを使用して商品一覧データを取得
+//いいねした商品
+final likeItemsProvider =
+    StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
+  return ItemsNotifier(ref.read(itemRepositoryProvider));
+});
+
+//買った商品
+final purchasedItemsProvider =
+    StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
+  return ItemsNotifier(ref.read(itemRepositoryProvider));
+});
+
+//販売中
+final listingItemsProvider =
+    StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
+  return ItemsNotifier(ref.read(itemRepositoryProvider));
+});
+
+final itemRepositoryProvider = Provider<ItemRepository>((ref) {
+  return ItemRepository();
+});
+
+//〇〇商品一覧データを管理する雛形
 class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
   ItemsNotifier(this._repository) : super(const AsyncValue.loading());
 
@@ -26,10 +45,10 @@ class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
     state = const AsyncValue.data([]);
   }
 
-  Future<void> fetchItems(Map<String, dynamic>? query) async {
+  Future<void> fetchItems(Map<String, dynamic>? query, String url) async {
     state = const AsyncValue.loading();
     try {
-      final items = await _repository.fetchItems(query);
+      final items = await _repository.fetchItems(query, url);
       addItems(items);
     } catch (err, stack) {
       state = AsyncValue.error(err, stack);

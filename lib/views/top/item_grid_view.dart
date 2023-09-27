@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
+import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/views/top/item_card.dart';
 import 'package:trade_app/views/top/item_list_view_model.dart';
 import 'package:trade_app/views/top/items_query_provider.dart';
 
 class ItemGridView extends ConsumerStatefulWidget {
-  const ItemGridView({super.key});
+  const ItemGridView({
+    required this.url,
+    required this.provider,
+    required this.queryProvider,
+    super.key,
+  });
+
+  final String url;
+  final StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>> provider;
+  final StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>
+      queryProvider;
 
   @override
   ConsumerState createState() => _ItemGridViewState();
@@ -21,13 +32,16 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
   void initState() {
     super.initState();
     Future(() => {
-          ref.read(itemsProvider.notifier).removeAll(),
-          ref.read(itemsProvider.notifier).fetchItems({
-            "name": "",
-            "page": 0,
-            "listing_status":"unpurchased",
-          }),
-          ref.read(itemsQueryProvider.notifier).incrementPage(),
+          ref.read(widget.provider.notifier).removeAll(),
+          ref.read(widget.provider.notifier).fetchItems(
+            {
+              "name": "",
+              "page": 0,
+              "listing_status": "unpurchased",
+            },
+            widget.url,
+          ),
+          ref.read(widget.queryProvider.notifier).incrementPage(),
         });
 
     debugPrint(isLoading.toString());
@@ -36,7 +50,7 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
 
   _loadMoreData() async {
     if (isLoading) return;
-    final query = ref.read(itemsQueryProvider);
+    final query = ref.read(widget.queryProvider);
     final pageNumber = query["page"];
     print(pageNumber);
     if (_scrollController.position.pixels >
@@ -44,8 +58,8 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
       isLoading = true;
       isError = false;
       try {
-        ref.read(itemsQueryProvider.notifier).incrementPage();
-        await ref.read(itemsProvider.notifier).fetchItems(query);
+        ref.read(widget.queryProvider.notifier).incrementPage();
+        await ref.read(widget.provider.notifier).fetchItems(query, widget.url);
         setState(() {
           isLoading = false;
         });
@@ -64,7 +78,7 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
 
   @override
   Widget build(BuildContext context) {
-    return ref.watch(itemsProvider).when(
+    return ref.watch(widget.provider).when(
           data: (items) {
             if (items.isEmpty) {
               return const Center(

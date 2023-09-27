@@ -5,6 +5,21 @@ final itemsQueryProvider =
   return ItemsQueryNotifier();
 });
 
+final likeItemsQueryProvider =
+    StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>((ref) {
+  return ItemsQueryNotifier();
+});
+
+final purchasedItemsQueryProvider =
+    StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>((ref) {
+  return ItemsQueryNotifier();
+});
+
+final listingItemsQueryProvider =
+    StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>((ref) {
+  return ItemsQueryNotifier();
+});
+
 class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
   ItemsQueryNotifier() : super({"name": "", "user": "", "page": 0});
 
