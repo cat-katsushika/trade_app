@@ -4,29 +4,31 @@ import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/views/splash_screen/splash_screen_view.dart';
 
 void main() {
-  runApp(const ProviderScope(child: TradeApp()));
-}
-
-class TradeApp extends StatefulWidget {
-  const TradeApp({Key? key}) : super(key: key);
-
-  @override
-  State<TradeApp> createState() => _TradeAppState();
-}
-
-class _TradeAppState extends State<TradeApp> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: MyColors.primary),
-          useMaterial3: true,
-          scaffoldBackgroundColor: MyColors.ghostWhiteColor),
-      home: const Scaffold(
+  runApp(
+    const TradeApp(
+      home: Scaffold(
         body: Center(
           child: SplashScreenView(),
         ),
+      ),
+    ),
+  );
+}
+
+class TradeApp extends StatelessWidget {
+  const TradeApp({Key? key, required this.home}) : super(key: key);
+  final Widget home;
+
+  @override
+  Widget build(BuildContext context) {
+    return ProviderScope(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: MyColors.primary),
+            useMaterial3: true,
+            scaffoldBackgroundColor: MyColors.ghostWhiteColor),
+        home: home,
       ),
     );
   }

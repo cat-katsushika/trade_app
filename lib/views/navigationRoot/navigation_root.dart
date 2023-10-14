@@ -50,7 +50,7 @@ class _NavigationRootState extends State<NavigationRoot> {
           BottomNavigationBarItem(
               icon: Icon(Icons.photo_camera_outlined), label: Texts.exhibit),
           BottomNavigationBarItem(
-              icon: Icon(Icons.people), label: Texts.myPage),
+              icon: Icon(Icons.person_outline), label: Texts.myPage),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined), label: Texts.setting),
         ],

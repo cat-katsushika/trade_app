@@ -5,26 +5,28 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
-import 'package:trade_app/models/post_item_model.dart';
 import 'package:trade_app/repository/other_repository.dart';
-import 'package:http_parser/http_parser.dart';
 
 //商品一覧データを取得
 class ItemRepository {
-  static Future<bool> purchaseItem(String itemId) async {
+  static Future<String> purchaseItem(String itemId) async {
     var dio = Dio();
     dio.interceptors.add(LogInterceptor());
     dio = await OtherRepository.addCookie(dio);
     try {
       final response = await dio.put('${Url.apiUrl}items/$itemId/purchase/');
-      if (response.statusCode == 200) {
-        return true;
+      return 'true';
+    } catch (e) {
+      if (e is DioException) {
+        Response? errorResponse = e.response;
+        debugPrint('Error code: ${errorResponse!.statusCode}');
+        debugPrint('Error message: ${errorResponse.statusMessage}');
+        debugPrint('Error data: ${errorResponse.data}');
+        return errorResponse.data['error'].toString();
       } else {
-        return false;
+        Exception(e);
+        return e.toString();
       }
-    } catch (err) {
-      Exception(err);
-      return false;
     }
   }
 
@@ -32,24 +34,36 @@ class ItemRepository {
     var dio = Dio();
     dio = await OtherRepository.addCookie(dio);
     dio.interceptors.add(LogInterceptor());
-    final response = await dio.get(
-      url,
-      queryParameters: query,
-    );
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonData = response.data;
-      log(jsonData.toString());
-      return jsonData.map((itemData) => Item.fromJson(itemData)).toList();
-    } else {
-      throw Exception('Failed to load items');
+    try {
+      final response = await dio.get(
+        url,
+        queryParameters: query,
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonData = response.data;
+        debugPrint(response.data.toString());
+        debugPrint(jsonData.toString());
+        return (jsonData['results'] as List)
+            .map((itemData) => Item.fromJson(itemData as Map<String, dynamic>))
+            .toList();
+      } else {
+        throw Exception('Failed to load items');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        Response? errorResponse = e.response;
+        debugPrint('Error code: ${errorResponse!.statusCode}');
+        debugPrint('Error message: ${errorResponse.statusMessage}');
+        debugPrint('Error data: ${errorResponse.data}');
+        throw Exception('Failed to load items');
+      } else {
+        throw Exception(e);
+      }
     }
   }
 
-  static final Uri _uriHost = Uri.parse(Url.apiUrl);
-
-
-
-  static Future<void> createItemWithDio(Map<String, dynamic> itemData, List<File> imageFiles) async {
+  static Future<void> createItemWithDio(
+      Map<String, dynamic> itemData, List<File> imageFiles) async {
     var dio = Dio();
     const url = '${Url.apiUrl}items/';
     dio = await OtherRepository.addCookie(dio);
@@ -57,7 +71,7 @@ class ItemRepository {
     final formData = FormData.fromMap({
       ...itemData,
       'images': imageFiles.asMap().entries.map((entry) {
-        int order = entry.key + 1;  // order starts from 1
+        int order = entry.key + 1; // order starts from 1
         File file = entry.value;
         return {
           'order': order,
@@ -65,13 +79,34 @@ class ItemRepository {
         };
       }).toList(),
     });
+    // print(formData.fields);
+    // print(formData.files);
     //
-    final response = await dio.post(url, data: formData);
+    try {
+      final response = await dio.post(url, data: formData);
+      if (response.statusCode == 201) {
+        debugPrint('Item created successfully!');
+      } else {
+        debugPrint(response.data);
+        throw Exception('Failed to create item: ${response.data}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        // エラーレスポンスを取得
+        Response? errorResponse = e.response;
 
-    if (response.statusCode == 201) {
-      print('Item created successfully!');
-    } else {
-      throw Exception('Failed to create item: ${response.data}');
+        // エラーコードを出力
+        print('Error code: ${errorResponse!.statusCode}');
+
+        // エラーメッセージを出力
+        print('Error message: ${errorResponse.statusMessage}');
+
+        // エラーレスポンスの本文を出力
+        print('Error data: ${errorResponse.data}');
+      } else {
+        // それ以外のエラーを出力
+        print('Unexpected error: $e');
+      }
     }
   }
 
@@ -119,11 +154,11 @@ class ItemRepository {
   //   }
   // }
 
-  static Future<void> _prepareDio(Dio dio) async {
-    dio.options.baseUrl = _uriHost.toString();
-    dio.options.connectTimeout = Duration(seconds: 5);
-    dio.options.receiveTimeout = Duration(seconds: 3);
-  }
+  // static Future<void> _prepareDio(Dio dio) async {
+  //   dio.options.baseUrl = _uriHost.toString();
+  //   dio.options.connectTimeout = Duration(seconds: 5);
+  //   dio.options.receiveTimeout = Duration(seconds: 3);
+  // }
 
 // static Future<void> postItem(PostItem item) async {
 //   const url =

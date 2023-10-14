@@ -21,7 +21,7 @@ final listingItemsQueryProvider =
 });
 
 class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
-  ItemsQueryNotifier() : super({"name": "", "user": "", "page": 0});
+  ItemsQueryNotifier() : super({"name": "", "page": 0, "listing_status":""});
 
   void changeQuery(Map<String, dynamic> query) {
     state = {...state, ...query};
@@ -29,10 +29,6 @@ class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
 
   void changeName(String search) {
     state = {...state, "name": search};
-  }
-
-  void changeUserQuery(String user) {
-    state = {...state, "user": user};
   }
 
   void changeIsShowSoldItem(bool isShow) {

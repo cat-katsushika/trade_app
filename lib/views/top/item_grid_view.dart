@@ -36,7 +36,7 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
           ref.read(widget.provider.notifier).fetchItems(
             {
               "name": "",
-              "page": 0,
+              "page": 1,
               "listing_status": "unpurchased",
             },
             widget.url,
@@ -51,8 +51,6 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
   _loadMoreData() async {
     if (isLoading) return;
     final query = ref.read(widget.queryProvider);
-    final pageNumber = query["page"];
-    print(pageNumber);
     if (_scrollController.position.pixels >
         _scrollController.position.maxScrollExtent * 0.9) {
       isLoading = true;

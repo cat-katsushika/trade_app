@@ -363,16 +363,15 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                             description: _productDescriptionController.text,
                           );
                           final newItemData = {
-                            'seller': '1@ed.tus.ac.jp',
+                            'seller': 'test1@ed.tus.ac.jp',
                             'price': 1000,
                             'name': 'Sample Item',
                             'description': 'This is a sample item description.',
                             'condition': 'brandNew',
                             'writing_state': 'none',
-                            'receivable_campus': '8b9af37b-20b8-44c6-a6bd-25f876c5a89c',
+                            'receivable_campus': '876ab8c6-423c-4b32-aebe-f7f05d091325',
                           };
 
-                          // final imageFiles = [File('path/to/image1.jpg'), File('path/to/image2.jpg')];
                           ItemRepository.createItemWithDio(newItemData, images);
                           // ItemRepository.exhibitItem(item).then((isSuccess) {
                           //   if (isSuccess) {

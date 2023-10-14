@@ -126,7 +126,7 @@ class _TopViewState extends ConsumerState<TopView> {
                     debugPrint('onFieldSubmitted: $value');
                     final query = {
                       "name": value,
-                      "page": 0,
+                      "page": 1,
                     };
                     ref.read(itemsQueryProvider.notifier).changeQuery(query);
                     _fetchItems();

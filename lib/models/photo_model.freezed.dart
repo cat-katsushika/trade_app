@@ -22,7 +22,6 @@ Photo _$PhotoFromJson(Map<String, dynamic> json) {
 mixin _$Photo {
   int get order => throw _privateConstructorUsedError;
   String get photoPath => throw _privateConstructorUsedError;
-  DateTime? get uploadedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +33,7 @@ abstract class $PhotoCopyWith<$Res> {
   factory $PhotoCopyWith(Photo value, $Res Function(Photo) then) =
       _$PhotoCopyWithImpl<$Res, Photo>;
   @useResult
-  $Res call({int order, String photoPath, DateTime? uploadedAt});
+  $Res call({int order, String photoPath});
 }
 
 /// @nodoc
@@ -52,7 +51,6 @@ class _$PhotoCopyWithImpl<$Res, $Val extends Photo>
   $Res call({
     Object? order = null,
     Object? photoPath = null,
-    Object? uploadedAt = freezed,
   }) {
     return _then(_value.copyWith(
       order: null == order
@@ -63,10 +61,6 @@ class _$PhotoCopyWithImpl<$Res, $Val extends Photo>
           ? _value.photoPath
           : photoPath // ignore: cast_nullable_to_non_nullable
               as String,
-      uploadedAt: freezed == uploadedAt
-          ? _value.uploadedAt
-          : uploadedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
     ) as $Val);
   }
 }
@@ -77,7 +71,7 @@ abstract class _$$_PhotoCopyWith<$Res> implements $PhotoCopyWith<$Res> {
       __$$_PhotoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int order, String photoPath, DateTime? uploadedAt});
+  $Res call({int order, String photoPath});
 }
 
 /// @nodoc
@@ -91,7 +85,6 @@ class __$$_PhotoCopyWithImpl<$Res> extends _$PhotoCopyWithImpl<$Res, _$_Photo>
   $Res call({
     Object? order = null,
     Object? photoPath = null,
-    Object? uploadedAt = freezed,
   }) {
     return _then(_$_Photo(
       order: null == order
@@ -102,10 +95,6 @@ class __$$_PhotoCopyWithImpl<$Res> extends _$PhotoCopyWithImpl<$Res, _$_Photo>
           ? _value.photoPath
           : photoPath // ignore: cast_nullable_to_non_nullable
               as String,
-      uploadedAt: freezed == uploadedAt
-          ? _value.uploadedAt
-          : uploadedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
     ));
   }
 }
@@ -114,7 +103,7 @@ class __$$_PhotoCopyWithImpl<$Res> extends _$PhotoCopyWithImpl<$Res, _$_Photo>
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Photo implements _Photo {
-  const _$_Photo({this.order = 0, this.photoPath = "", this.uploadedAt});
+  const _$_Photo({this.order = 0, this.photoPath = ""});
 
   factory _$_Photo.fromJson(Map<String, dynamic> json) =>
       _$$_PhotoFromJson(json);
@@ -125,12 +114,10 @@ class _$_Photo implements _Photo {
   @override
   @JsonKey()
   final String photoPath;
-  @override
-  final DateTime? uploadedAt;
 
   @override
   String toString() {
-    return 'Photo(order: $order, photoPath: $photoPath, uploadedAt: $uploadedAt)';
+    return 'Photo(order: $order, photoPath: $photoPath)';
   }
 
   @override
@@ -140,14 +127,12 @@ class _$_Photo implements _Photo {
             other is _$_Photo &&
             (identical(other.order, order) || other.order == order) &&
             (identical(other.photoPath, photoPath) ||
-                other.photoPath == photoPath) &&
-            (identical(other.uploadedAt, uploadedAt) ||
-                other.uploadedAt == uploadedAt));
+                other.photoPath == photoPath));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, order, photoPath, uploadedAt);
+  int get hashCode => Object.hash(runtimeType, order, photoPath);
 
   @JsonKey(ignore: true)
   @override
@@ -164,10 +149,7 @@ class _$_Photo implements _Photo {
 }
 
 abstract class _Photo implements Photo {
-  const factory _Photo(
-      {final int order,
-      final String photoPath,
-      final DateTime? uploadedAt}) = _$_Photo;
+  const factory _Photo({final int order, final String photoPath}) = _$_Photo;
 
   factory _Photo.fromJson(Map<String, dynamic> json) = _$_Photo.fromJson;
 
@@ -175,8 +157,6 @@ abstract class _Photo implements Photo {
   int get order;
   @override
   String get photoPath;
-  @override
-  DateTime? get uploadedAt;
   @override
   @JsonKey(ignore: true)
   _$$_PhotoCopyWith<_$_Photo> get copyWith =>
