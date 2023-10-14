@@ -25,6 +25,8 @@ mixin _$Comment {
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get itemId => throw _privateConstructorUsedError;
   String get user => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
+  String get userEmail => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +42,9 @@ abstract class $CommentCopyWith<$Res> {
       {String comment,
       @DateTimeConverter() DateTime createdAt,
       String itemId,
-      String user});
+      String user,
+      String userId,
+      String userEmail});
 }
 
 /// @nodoc
@@ -60,6 +64,8 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? createdAt = null,
     Object? itemId = null,
     Object? user = null,
+    Object? userId = null,
+    Object? userEmail = null,
   }) {
     return _then(_value.copyWith(
       comment: null == comment
@@ -78,6 +84,14 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -93,7 +107,9 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
       {String comment,
       @DateTimeConverter() DateTime createdAt,
       String itemId,
-      String user});
+      String user,
+      String userId,
+      String userEmail});
 }
 
 /// @nodoc
@@ -110,6 +126,8 @@ class __$$_CommentCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? itemId = null,
     Object? user = null,
+    Object? userId = null,
+    Object? userEmail = null,
   }) {
     return _then(_$_Comment(
       comment: null == comment
@@ -128,6 +146,14 @@ class __$$_CommentCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -140,7 +166,9 @@ class _$_Comment implements _Comment {
       {this.comment = '',
       @DateTimeConverter() required this.createdAt,
       this.itemId = '',
-      this.user = ''});
+      this.user = '',
+      this.userId = '',
+      this.userEmail = ''});
 
   factory _$_Comment.fromJson(Map<String, dynamic> json) =>
       _$$_CommentFromJson(json);
@@ -157,10 +185,16 @@ class _$_Comment implements _Comment {
   @override
   @JsonKey()
   final String user;
+  @override
+  @JsonKey()
+  final String userId;
+  @override
+  @JsonKey()
+  final String userEmail;
 
   @override
   String toString() {
-    return 'Comment(comment: $comment, createdAt: $createdAt, itemId: $itemId, user: $user)';
+    return 'Comment(comment: $comment, createdAt: $createdAt, itemId: $itemId, user: $user, userId: $userId, userEmail: $userEmail)';
   }
 
   @override
@@ -172,13 +206,16 @@ class _$_Comment implements _Comment {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.userEmail, userEmail) ||
+                other.userEmail == userEmail));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, comment, createdAt, itemId, user);
+  int get hashCode => Object.hash(
+      runtimeType, comment, createdAt, itemId, user, userId, userEmail);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +236,9 @@ abstract class _Comment implements Comment {
       {final String comment,
       @DateTimeConverter() required final DateTime createdAt,
       final String itemId,
-      final String user}) = _$_Comment;
+      final String user,
+      final String userId,
+      final String userEmail}) = _$_Comment;
 
   factory _Comment.fromJson(Map<String, dynamic> json) = _$_Comment.fromJson;
 
@@ -212,6 +251,10 @@ abstract class _Comment implements Comment {
   String get itemId;
   @override
   String get user;
+  @override
+  String get userId;
+  @override
+  String get userEmail;
   @override
   @JsonKey(ignore: true)
   _$$_CommentCopyWith<_$_Comment> get copyWith =>

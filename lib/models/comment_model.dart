@@ -13,6 +13,8 @@ class Comment with _$Comment {
     required DateTime createdAt,
     @Default('') String itemId,
     @Default('') String user,
+    @Default('') String userId,
+    @Default('') String userEmail,
   }) = _Comment;
 
   factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);

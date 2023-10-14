@@ -13,7 +13,7 @@ class CommentCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(comment.user, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(comment.userEmail.split('@').first, style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 5),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),

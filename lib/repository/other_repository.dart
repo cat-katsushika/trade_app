@@ -15,7 +15,6 @@ class OtherRepository{
     String appDocPath = appDocDir.path;
     PersistCookieJar cookieJar = PersistCookieJar(storage: FileStorage("$appDocPath/.cookies/"));
     dio.interceptors.add(CookieManager(cookieJar));
-    print(await cookieJar.loadForRequest(Url.uriHost));
     return dio;
   }
 
