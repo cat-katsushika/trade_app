@@ -13,4 +13,7 @@ class Texts {
   static const passwordHintText = 'パスワード';
   static const rePasswordHintText = 'パスワードを再度入力';
   static const searchHintText = 'Search';
+  static const likeToggleOnMessage = 'いいねしました。';
+  static const likeToggleOffMessage = 'いいねを取り消しました。';
+
 }

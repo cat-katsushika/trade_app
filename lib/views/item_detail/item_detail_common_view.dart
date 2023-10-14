@@ -25,8 +25,7 @@ class ItemDetailCommonView extends StatelessWidget {
       productCondition = ProductCondition.values.byName(item.condition);
     }
     final writingState = WritingState.values.byName(item.writingState);
-    final listingStatus =
-    ListingStatus.values.byName(item.listingStatus);
+    final listingStatus = ListingStatus.values.byName(item.listingStatus);
     final PageController controller = PageController();
     //出品者、状態、書き込みのデータをStringに変換
     final List<String> itemDetailData = [
@@ -34,6 +33,7 @@ class ItemDetailCommonView extends StatelessWidget {
       productCondition.jpName,
       writingState.jpName
     ];
+    print('---${item.isLikedByCurrentUser}---');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -51,11 +51,11 @@ class ItemDetailCommonView extends StatelessWidget {
                           fit: BoxFit.contain,
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                value: downloadProgress.progress,
-                              ),
+                                  CircularProgressIndicator(
+                            value: downloadProgress.progress,
+                          ),
                           errorWidget: (context, url, dynamic error) =>
-                          const Icon(Icons.error),
+                              const Icon(Icons.error),
                         );
                       })
                   : Center(
@@ -84,7 +84,10 @@ class ItemDetailCommonView extends StatelessWidget {
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: LikeButton(apiUrl: '${Url.apiUrl}items/${item.id}/like-toggle/'),
+                    child: LikeButton(
+                      apiUrl: '${Url.apiUrl}items/${item.id}/like-toggle/',
+                      isLike: item.isLikedByCurrentUser,
+                    ),
                   )
                 ],
               ),
