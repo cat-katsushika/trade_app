@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_app/component/item_detail_data_view.dart';
+import 'package:trade_app/component/like_button.dart';
 import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/constant/texts.dart';
+import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/models/product_condition.dart';
@@ -17,6 +19,7 @@ class ItemDetailCommonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //brand_newに対してbyNameが使えないため例外処理
+    //TODO:brandNewに対応したら削除
     var productCondition = ProductCondition.brandNew;
     if (item.condition != 'brand_new') {
       productCondition = ProductCondition.values.byName(item.condition);
@@ -60,7 +63,7 @@ class ItemDetailCommonView extends StatelessWidget {
                     ),
             ),
             if (listingStatus != ListingStatus.unpurchased)
-              IgnorePointer(child: Positioned.fill(child: Image.asset(ImagePath.soldOutImage))),
+              IgnorePointer(child: Image.asset(ImagePath.soldOutImage)),
           ],
         ),
         Padding(
@@ -68,13 +71,22 @@ class ItemDetailCommonView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                item.name,
-                style: const TextStyle(
-                  color: MyColors.primary,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  Text(
+                    item.name,
+                    style: const TextStyle(
+                      color: MyColors.primary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: LikeButton(apiUrl: '${Url.apiUrl}items/${item.id}/like-toggle/'),
+                  )
+                ],
               ),
               const SizedBox(height: 8.0),
               Text(

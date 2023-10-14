@@ -24,17 +24,17 @@ class MyPageView extends StatelessWidget {
         body: TabBarView(
           children: [
             ItemGridView(
-              url: '',
+              url: '${Url.apiUrl}items/user/buy',
               provider: purchasedItemsProvider,
               queryProvider: purchasedItemsQueryProvider,
             ),
             ItemGridView(
-              url: '',
+              url: '${Url.apiUrl}items/user/sell',
               provider: listingItemsProvider,
               queryProvider: listingItemsQueryProvider,
             ),
             ItemGridView(
-              url: '${Url.apiUrl}items/profile/like/',
+              url: '${Url.apiUrl}items/user/like',
               provider: likeItemsProvider,
               queryProvider: likeItemsQueryProvider,
             ),

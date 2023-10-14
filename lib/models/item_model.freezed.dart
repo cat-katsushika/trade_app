@@ -20,8 +20,11 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
-  List<Photo> get images => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
+  String get seller => throw _privateConstructorUsedError;
+  String get receivableCampus => throw _privateConstructorUsedError;
+  List<Photo> get images => throw _privateConstructorUsedError;
+  bool get isLikedByCurrentUser => throw _privateConstructorUsedError;
   String get listingStatus => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -29,9 +32,8 @@ mixin _$Item {
   String get condition => throw _privateConstructorUsedError;
   String get writingState => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  String get seller => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String get buyer => throw _privateConstructorUsedError;
-  String get receivableCampus => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +46,11 @@ abstract class $ItemCopyWith<$Res> {
       _$ItemCopyWithImpl<$Res, Item>;
   @useResult
   $Res call(
-      {List<Photo> images,
-      String id,
+      {String id,
+      String seller,
+      String receivableCampus,
+      List<Photo> images,
+      bool isLikedByCurrentUser,
       String listingStatus,
       int price,
       String name,
@@ -53,9 +58,8 @@ abstract class $ItemCopyWith<$Res> {
       String condition,
       String writingState,
       DateTime? createdAt,
-      String seller,
-      String buyer,
-      String receivableCampus});
+      DateTime? updatedAt,
+      String buyer});
 }
 
 /// @nodoc
@@ -71,8 +75,11 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? images = null,
     Object? id = null,
+    Object? seller = null,
+    Object? receivableCampus = null,
+    Object? images = null,
+    Object? isLikedByCurrentUser = null,
     Object? listingStatus = null,
     Object? price = null,
     Object? name = null,
@@ -80,19 +87,30 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
     Object? condition = null,
     Object? writingState = null,
     Object? createdAt = freezed,
-    Object? seller = null,
+    Object? updatedAt = freezed,
     Object? buyer = null,
-    Object? receivableCampus = null,
   }) {
     return _then(_value.copyWith(
-      images: null == images
-          ? _value.images
-          : images // ignore: cast_nullable_to_non_nullable
-              as List<Photo>,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      seller: null == seller
+          ? _value.seller
+          : seller // ignore: cast_nullable_to_non_nullable
+              as String,
+      receivableCampus: null == receivableCampus
+          ? _value.receivableCampus
+          : receivableCampus // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<Photo>,
+      isLikedByCurrentUser: null == isLikedByCurrentUser
+          ? _value.isLikedByCurrentUser
+          : isLikedByCurrentUser // ignore: cast_nullable_to_non_nullable
+              as bool,
       listingStatus: null == listingStatus
           ? _value.listingStatus
           : listingStatus // ignore: cast_nullable_to_non_nullable
@@ -121,17 +139,13 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      seller: null == seller
-          ? _value.seller
-          : seller // ignore: cast_nullable_to_non_nullable
-              as String,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       buyer: null == buyer
           ? _value.buyer
           : buyer // ignore: cast_nullable_to_non_nullable
-              as String,
-      receivableCampus: null == receivableCampus
-          ? _value.receivableCampus
-          : receivableCampus // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -144,8 +158,11 @@ abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {List<Photo> images,
-      String id,
+      {String id,
+      String seller,
+      String receivableCampus,
+      List<Photo> images,
+      bool isLikedByCurrentUser,
       String listingStatus,
       int price,
       String name,
@@ -153,9 +170,8 @@ abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
       String condition,
       String writingState,
       DateTime? createdAt,
-      String seller,
-      String buyer,
-      String receivableCampus});
+      DateTime? updatedAt,
+      String buyer});
 }
 
 /// @nodoc
@@ -167,8 +183,11 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? images = null,
     Object? id = null,
+    Object? seller = null,
+    Object? receivableCampus = null,
+    Object? images = null,
+    Object? isLikedByCurrentUser = null,
     Object? listingStatus = null,
     Object? price = null,
     Object? name = null,
@@ -176,19 +195,30 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
     Object? condition = null,
     Object? writingState = null,
     Object? createdAt = freezed,
-    Object? seller = null,
+    Object? updatedAt = freezed,
     Object? buyer = null,
-    Object? receivableCampus = null,
   }) {
     return _then(_$_Item(
-      images: null == images
-          ? _value._images
-          : images // ignore: cast_nullable_to_non_nullable
-              as List<Photo>,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      seller: null == seller
+          ? _value.seller
+          : seller // ignore: cast_nullable_to_non_nullable
+              as String,
+      receivableCampus: null == receivableCampus
+          ? _value.receivableCampus
+          : receivableCampus // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<Photo>,
+      isLikedByCurrentUser: null == isLikedByCurrentUser
+          ? _value.isLikedByCurrentUser
+          : isLikedByCurrentUser // ignore: cast_nullable_to_non_nullable
+              as bool,
       listingStatus: null == listingStatus
           ? _value.listingStatus
           : listingStatus // ignore: cast_nullable_to_non_nullable
@@ -217,17 +247,13 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      seller: null == seller
-          ? _value.seller
-          : seller // ignore: cast_nullable_to_non_nullable
-              as String,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       buyer: null == buyer
           ? _value.buyer
           : buyer // ignore: cast_nullable_to_non_nullable
-              as String,
-      receivableCampus: null == receivableCampus
-          ? _value.receivableCampus
-          : receivableCampus // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -238,8 +264,11 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Item implements _Item {
   const _$_Item(
-      {final List<Photo> images = const [Photo(order: 1, photoPath: "")],
-      this.id = "",
+      {this.id = "",
+      this.seller = "",
+      this.receivableCampus = "",
+      final List<Photo> images = const [Photo(order: 1, photoPath: "")],
+      this.isLikedByCurrentUser = false,
       this.listingStatus = "",
       this.price = 0,
       this.name = "",
@@ -247,13 +276,21 @@ class _$_Item implements _Item {
       this.condition = "",
       this.writingState = "",
       this.createdAt,
-      this.seller = "",
-      this.buyer = "",
-      this.receivableCampus = ""})
+      this.updatedAt,
+      this.buyer = ""})
       : _images = images;
 
   factory _$_Item.fromJson(Map<String, dynamic> json) => _$$_ItemFromJson(json);
 
+  @override
+  @JsonKey()
+  final String id;
+  @override
+  @JsonKey()
+  final String seller;
+  @override
+  @JsonKey()
+  final String receivableCampus;
   final List<Photo> _images;
   @override
   @JsonKey()
@@ -265,7 +302,7 @@ class _$_Item implements _Item {
 
   @override
   @JsonKey()
-  final String id;
+  final bool isLikedByCurrentUser;
   @override
   @JsonKey()
   final String listingStatus;
@@ -287,18 +324,14 @@ class _$_Item implements _Item {
   @override
   final DateTime? createdAt;
   @override
-  @JsonKey()
-  final String seller;
+  final DateTime? updatedAt;
   @override
   @JsonKey()
   final String buyer;
-  @override
-  @JsonKey()
-  final String receivableCampus;
 
   @override
   String toString() {
-    return 'Item(images: $images, id: $id, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, createdAt: $createdAt, seller: $seller, buyer: $buyer, receivableCampus: $receivableCampus)';
+    return 'Item(id: $id, seller: $seller, receivableCampus: $receivableCampus, images: $images, isLikedByCurrentUser: $isLikedByCurrentUser, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, createdAt: $createdAt, updatedAt: $updatedAt, buyer: $buyer)';
   }
 
   @override
@@ -306,8 +339,13 @@ class _$_Item implements _Item {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Item &&
-            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.seller, seller) || other.seller == seller) &&
+            (identical(other.receivableCampus, receivableCampus) ||
+                other.receivableCampus == receivableCampus) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.isLikedByCurrentUser, isLikedByCurrentUser) ||
+                other.isLikedByCurrentUser == isLikedByCurrentUser) &&
             (identical(other.listingStatus, listingStatus) ||
                 other.listingStatus == listingStatus) &&
             (identical(other.price, price) || other.price == price) &&
@@ -320,18 +358,20 @@ class _$_Item implements _Item {
                 other.writingState == writingState) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.seller, seller) || other.seller == seller) &&
-            (identical(other.buyer, buyer) || other.buyer == buyer) &&
-            (identical(other.receivableCampus, receivableCampus) ||
-                other.receivableCampus == receivableCampus));
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.buyer, buyer) || other.buyer == buyer));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_images),
       id,
+      seller,
+      receivableCampus,
+      const DeepCollectionEquality().hash(_images),
+      isLikedByCurrentUser,
       listingStatus,
       price,
       name,
@@ -339,9 +379,8 @@ class _$_Item implements _Item {
       condition,
       writingState,
       createdAt,
-      seller,
-      buyer,
-      receivableCampus);
+      updatedAt,
+      buyer);
 
   @JsonKey(ignore: true)
   @override
@@ -359,8 +398,11 @@ class _$_Item implements _Item {
 
 abstract class _Item implements Item {
   const factory _Item(
-      {final List<Photo> images,
-      final String id,
+      {final String id,
+      final String seller,
+      final String receivableCampus,
+      final List<Photo> images,
+      final bool isLikedByCurrentUser,
       final String listingStatus,
       final int price,
       final String name,
@@ -368,16 +410,21 @@ abstract class _Item implements Item {
       final String condition,
       final String writingState,
       final DateTime? createdAt,
-      final String seller,
-      final String buyer,
-      final String receivableCampus}) = _$_Item;
+      final DateTime? updatedAt,
+      final String buyer}) = _$_Item;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$_Item.fromJson;
 
   @override
+  String get id;
+  @override
+  String get seller;
+  @override
+  String get receivableCampus;
+  @override
   List<Photo> get images;
   @override
-  String get id;
+  bool get isLikedByCurrentUser;
   @override
   String get listingStatus;
   @override
@@ -393,11 +440,9 @@ abstract class _Item implements Item {
   @override
   DateTime? get createdAt;
   @override
-  String get seller;
+  DateTime? get updatedAt;
   @override
   String get buyer;
-  @override
-  String get receivableCampus;
   @override
   @JsonKey(ignore: true)
   _$$_ItemCopyWith<_$_Item> get copyWith => throw _privateConstructorUsedError;

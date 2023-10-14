@@ -9,7 +9,7 @@ class Photo with _$Photo {
   const factory Photo({
     @Default(0) int order,
     @Default("") String photoPath,
-    DateTime? uploadedAt,
+    // DateTime? uploadedAt,
   }) = _Photo;
 
   factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);

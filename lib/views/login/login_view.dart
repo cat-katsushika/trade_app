@@ -67,18 +67,16 @@ class LoginView extends ConsumerWidget {
                       email: userDataState.email,
                       password: userDataState.password,
                     );
-                  }
-                  Future(() {
-                    if (isLogin) {
+                    Future(() {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const NavigationRoot(),
                         ),
-                        (_) => false,
+                            (_) => false,
                       );
-                    }
-                  });
+                    });
+                  }
                 },
                 child: const Text(Texts.login),
               ),

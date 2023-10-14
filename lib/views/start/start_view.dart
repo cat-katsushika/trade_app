@@ -41,7 +41,6 @@ class _StartViewState extends State<StartView> {
                       builder: (context) => LoginView(),
                     ),
                   );
-                  debugPrint('ログインボタンが押されました');
                 },
                 child: const Text('ログイン'),
               ),
@@ -70,7 +69,6 @@ class _StartViewState extends State<StartView> {
                       builder: (context) => const RegistrationView(),
                     ),
                   );
-                  debugPrint('登録ボタンが押されました');
                 },
                 child: const Text('登録'),
               ),

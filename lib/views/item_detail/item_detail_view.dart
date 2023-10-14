@@ -57,9 +57,11 @@ class _ItemDetailViewState extends State<ItemDetailView> {
               ),
             ),
             PurchaseButtonView(
+              item: widget.item,
                 listingStatus: listingStatus,
                 onTapUnpurchased: () async {
-                  if (await ItemRepository.purchaseItem(widget.item.id)) {
+                final response = await ItemRepository.purchaseItem(widget.item.id);
+                  if (response=='true') {
                     Future(() {
                       Navigator.pushAndRemoveUntil(
                         context,
@@ -71,8 +73,8 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                     });
                   } else {
                     Future(() => ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('購入できませんでした'),
+                          SnackBar(
+                            content: Text(response),
                           ),
                         ));
                   }

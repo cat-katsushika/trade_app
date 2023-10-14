@@ -6,25 +6,28 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:trade_app/main.dart';
+import 'package:trade_app/views/login/login_view.dart';
+import 'package:trade_app/views/setting/setting_view.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const TradeApp());
+    await tester.pumpWidget(TradeApp(home: SettingView()));
 
     // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
+    expect(find.text('メールアドレス'), findsOneWidget);
     expect(find.text('1'), findsNothing);
 
     // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // await tester.tap();
+    // await tester.pump();
 
     // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // expect(find.text('0'), findsNothing);
+    // expect(find.text('1'), findsOneWidget);
   });
 }
