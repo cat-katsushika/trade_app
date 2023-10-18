@@ -15,7 +15,7 @@ class MessageRepository {
         final List<Message> messages = (response.data as List)
             .map((data) => Message.fromJson(data))
             .toList();
-        debugPrint('fetched messages');
+        debugPrint('fetched Messages');
         return messages;
       } else {
         throw Exception('Failed to fetch Messages');
@@ -31,7 +31,7 @@ class MessageRepository {
       dio.interceptors.add(LogInterceptor());
       final response = await dio.post(
         apiUrl,
-        data: message.toJson(),
+        data: message,
       );
 
       if (response.statusCode == 201) {

@@ -20,7 +20,7 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
 
   @override
   void initState() {
-    ref.read(commentViewModelProvider.notifier).fetchComments(widget.item.id);
+    ref.read(commentViewModelProvider.notifier).fetchMessages(widget.item.id);
     super.initState();
   }
 
@@ -74,7 +74,7 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
                           if (newCommentController.text != '') {
                             final isPost = await ref
                                 .watch(commentViewModelProvider.notifier)
-                                .postComment(
+                                .postMessage(
                                   widget.item.id,
                                   newCommentController.text,
                                   userDataState.id,
@@ -83,7 +83,7 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
                               newCommentController.text = '';
                               ref
                                   .read(commentViewModelProvider.notifier)
-                                  .fetchComments(widget.item.id);
+                                  .fetchMessages(widget.item.id);
                             } else {
                               Future(() =>
                                   ScaffoldMessenger.of(context).showSnackBar(

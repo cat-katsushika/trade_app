@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/models/item_model.dart';
+import 'package:trade_app/views/item_detail/item_detail_view.dart';
 import 'package:trade_app/views/top/item_card.dart';
 import 'package:trade_app/views/top/item_list_view_model.dart';
 import 'package:trade_app/views/top/items_query_provider.dart';
@@ -92,7 +93,18 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
                       crossAxisCount: 3,
                     ),
                     itemBuilder: (context, index) {
-                      return ItemCard(item: items[index]);
+                      return ItemCard(
+                        item: items[index],
+                        navigate: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ItemDetailView(items[index]);
+                              },
+                            ),
+                          );
+                        },
+                      );
                     },
                     itemCount: items.length,
                   ),
