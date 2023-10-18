@@ -27,9 +27,9 @@ class MessageViewModel extends StateNotifier<AsyncValue<List<Message>>> {
     [];
   }
 
-  Future<bool> postMessage(String itemId, String message, String userId) async {
+  Future<bool> postMessage(String itemId, String message, String userId, String msgOrCom) async {
+    final apiUrl = '${Url.apiUrl}$msgOrCom/create/';
     try {
-      final apiUrl = '${Url.apiUrl}Message/create/?item_id=$itemId';
       final isPost = await _repository.postMessage(
         apiUrl,
         Message(
@@ -50,9 +50,9 @@ class MessageViewModel extends StateNotifier<AsyncValue<List<Message>>> {
     }
   }
 
-  Future<void> fetchMessages(String itemId) async {
+  Future<void> fetchMessages(String itemId, String msgOrCom) async {
+    final apiUrl = '${Url.apiUrl}$msgOrCom/?item_id=$itemId';
     try {
-      final apiUrl = '${Url.apiUrl}comment/?item_id=$itemId';
       final messages =
           await _repository.fetchMessages(apiUrl); // リポジトリを使用してデータを取得
       state = AsyncValue.data(messages);

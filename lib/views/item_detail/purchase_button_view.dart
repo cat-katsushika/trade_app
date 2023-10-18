@@ -5,6 +5,7 @@ import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
+import 'package:trade_app/views/message_view/message_view.dart';
 
 class PurchaseButtonView extends ConsumerWidget {
   const PurchaseButtonView(
@@ -19,9 +20,6 @@ class PurchaseButtonView extends ConsumerWidget {
 
   Widget _buttonView(ListingStatus listingStatus, BuildContext context,
       bool isMeSeller, bool isMeBuyer) {
-    print(isMeSeller);
-    print(isMeBuyer);
-    print(listingStatus);
     if (isMeSeller) {
       if (listingStatus == ListingStatus.unpurchased) {
         return ElevatedButton(
@@ -74,7 +72,9 @@ class PurchaseButtonView extends ConsumerWidget {
       } else if (listingStatus == ListingStatus.purchased && isMeBuyer) {
         return ElevatedButton(
           onPressed: () {
-            //TODO:取引画面へ遷移
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+              return MessageView(item: item);
+            }));
           },
           child: const Text(
             "取引画面",

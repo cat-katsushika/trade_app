@@ -11,6 +11,9 @@ class Url{
   // static const apiUrl = 'http://127.0.0.1:8000/api/';
   // static final uriHost = Uri.parse('http://127.0.0.1:8000/');
 
+  static const com = 'comment';
+  static const msg = 'messages';
+
   static Future<void> launch(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       throw Exception('Could not launch $url');
