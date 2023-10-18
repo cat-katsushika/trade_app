@@ -4,7 +4,6 @@ import 'package:trade_app/models/message_model.dart';
 import 'package:trade_app/repository/other_repository.dart';
 
 class MessageRepository {
-
   Future<List<Message>> fetchMessages(String apiUrl) async {
     var dio = Dio();
     dio = await OtherRepository.addCookie(dio);
@@ -24,15 +23,16 @@ class MessageRepository {
       throw Exception('An error occurred');
     }
   }
+
   Future<bool> postMessage(String apiUrl, Message message) async {
     var dio = Dio();
     dio = await OtherRepository.addCookie(dio);
     try {
       dio.interceptors.add(LogInterceptor());
-      final response = await dio.post(
-        apiUrl,
-        data: message,
-      );
+      final response = await dio.post(apiUrl, data: {
+        'message': message.message,
+        'item_id': message.itemId,
+      });
 
       if (response.statusCode == 201) {
         debugPrint('Message posted successfully');

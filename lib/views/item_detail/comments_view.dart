@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/comment_card.dart';
 import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_text_style.dart';
+import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
-import 'package:trade_app/views/item_detail/comments_view_model.dart';
+import 'package:trade_app/views/item_detail/message_view_model.dart';
 
 class CommentsView extends ConsumerStatefulWidget {
   const CommentsView({Key? key, required this.item}) : super(key: key);
@@ -20,7 +21,9 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
 
   @override
   void initState() {
-    ref.read(commentViewModelProvider.notifier).fetchMessages(widget.item.id);
+    ref
+        .read(commentViewModelProvider.notifier)
+        .fetchMessages(widget.item.id, Url.com);
     super.initState();
   }
 
@@ -78,12 +81,13 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
                                   widget.item.id,
                                   newCommentController.text,
                                   userDataState.id,
+                                  Url.com,
                                 );
                             if (isPost) {
                               newCommentController.text = '';
                               ref
                                   .read(commentViewModelProvider.notifier)
-                                  .fetchMessages(widget.item.id);
+                                  .fetchMessages(widget.item.id, Url.com);
                             } else {
                               Future(() =>
                                   ScaffoldMessenger.of(context).showSnackBar(
