@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/views/top/item_grid_view.dart';
-import 'package:trade_app/views/top/item_list_view_model.dart';
+import 'package:trade_app/views/top/item_grid_view_model.dart';
 import 'package:trade_app/views/top/items_query_provider.dart';
 
 class MyPageView extends StatelessWidget {

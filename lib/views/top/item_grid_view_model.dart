@@ -60,7 +60,6 @@ class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
       final targetItemIndex = state.value!.indexWhere((element) => element.id==id);
       if(targetItemIndex>=0) {
         state.value![targetItemIndex] = state.value![targetItemIndex].copyWith(isLikedByCurrentUser: isLike);
-        print(state.value![targetItemIndex]);
       }
     }
   }

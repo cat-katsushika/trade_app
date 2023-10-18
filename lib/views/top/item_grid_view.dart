@@ -4,7 +4,7 @@ import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/views/item_detail/item_detail_view.dart';
 import 'package:trade_app/views/top/item_card.dart';
-import 'package:trade_app/views/top/item_list_view_model.dart';
+import 'package:trade_app/views/top/item_grid_view_model.dart';
 import 'package:trade_app/views/top/items_query_provider.dart';
 
 class ItemGridView extends ConsumerStatefulWidget {
