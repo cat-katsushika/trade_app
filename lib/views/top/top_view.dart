@@ -4,7 +4,7 @@ import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/views/top/item_grid_view.dart';
-import 'package:trade_app/views/top/item_list_view_model.dart';
+import 'package:trade_app/views/top/item_grid_view_model.dart';
 import 'package:trade_app/views/top/items_query_provider.dart';
 
 class TopView extends ConsumerStatefulWidget {
@@ -22,6 +22,7 @@ class _TopViewState extends ConsumerState<TopView> {
 
   @override
   void initState() {
+
     //画面描画後に処理をコールバックで実行するもの
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       Future(() {
@@ -41,14 +42,12 @@ class _TopViewState extends ConsumerState<TopView> {
     ref.read(itemsProvider.notifier).removeAll();
     final query = ref.read(itemsQueryProvider);
     ref.read(itemsProvider.notifier).fetchItems(query, '${Url.apiUrl}items/');
-    print('${Url.apiUrl}items/');
     ref.read(itemsQueryProvider.notifier).incrementPage();
   }
 
   @override
   Widget build(BuildContext context) {
     final itemsQueryState = ref.read(itemsQueryProvider);
-    final itemsQueryNotifier = ref.watch(itemsQueryProvider.notifier);
     final isShowSoldItem = itemsQueryState["listing_status"] == "";
     return SafeArea(
       child: Scaffold(
@@ -56,15 +55,21 @@ class _TopViewState extends ConsumerState<TopView> {
           actions: [
             GestureDetector(
               onTap: (isShowSoldItem)
-                  ? () {
-                      setState(
-                          () => itemsQueryNotifier.changeIsShowSoldItem(false));
-                      _fetchItems();
+                  ? () async {
+                      ref
+                          .read(itemsQueryProvider.notifier)
+                          .changeIsShowSoldItem(false);
+                      ref.read(itemsQueryProvider.notifier).resetPage();
+                      await _fetchItems();
+                      setState(() {});
                     }
-                  : () {
-                      setState(
-                          () => itemsQueryNotifier.changeIsShowSoldItem(true));
-                      _fetchItems();
+                  : () async {
+                      ref
+                          .read(itemsQueryProvider.notifier)
+                          .changeIsShowSoldItem(true);
+                      ref.read(itemsQueryProvider.notifier).resetPage();
+                      await _fetchItems();
+                      setState(() {});
                     },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),

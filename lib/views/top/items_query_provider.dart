@@ -43,7 +43,7 @@ class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
     state = {...state, "page": state["page"] + 1};
   }
 
-  void resetItemsQuery() {
-    state = {"name": "", "page": 0};
+  void resetPage() {
+    state = {...state, "page": 1};
   }
 }

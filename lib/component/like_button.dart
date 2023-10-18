@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/repository/other_repository.dart';
-import 'package:trade_app/views/top/item_list_view_model.dart';
+import 'package:trade_app/views/top/item_grid_view_model.dart';
 
 enum LikeStatus { undefined, unliked, liking, liked, failed }
 
