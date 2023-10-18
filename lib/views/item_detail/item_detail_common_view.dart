@@ -33,7 +33,6 @@ class ItemDetailCommonView extends StatelessWidget {
       productCondition.jpName,
       writingState.jpName
     ];
-    print('---${item.isLikedByCurrentUser}---');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -86,7 +85,7 @@ class ItemDetailCommonView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: LikeButton(
                       apiUrl: '${Url.apiUrl}items/${item.id}/like-toggle/',
-                      isLike: item.isLikedByCurrentUser,
+                      item: item,
                     ),
                   )
                 ],

@@ -25,6 +25,8 @@ mixin _$Message {
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get itemId => throw _privateConstructorUsedError;
   String get user => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
+  String get userEmail => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +42,9 @@ abstract class $MessageCopyWith<$Res> {
       {String message,
       @DateTimeConverter() DateTime createdAt,
       String itemId,
-      String user});
+      String user,
+      String userId,
+      String userEmail});
 }
 
 /// @nodoc
@@ -60,6 +64,8 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? createdAt = null,
     Object? itemId = null,
     Object? user = null,
+    Object? userId = null,
+    Object? userEmail = null,
   }) {
     return _then(_value.copyWith(
       message: null == message
@@ -78,6 +84,14 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -93,7 +107,9 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
       {String message,
       @DateTimeConverter() DateTime createdAt,
       String itemId,
-      String user});
+      String user,
+      String userId,
+      String userEmail});
 }
 
 /// @nodoc
@@ -110,6 +126,8 @@ class __$$_MessageCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? itemId = null,
     Object? user = null,
+    Object? userId = null,
+    Object? userEmail = null,
   }) {
     return _then(_$_Message(
       message: null == message
@@ -128,6 +146,14 @@ class __$$_MessageCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -140,7 +166,9 @@ class _$_Message implements _Message {
       {this.message = '',
       @DateTimeConverter() required this.createdAt,
       this.itemId = '',
-      this.user = ''});
+      this.user = '',
+      this.userId = '',
+      this.userEmail = ''});
 
   factory _$_Message.fromJson(Map<String, dynamic> json) =>
       _$$_MessageFromJson(json);
@@ -157,10 +185,16 @@ class _$_Message implements _Message {
   @override
   @JsonKey()
   final String user;
+  @override
+  @JsonKey()
+  final String userId;
+  @override
+  @JsonKey()
+  final String userEmail;
 
   @override
   String toString() {
-    return 'Message(message: $message, createdAt: $createdAt, itemId: $itemId, user: $user)';
+    return 'Message(message: $message, createdAt: $createdAt, itemId: $itemId, user: $user, userId: $userId, userEmail: $userEmail)';
   }
 
   @override
@@ -172,13 +206,16 @@ class _$_Message implements _Message {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.userEmail, userEmail) ||
+                other.userEmail == userEmail));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, message, createdAt, itemId, user);
+  int get hashCode => Object.hash(
+      runtimeType, message, createdAt, itemId, user, userId, userEmail);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +236,9 @@ abstract class _Message implements Message {
       {final String message,
       @DateTimeConverter() required final DateTime createdAt,
       final String itemId,
-      final String user}) = _$_Message;
+      final String user,
+      final String userId,
+      final String userEmail}) = _$_Message;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$_Message.fromJson;
 
@@ -212,6 +251,10 @@ abstract class _Message implements Message {
   String get itemId;
   @override
   String get user;
+  @override
+  String get userId;
+  @override
+  String get userEmail;
   @override
   @JsonKey(ignore: true)
   _$$_MessageCopyWith<_$_Message> get copyWith =>

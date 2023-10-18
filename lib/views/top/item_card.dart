@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
-import 'package:trade_app/views/item_detail/item_detail_view.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({Key? key, required this.item}) : super(key: key);
+  const ItemCard({Key? key, required this.item, required this.navigate}) : super(key: key);
   final Item item;
+  //ItemCardからnavigateすると変更したstateが反映されないのでItemGridViewから遷移するため．
+  final VoidCallback navigate;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -19,14 +20,8 @@ class _ItemCardState extends State<ItemCard> {
     final listingStatus =
         ListingStatus.values.byName(widget.item.listingStatus);
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return ItemDetailView(widget.item);
-            },
-          ),
-        );
+      onTap: () async {
+        widget.navigate();
       },
       behavior: HitTestBehavior.opaque,
       child: Padding(

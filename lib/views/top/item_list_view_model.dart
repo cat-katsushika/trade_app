@@ -54,4 +54,14 @@ class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
       state = AsyncValue.error(err, stack);
     }
   }
+
+  void toggleLike(String id, bool isLike){
+    if(state.value!=null) {
+      final targetItemIndex = state.value!.indexWhere((element) => element.id==id);
+      if(targetItemIndex>=0) {
+        state.value![targetItemIndex] = state.value![targetItemIndex].copyWith(isLikedByCurrentUser: isLike);
+        print(state.value![targetItemIndex]);
+      }
+    }
+  }
 }

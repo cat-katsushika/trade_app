@@ -1,31 +1,39 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/url.dart';
-import 'package:trade_app/models/comment_model.dart';
-import 'package:trade_app/repository/comment_repository.dart';
+import 'package:trade_app/models/message_model.dart';
+import 'package:trade_app/repository/message_repository.dart';
 
-final commentRepositoryProvider = Provider<CommentRepository>((ref) {
-  return CommentRepository();
+
+//購入後のメッセージを管理
+final messageViewModelProvider =
+    StateNotifierProvider<MessageViewModel, AsyncValue<List<Message>>>((ref) {
+  return MessageViewModel(ref.read(messageRepositoryProvider)); // リポジトリを注入
 });
 
+//購入前のコメントを管理
 final commentViewModelProvider =
-    StateNotifierProvider<CommentViewModel, AsyncValue<List<Comment>>>((ref) {
-  return CommentViewModel(ref.read(commentRepositoryProvider)); // リポジトリを注入
+StateNotifierProvider<MessageViewModel, AsyncValue<List<Message>>>((ref) {
+  return MessageViewModel(ref.read(messageRepositoryProvider)); // リポジトリを注入
 });
 
-class CommentViewModel extends StateNotifier<AsyncValue<List<Comment>>> {
-  final CommentRepository _repository;
+final messageRepositoryProvider = Provider<MessageRepository>((ref) {
+  return MessageRepository();
+});
 
-  CommentViewModel(this._repository) : super(const AsyncValue.loading()) {
+class MessageViewModel extends StateNotifier<AsyncValue<List<Message>>> {
+  final MessageRepository _repository;
+
+  MessageViewModel(this._repository) : super(const AsyncValue.loading()) {
     [];
   }
 
-  Future<bool> postComment(String itemId, String message, String userId) async {
+  Future<bool> postMessage(String itemId, String message, String userId) async {
     try {
-      final apiUrl = '${Url.apiUrl}comment/create/?item_id=$itemId';
-      final isPost = await _repository.postComment(
+      final apiUrl = '${Url.apiUrl}Message/create/?item_id=$itemId';
+      final isPost = await _repository.postMessage(
         apiUrl,
-        Comment(
-          comment: message,
+        Message(
+          message: message,
           createdAt: DateTime.now(),
           itemId: itemId,
           user: userId,
@@ -42,12 +50,12 @@ class CommentViewModel extends StateNotifier<AsyncValue<List<Comment>>> {
     }
   }
 
-  Future<void> fetchComments(String itemId) async {
+  Future<void> fetchMessages(String itemId) async {
     try {
       final apiUrl = '${Url.apiUrl}comment/?item_id=$itemId';
-      final comments =
-          await _repository.fetchComments(apiUrl); // リポジトリを使用してデータを取得
-      state = AsyncValue.data(comments);
+      final messages =
+          await _repository.fetchMessages(apiUrl); // リポジトリを使用してデータを取得
+      state = AsyncValue.data(messages);
     } catch (err, stack) {
       state = AsyncValue.error(err, stack);
     }

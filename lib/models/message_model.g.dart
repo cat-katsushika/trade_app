@@ -12,6 +12,8 @@ _$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
           const DateTimeConverter().fromJson(json['created_at'] as String),
       itemId: json['item_id'] as String? ?? '',
       user: json['user'] as String? ?? '',
+      userId: json['user_id'] as String? ?? '',
+      userEmail: json['user_email'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
@@ -20,4 +22,6 @@ Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
       'created_at': const DateTimeConverter().toJson(instance.createdAt),
       'item_id': instance.itemId,
       'user': instance.user,
+      'user_id': instance.userId,
+      'user_email': instance.userEmail,
     };

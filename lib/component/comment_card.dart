@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:trade_app/models/comment_model.dart';
+import 'package:trade_app/models/message_model.dart';
 
 class CommentCard extends StatelessWidget {
-  final Comment comment;
+  final Message comment;
 
   const CommentCard(this.comment, {super.key});
 
@@ -21,7 +21,7 @@ class CommentCard extends StatelessWidget {
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Text(comment.comment),
+            child: Text(comment.message),
           ),
         ],
       ),
