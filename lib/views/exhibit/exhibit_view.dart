@@ -352,42 +352,31 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                         if (images.isNotEmpty &&
                             _productNameController.text != '' &&
                             _productPriceController.text != '') {
-                          final item = PostItem(
-                            images: images,
-                            name: _productNameController.text,
-                            condition: productCondition.name,
-                            writingState: writingState.name,
-                            receivableCampus:
-                                campus != null ? campus!.campus : '',
-                            price: int.parse(_productPriceController.text),
-                            description: _productDescriptionController.text,
-                          );
                           final newItemData = {
-                            'seller': 'test1@ed.tus.ac.jp',
-                            'price': 1000,
-                            'name': 'Sample Item',
-                            'description': 'This is a sample item description.',
-                            'condition': 'brandNew',
-                            'writing_state': 'none',
-                            'receivable_campus': '876ab8c6-423c-4b32-aebe-f7f05d091325',
+                            'price': int.parse(_productPriceController.text),
+                            'name': _productNameController.text,
+                            'description': _productDescriptionController.text,
+                            'condition': productCondition.name,
+                            'writing_state': writingState.name,
+                            'receivable_campus': campus != null ? campus!.id : '',
                           };
 
-                          ItemRepository.createItemWithDio(newItemData, images);
-                          // ItemRepository.exhibitItem(item).then((isSuccess) {
-                          //   if (isSuccess) {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(
-                          //         content: Text('出品が完了しました！'),
-                          //       ),
-                          //     );
-                          //   } else {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(
-                          //         content: Text('エラー   もう一度やり直して下さい。'),
-                          //       ),
-                          //     );
-                          //   }
-                          // });
+
+                          ItemRepository.createItemWithDio(newItemData, images).then((isSuccess) {
+                            if (isSuccess) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('出品が完了しました！'),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('エラー   もう一度やり直して下さい。'),
+                                ),
+                              );
+                            }
+                          });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

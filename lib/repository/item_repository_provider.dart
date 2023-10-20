@@ -62,30 +62,22 @@ class ItemRepository {
     }
   }
 
-  static Future<void> createItemWithDio(
+  static Future<bool> createItemWithDio(
       Map<String, dynamic> itemData, List<File> imageFiles) async {
     var dio = Dio();
-    const url = '${Url.apiUrl}items/';
+    const url = '${Url.apiUrl}items/create/';
     dio = await OtherRepository.addCookie(dio);
 
     final formData = FormData.fromMap({
       ...itemData,
-      'images': imageFiles.asMap().entries.map((entry) {
-        int order = entry.key + 1; // order starts from 1
-        File file = entry.value;
-        return {
-          'order': order,
-          'photo_path': MultipartFile.fromFileSync(file.path),
-        };
-      }).toList(),
+      'image_1': MultipartFile.fromFileSync(imageFiles.first.path),
+      'image_2': MultipartFile.fromFileSync(imageFiles[1].path),
     });
-    // print(formData.fields);
-    // print(formData.files);
-    //
     try {
       final response = await dio.post(url, data: formData);
       if (response.statusCode == 201) {
         debugPrint('Item created successfully!');
+        return true;
       } else {
         debugPrint(response.data);
         throw Exception('Failed to create item: ${response.data}');
@@ -94,20 +86,18 @@ class ItemRepository {
       if (e is DioException) {
         // エラーレスポンスを取得
         Response? errorResponse = e.response;
-
         // エラーコードを出力
-        print('Error code: ${errorResponse!.statusCode}');
-
+        debugPrint('Error code: ${errorResponse!.statusCode}');
         // エラーメッセージを出力
-        print('Error message: ${errorResponse.statusMessage}');
-
+        debugPrint('Error message: ${errorResponse.statusMessage}');
         // エラーレスポンスの本文を出力
-        print('Error data: ${errorResponse.data}');
+        debugPrint('Error data: $errorResponse');
       } else {
         // それ以外のエラーを出力
-        print('Unexpected error: $e');
+        debugPrint('Unexpected error: $e');
       }
     }
+    return false;
   }
 
   // static Future<bool> exhibitItem(PostItem item) async {
