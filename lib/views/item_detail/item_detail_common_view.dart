@@ -33,6 +33,20 @@ class ItemDetailCommonView extends StatelessWidget {
       productCondition.jpName,
       writingState.jpName
     ];
+    //image_pathがあったらimagesに追加
+    final List<String> images = [];
+    if (item.image1 != '') {
+      images.add(item.image1);
+    }
+    if (item.image2 != '') {
+      images.add(item.image2);
+    }
+    if (item.image3 != '') {
+      images.add(item.image3);
+    }
+    if (item.image4 != '') {
+      images.add(item.image4);
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -40,13 +54,13 @@ class ItemDetailCommonView extends StatelessWidget {
           children: [
             AspectRatio(
               aspectRatio: 1,
-              child: item.images.isNotEmpty
+              child: images.isNotEmpty
                   ? PageView.builder(
                       controller: controller,
-                      itemCount: item.images.length,
+                      itemCount: images.length,
                       itemBuilder: (BuildContext context, int index) {
                         return CachedNetworkImage(
-                          imageUrl: item.images[index].photoPath,
+                          imageUrl: images[index],
                           fit: BoxFit.contain,
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) =>

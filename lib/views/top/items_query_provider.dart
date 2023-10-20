@@ -21,7 +21,7 @@ final listingItemsQueryProvider =
 });
 
 class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
-  ItemsQueryNotifier() : super({"name": "", "page": 0, "listing_status":""});
+  ItemsQueryNotifier() : super({"name": "", "page": 0, "listing_status":"unpurchased"});
 
   void changeQuery(Map<String, dynamic> query) {
     state = {...state, ...query};

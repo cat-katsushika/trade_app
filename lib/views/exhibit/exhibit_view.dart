@@ -363,7 +363,7 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                             description: _productDescriptionController.text,
                           );
                           final newItemData = {
-                            'seller': 'test1@ed.tus.ac.jp',
+                            'seller': '8121040@ed.tus.ac.jp',
                             'price': 1000,
                             'name': 'Sample Item',
                             'description': 'This is a sample item description.',

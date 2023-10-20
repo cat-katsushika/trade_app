@@ -23,7 +23,10 @@ mixin _$Item {
   String get id => throw _privateConstructorUsedError;
   String get seller => throw _privateConstructorUsedError;
   String get receivableCampus => throw _privateConstructorUsedError;
-  List<Photo> get images => throw _privateConstructorUsedError;
+  String get image1 => throw _privateConstructorUsedError;
+  String get image2 => throw _privateConstructorUsedError;
+  String get image3 => throw _privateConstructorUsedError;
+  String get image4 => throw _privateConstructorUsedError;
   bool get isLikedByCurrentUser => throw _privateConstructorUsedError;
   String get listingStatus => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
@@ -49,7 +52,10 @@ abstract class $ItemCopyWith<$Res> {
       {String id,
       String seller,
       String receivableCampus,
-      List<Photo> images,
+      String image1,
+      String image2,
+      String image3,
+      String image4,
       bool isLikedByCurrentUser,
       String listingStatus,
       int price,
@@ -78,7 +84,10 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
     Object? id = null,
     Object? seller = null,
     Object? receivableCampus = null,
-    Object? images = null,
+    Object? image1 = null,
+    Object? image2 = null,
+    Object? image3 = null,
+    Object? image4 = null,
     Object? isLikedByCurrentUser = null,
     Object? listingStatus = null,
     Object? price = null,
@@ -103,10 +112,22 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.receivableCampus
           : receivableCampus // ignore: cast_nullable_to_non_nullable
               as String,
-      images: null == images
-          ? _value.images
-          : images // ignore: cast_nullable_to_non_nullable
-              as List<Photo>,
+      image1: null == image1
+          ? _value.image1
+          : image1 // ignore: cast_nullable_to_non_nullable
+              as String,
+      image2: null == image2
+          ? _value.image2
+          : image2 // ignore: cast_nullable_to_non_nullable
+              as String,
+      image3: null == image3
+          ? _value.image3
+          : image3 // ignore: cast_nullable_to_non_nullable
+              as String,
+      image4: null == image4
+          ? _value.image4
+          : image4 // ignore: cast_nullable_to_non_nullable
+              as String,
       isLikedByCurrentUser: null == isLikedByCurrentUser
           ? _value.isLikedByCurrentUser
           : isLikedByCurrentUser // ignore: cast_nullable_to_non_nullable
@@ -161,7 +182,10 @@ abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
       {String id,
       String seller,
       String receivableCampus,
-      List<Photo> images,
+      String image1,
+      String image2,
+      String image3,
+      String image4,
       bool isLikedByCurrentUser,
       String listingStatus,
       int price,
@@ -186,7 +210,10 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
     Object? id = null,
     Object? seller = null,
     Object? receivableCampus = null,
-    Object? images = null,
+    Object? image1 = null,
+    Object? image2 = null,
+    Object? image3 = null,
+    Object? image4 = null,
     Object? isLikedByCurrentUser = null,
     Object? listingStatus = null,
     Object? price = null,
@@ -211,10 +238,22 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
           ? _value.receivableCampus
           : receivableCampus // ignore: cast_nullable_to_non_nullable
               as String,
-      images: null == images
-          ? _value._images
-          : images // ignore: cast_nullable_to_non_nullable
-              as List<Photo>,
+      image1: null == image1
+          ? _value.image1
+          : image1 // ignore: cast_nullable_to_non_nullable
+              as String,
+      image2: null == image2
+          ? _value.image2
+          : image2 // ignore: cast_nullable_to_non_nullable
+              as String,
+      image3: null == image3
+          ? _value.image3
+          : image3 // ignore: cast_nullable_to_non_nullable
+              as String,
+      image4: null == image4
+          ? _value.image4
+          : image4 // ignore: cast_nullable_to_non_nullable
+              as String,
       isLikedByCurrentUser: null == isLikedByCurrentUser
           ? _value.isLikedByCurrentUser
           : isLikedByCurrentUser // ignore: cast_nullable_to_non_nullable
@@ -267,7 +306,10 @@ class _$_Item implements _Item {
       {this.id = "",
       this.seller = "",
       this.receivableCampus = "",
-      final List<Photo> images = const [Photo(order: 1, photoPath: "")],
+      this.image1 = "",
+      this.image2 = "",
+      this.image3 = "",
+      this.image4 = "",
       this.isLikedByCurrentUser = false,
       this.listingStatus = "",
       this.price = 0,
@@ -277,8 +319,7 @@ class _$_Item implements _Item {
       this.writingState = "",
       this.createdAt,
       this.updatedAt,
-      this.buyer = ""})
-      : _images = images;
+      this.buyer = ""});
 
   factory _$_Item.fromJson(Map<String, dynamic> json) => _$$_ItemFromJson(json);
 
@@ -291,15 +332,18 @@ class _$_Item implements _Item {
   @override
   @JsonKey()
   final String receivableCampus;
-  final List<Photo> _images;
   @override
   @JsonKey()
-  List<Photo> get images {
-    if (_images is EqualUnmodifiableListView) return _images;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_images);
-  }
-
+  final String image1;
+  @override
+  @JsonKey()
+  final String image2;
+  @override
+  @JsonKey()
+  final String image3;
+  @override
+  @JsonKey()
+  final String image4;
   @override
   @JsonKey()
   final bool isLikedByCurrentUser;
@@ -331,7 +375,7 @@ class _$_Item implements _Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, seller: $seller, receivableCampus: $receivableCampus, images: $images, isLikedByCurrentUser: $isLikedByCurrentUser, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, createdAt: $createdAt, updatedAt: $updatedAt, buyer: $buyer)';
+    return 'Item(id: $id, seller: $seller, receivableCampus: $receivableCampus, image1: $image1, image2: $image2, image3: $image3, image4: $image4, isLikedByCurrentUser: $isLikedByCurrentUser, listingStatus: $listingStatus, price: $price, name: $name, description: $description, condition: $condition, writingState: $writingState, createdAt: $createdAt, updatedAt: $updatedAt, buyer: $buyer)';
   }
 
   @override
@@ -343,7 +387,10 @@ class _$_Item implements _Item {
             (identical(other.seller, seller) || other.seller == seller) &&
             (identical(other.receivableCampus, receivableCampus) ||
                 other.receivableCampus == receivableCampus) &&
-            const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.image1, image1) || other.image1 == image1) &&
+            (identical(other.image2, image2) || other.image2 == image2) &&
+            (identical(other.image3, image3) || other.image3 == image3) &&
+            (identical(other.image4, image4) || other.image4 == image4) &&
             (identical(other.isLikedByCurrentUser, isLikedByCurrentUser) ||
                 other.isLikedByCurrentUser == isLikedByCurrentUser) &&
             (identical(other.listingStatus, listingStatus) ||
@@ -370,7 +417,10 @@ class _$_Item implements _Item {
       id,
       seller,
       receivableCampus,
-      const DeepCollectionEquality().hash(_images),
+      image1,
+      image2,
+      image3,
+      image4,
       isLikedByCurrentUser,
       listingStatus,
       price,
@@ -401,7 +451,10 @@ abstract class _Item implements Item {
       {final String id,
       final String seller,
       final String receivableCampus,
-      final List<Photo> images,
+      final String image1,
+      final String image2,
+      final String image3,
+      final String image4,
       final bool isLikedByCurrentUser,
       final String listingStatus,
       final int price,
@@ -422,7 +475,13 @@ abstract class _Item implements Item {
   @override
   String get receivableCampus;
   @override
-  List<Photo> get images;
+  String get image1;
+  @override
+  String get image2;
+  @override
+  String get image3;
+  @override
+  String get image4;
   @override
   bool get isLikedByCurrentUser;
   @override

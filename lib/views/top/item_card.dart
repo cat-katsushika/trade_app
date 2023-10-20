@@ -30,10 +30,10 @@ class _ItemCardState extends State<ItemCard> {
           borderRadius: BorderRadius.circular(5.0),
           child: Stack(
             children: [
-              widget.item.images.isNotEmpty
+              widget.item.image1.isNotEmpty
                   ? Center(
                       child: CachedNetworkImage(
-                        imageUrl: widget.item.images.first.photoPath,
+                        imageUrl: widget.item.image1,
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) =>
                                 CircularProgressIndicator(

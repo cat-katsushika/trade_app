@@ -65,23 +65,31 @@ class ItemRepository {
   static Future<void> createItemWithDio(
       Map<String, dynamic> itemData, List<File> imageFiles) async {
     var dio = Dio();
-    const url = '${Url.apiUrl}items/';
+    const url = '${Url.apiUrl}items/create/';
     dio = await OtherRepository.addCookie(dio);
 
-    final formData = FormData.fromMap({
-      ...itemData,
-      'images': imageFiles.asMap().entries.map((entry) {
-        int order = entry.key + 1; // order starts from 1
-        File file = entry.value;
-        return {
-          'order': order,
-          'photo_path': MultipartFile.fromFileSync(file.path),
-        };
-      }).toList(),
+
+    var formData = FormData.fromMap({
+      'name': '商品名',
+      'description': '商品説明',
+      'price': 1000,
+      'condition': 'brandNew',
+      'writing_state': 'none',
+      'receivable_campus': '876ab8c6-423c-4b32-aebe-f7f05d091325', // CampusのIDを設定してください
+      'image1': await MultipartFile.fromFile(imageFiles.first.path,), // 画像のパスを設定してください
+      // 'image2': await MultipartFile.fromFile('path/to/image2.jpg'),
+      // 'image3': await MultipartFile.fromFile('path/to/image3.jpg'),
+      // 'image4': await MultipartFile.fromFile('path/to/image4.jpg'),
     });
-    // print(formData.fields);
-    // print(formData.files);
-    //
+    // final formData = FormData.fromMap({
+    //   ...itemData,
+    //   "image1": imageFiles.first != null
+    //       ? await MultipartFile.fromFile(
+    //           imageFiles.first.path,
+    //           filename: imageFiles.first.path.split('/').last,
+    //         )
+    //       : null,
+    // });
     try {
       final response = await dio.post(url, data: formData);
       if (response.statusCode == 201) {
@@ -110,55 +118,55 @@ class ItemRepository {
     }
   }
 
-  // static Future<bool> exhibitItem(PostItem item) async {
-  //   try {
-  //     var dio = Dio();
-  //     dio = await OtherRepository.addCookie(dio);
-  //     await _prepareDio(dio);
-  //
-  //     List<MultipartFile> multipartImages = [];
-  //     for (var image in item.images) {
-  //       multipartImages.add(await MultipartFile.fromFile(
-  //         image.path,
-  //         filename: image.path.split('/').last,
-  //         // contentType: MediaType.parse('image/jpeg'),
-  //       ));
-  //     }
-  //     print(multipartImages.first.filename);
-  //
-  //
-  //     FormData formData = FormData.fromMap({
-  //       "receivable_campus": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  //       "images" : [
-  //         {
-  //           "order": 0,
-  //           "photo_path": multipartImages.first,
-  //         },
-  //       ],
-  //       "price": 500,
-  //       "name": "ネーム",
-  //       "description": "",
-  //       "condition": "コンディション",
-  //       "writing_state": ""
-  //     });
-  //
-  //     final Response response = await dio.post(
-  //       '${Url.apiUrl}items/',
-  //       data: formData,
-  //     );
-  //
-  //     return true;
-  //   } catch (error) {
-  //     debugPrint(error.toString());
-  //     return false;
-  //   }
-  // }
+// static Future<bool> exhibitItem(PostItem item) async {
+//   try {
+//     var dio = Dio();
+//     dio = await OtherRepository.addCookie(dio);
+//     await _prepareDio(dio);
+//
+//     List<MultipartFile> multipartImages = [];
+//     for (var image in item.images) {
+//       multipartImages.add(await MultipartFile.fromFile(
+//         image.path,
+//         filename: image.path.split('/').last,
+//         // contentType: MediaType.parse('image/jpeg'),
+//       ));
+//     }
+//     print(multipartImages.first.filename);
+//
+//
+//     FormData formData = FormData.fromMap({
+//       "receivable_campus": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+//       "images" : [
+//         {
+//           "order": 0,
+//           "photo_path": multipartImages.first,
+//         },
+//       ],
+//       "price": 500,
+//       "name": "ネーム",
+//       "description": "",
+//       "condition": "コンディション",
+//       "writing_state": ""
+//     });
+//
+//     final Response response = await dio.post(
+//       '${Url.apiUrl}items/',
+//       data: formData,
+//     );
+//
+//     return true;
+//   } catch (error) {
+//     debugPrint(error.toString());
+//     return false;
+//   }
+// }
 
-  // static Future<void> _prepareDio(Dio dio) async {
-  //   dio.options.baseUrl = _uriHost.toString();
-  //   dio.options.connectTimeout = Duration(seconds: 5);
-  //   dio.options.receiveTimeout = Duration(seconds: 3);
-  // }
+// static Future<void> _prepareDio(Dio dio) async {
+//   dio.options.baseUrl = _uriHost.toString();
+//   dio.options.connectTimeout = Duration(seconds: 5);
+//   dio.options.receiveTimeout = Duration(seconds: 3);
+// }
 
 // static Future<void> postItem(PostItem item) async {
 //   const url =
