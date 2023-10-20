@@ -5,8 +5,10 @@ import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({Key? key, required this.item, required this.navigate}) : super(key: key);
+  const ItemCard({Key? key, required this.item, required this.navigate})
+      : super(key: key);
   final Item item;
+
   //ItemCardからnavigateすると変更したstateが反映されないのでItemGridViewから遷移するため．
   final VoidCallback navigate;
 
@@ -47,7 +49,8 @@ class _ItemCardState extends State<ItemCard> {
                   : Center(
                       child: Image.asset(ImagePath.errorImage),
                     ),
-              if (listingStatus != ListingStatus.unpurchased)
+              if (listingStatus == ListingStatus.purchased ||
+                  listingStatus == ListingStatus.completed)
                 IgnorePointer(
                     child: Image.asset(
                   ImagePath.soldOutImage,

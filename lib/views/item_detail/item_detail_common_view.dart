@@ -61,7 +61,7 @@ class ItemDetailCommonView extends StatelessWidget {
                       child: Image.asset(ImagePath.errorImage),
                     ),
             ),
-            if (listingStatus != ListingStatus.unpurchased)
+            if (listingStatus == ListingStatus.purchased||listingStatus==ListingStatus.completed)
               IgnorePointer(child: Image.asset(ImagePath.soldOutImage)),
           ],
         ),

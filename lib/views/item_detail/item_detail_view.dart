@@ -18,7 +18,6 @@ class ItemDetailView extends StatefulWidget {
 }
 
 class _ItemDetailViewState extends State<ItemDetailView> {
-
   @override
   Widget build(BuildContext context) {
     final listingStatus =
@@ -58,27 +57,75 @@ class _ItemDetailViewState extends State<ItemDetailView> {
             ),
             PurchaseButtonView(
               item: widget.item,
-                listingStatus: listingStatus,
-                onTapUnpurchased: () async {
-                final response = await ItemRepository.purchaseItem(widget.item.id);
-                  if (response=='true') {
-                    Future(() {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NavigationRoot(snackMessage: '購入が完了しました！'),
+              listingStatus: listingStatus,
+              //購入後画面遷移を行うためここでコールバックを定義
+              onTapUnpurchased: () async {
+                final response =
+                    await ItemRepository.patchItemData(widget.item.id, 'purchase');
+                if (response == 'true') {
+                  Future(() {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const NavigationRoot(snackMessage: '購入が完了しました！'),
+                      ),
+                      (_) => false,
+                    );
+                  });
+                } else {
+                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(response),
                         ),
-                            (_) => false,
-                      );
-                    });
-                  } else {
-                    Future(() => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(response),
-                          ),
-                        ));
-                  }
-                }),
+                      ));
+                }
+              },
+              onTapRepost: () async {
+                final response =
+                await ItemRepository.patchItemData(widget.item.id, 'repost');
+                if (response == 'true') {
+                  Future(() {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                        const NavigationRoot(snackMessage: '再出品しました'),
+                      ),
+                          (_) => false,
+                    );
+                  });
+                } else {
+                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(response),
+                    ),
+                  ));
+                }
+              },
+              onTapCancel: () async {
+                final response =
+                await ItemRepository.patchItemData(widget.item.id,'cancel');
+                if (response == 'true') {
+                  Future(() {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                        const NavigationRoot(snackMessage: '出品を取りやめました'),
+                      ),
+                          (_) => false,
+                    );
+                  });
+                } else {
+                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(response),
+                    ),
+                  ));
+                }
+              },
+            ),
           ],
         ),
       ),
