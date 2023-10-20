@@ -8,12 +8,12 @@ import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/models/campus_model.dart';
-import 'package:trade_app/models/post_item_model.dart';
 import 'package:trade_app/models/product_condition.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:trade_app/models/writing_state.dart';
 import 'package:trade_app/repository/item_repository_provider.dart';
+import 'package:trade_app/views/navigation_root/navigation_root.dart';
 
 class ExhibitView extends ConsumerStatefulWidget {
   const ExhibitView({super.key});
@@ -348,7 +348,7 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                     height: 50,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (images.isNotEmpty &&
                             _productNameController.text != '' &&
                             _productPriceController.text != '') {
@@ -360,23 +360,24 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                             'writing_state': writingState.name,
                             'receivable_campus': campus != null ? campus!.id : '',
                           };
-
-
-                          ItemRepository.createItemWithDio(newItemData, images).then((isSuccess) {
-                            if (isSuccess) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('出品が完了しました！'),
+                          final response = await ItemRepository.createItemWithDio(newItemData, images);
+                          if (response=='true') {
+                            Future(() {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const NavigationRoot(snackMessage: '出品が完了しました！'),
                                 ),
+                                    (_) => false,
                               );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('エラー   もう一度やり直して下さい。'),
-                                ),
-                              );
-                            }
-                          });
+                            });
+                          } else {
+                            Future(() => ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(response),
+                              ),
+                            ));
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

@@ -3,7 +3,7 @@ import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/repository/item_repository_provider.dart';
-import 'package:trade_app/views/NavigationRoot/navigation_root.dart';
+import 'package:trade_app/views/navigation_root/navigation_root.dart';
 import 'package:trade_app/views/item_detail/comments_view.dart';
 import 'package:trade_app/views/item_detail/item_detail_common_view.dart';
 import 'package:trade_app/views/item_detail/purchase_button_view.dart';
