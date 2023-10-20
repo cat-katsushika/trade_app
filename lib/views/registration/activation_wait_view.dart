@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/config/user_data_provider.dart';
-import 'package:trade_app/views/NavigationRoot/navigation_root.dart';
+import 'package:trade_app/views/navigation_root/navigation_root.dart';
 
 class ActivationWaitView extends ConsumerStatefulWidget {
   final String email;

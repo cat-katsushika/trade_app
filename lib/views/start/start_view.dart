@@ -3,7 +3,6 @@ import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/constant/url.dart';
-import 'package:trade_app/views/NavigationRoot/navigation_root.dart';
 import 'package:trade_app/views/login/login_view.dart';
 import 'package:trade_app/views/registration/registration_view.dart';
 

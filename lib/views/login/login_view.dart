@@ -4,7 +4,7 @@ import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
-import 'package:trade_app/views/NavigationRoot/navigation_root.dart';
+import 'package:trade_app/views/navigation_root/navigation_root.dart';
 
 class LoginView extends ConsumerWidget {
   final _emailController = TextEditingController();
