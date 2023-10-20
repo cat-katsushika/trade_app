@@ -3,19 +3,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/purchase_dialog.dart';
 import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_colors.dart';
+import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/views/message_view/message_view.dart';
 
 class PurchaseButtonView extends ConsumerWidget {
-  const PurchaseButtonView(
-      {Key? key,
-      required this.item,
-      required this.listingStatus,
-      required this.onTapUnpurchased})
-      : super(key: key);
+  const PurchaseButtonView({
+    Key? key,
+    required this.item,
+    required this.listingStatus,
+    required this.onTapUnpurchased,
+    required this.onTapRepost,
+    required this.onTapCancel,
+  }) : super(key: key);
   final ListingStatus listingStatus;
   final VoidCallback onTapUnpurchased;
+  final VoidCallback onTapRepost;
+  final VoidCallback onTapCancel;
   final Item item;
 
   Widget _buttonView(ListingStatus listingStatus, BuildContext context,
@@ -27,24 +32,24 @@ class PurchaseButtonView extends ConsumerWidget {
             showDialog(
               context: context,
               builder: (_) => AlertDialogComponent(
-                  alertMessage: '削除しますか？',
-                  leftText: '削除',
-                  rightText: 'キャンセル',
-                  onTap: () {
-                    //TODO:delete item
-                  }),
+                alertMessage: '出品を取りやめますか？',
+                leftText: '取りやめる',
+                rightText: Texts.buttonPopText,
+                onTap: onTapCancel,
+              ),
             );
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(MyColors.tertiary),
           ),
-          child: const Text("削除",style: TextStyle(color: MyColors.white),),
+          child: const Text(
+            "出品をやめる",
+            style: TextStyle(color: MyColors.white),
+          ),
         );
       } else if (listingStatus == ListingStatus.canceled) {
         return ElevatedButton(
-          onPressed: () {
-            //TODO: patch再出品
-          },
+          onPressed: () {},
           child: const Text("再出品"),
         );
       } else {
@@ -62,7 +67,7 @@ class PurchaseButtonView extends ConsumerWidget {
               builder: (_) => AlertDialogComponent(
                 alertMessage: '購入しますか？',
                 leftText: '購入',
-                rightText: 'キャンセル',
+                rightText: Texts.buttonPopText,
                 onTap: onTapUnpurchased,
               ),
             );
@@ -72,7 +77,8 @@ class PurchaseButtonView extends ConsumerWidget {
       } else if (listingStatus == ListingStatus.purchased && isMeBuyer) {
         return ElevatedButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
               return MessageView(item: item);
             }));
           },

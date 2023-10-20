@@ -8,12 +8,12 @@ import 'package:trade_app/repository/other_repository.dart';
 
 
 class ItemRepository {
-  static Future<String> purchaseItem(String itemId) async {
+  static Future<String> patchItemData(String itemId, String endPoint) async {
     var dio = Dio();
     dio.interceptors.add(LogInterceptor());
     dio = await OtherRepository.addCookie(dio);
     try {
-      final response = await dio.put('${Url.apiUrl}items/$itemId/purchase/');
+      final response = await dio.put('${Url.apiUrl}items/$itemId/$endPoint/');
       return 'true';
     } catch (e) {
       if (e is DioException) {
@@ -28,6 +28,7 @@ class ItemRepository {
       }
     }
   }
+
 
 //商品一覧データを取得
   Future<List<Item>> fetchItems(Map<String, dynamic>? query, String url) async {
@@ -88,15 +89,9 @@ class ItemRepository {
       }
     } catch (e) {
       if (e is DioException) {
-        // エラーレスポンスを取得
         Response? errorResponse = e.response;
-        // エラーコードを出力
-        debugPrint('Error code: ${errorResponse!.statusCode}');
-        // エラーメッセージを出力
-        debugPrint('Error message: ${errorResponse.statusMessage}');
-        // エラーレスポンスの本文を出力
-        debugPrint('Error data: $errorResponse');
-        return '${errorResponse.data['error']}';
+        final errMsg= errorResponse!.data['error'];
+        return errMsg;
       } else {
         // それ以外のエラーを出力
         debugPrint('Unexpected error: $e');

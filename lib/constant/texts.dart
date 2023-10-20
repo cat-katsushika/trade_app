@@ -15,5 +15,5 @@ class Texts {
   static const searchHintText = 'Search';
   static const likeToggleOnMessage = 'いいねしました。';
   static const likeToggleOffMessage = 'いいねを取り消しました。';
-
+  static const buttonPopText = '戻る';
 }
