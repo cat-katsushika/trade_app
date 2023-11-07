@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/views/top/item_grid_view.dart';
 import 'package:trade_app/views/top/item_grid_view_model.dart';
-import 'package:trade_app/views/top/items_query_provider.dart';
 
 class MyPageView extends StatelessWidget {
   const MyPageView({super.key});
@@ -24,19 +22,13 @@ class MyPageView extends StatelessWidget {
         body: TabBarView(
           children: [
             ItemGridView(
-              url: '${Url.apiUrl}items/user/buy',
               provider: purchasedItemsProvider,
-              queryProvider: purchasedItemsQueryProvider,
             ),
             ItemGridView(
-              url: '${Url.apiUrl}items/user/sell',
               provider: listingItemsProvider,
-              queryProvider: listingItemsQueryProvider,
             ),
             ItemGridView(
-              url: '${Url.apiUrl}items/user/like',
               provider: likeItemsProvider,
-              queryProvider: likeItemsQueryProvider,
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/comment_card.dart';
@@ -135,7 +136,7 @@ class _CommentsViewState extends ConsumerState<MessageView> {
     }, error: (err, stack) {
       return const Scaffold(body: Center(child: Text('メッセージが読み込めません')));
     }, loading: () {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(body: Center(child: CupertinoActivityIndicator()));
     });
   }
 }
