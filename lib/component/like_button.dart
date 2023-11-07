@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,7 +76,7 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
   Widget build(BuildContext context) {
     return IconButton(
       icon: _status == LikeStatus.liking
-          ? const CircularProgressIndicator()
+          ? const CupertinoActivityIndicator()
           : Icon(
               _status == LikeStatus.liked
                   ? Icons.favorite

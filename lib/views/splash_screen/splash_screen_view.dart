@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/config/user_data_provider.dart';
@@ -46,7 +47,7 @@ class _SplashScreenViewState extends ConsumerState<SplashScreenView> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CupertinoActivityIndicator(),
       ),
     );
   }

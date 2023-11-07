@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_app/component/item_detail_data_view.dart';
 import 'package:trade_app/component/like_button.dart';
@@ -50,9 +51,7 @@ class ItemDetailCommonView extends StatelessWidget {
                           fit: BoxFit.contain,
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) =>
-                                  CircularProgressIndicator(
-                            value: downloadProgress.progress,
-                          ),
+                              const CupertinoActivityIndicator(),
                           errorWidget: (context, url, dynamic error) =>
                               const Icon(Icons.error),
                         );

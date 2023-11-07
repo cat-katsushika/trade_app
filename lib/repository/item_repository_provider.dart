@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/repository/other_repository.dart';
-
 
 class ItemRepository {
   static Future<String> patchItemData(String itemId, String endPoint) async {
@@ -29,16 +29,18 @@ class ItemRepository {
     }
   }
 
-
 //商品一覧データを取得
-  Future<List<Item>> fetchItems(Map<String, dynamic>? query, String url) async {
+  Future<List<Item>> fetchItems(String name, int page, String url) async {
     var dio = Dio();
     dio = await OtherRepository.addCookie(dio);
     dio.interceptors.add(LogInterceptor());
     try {
       final response = await dio.get(
         url,
-        queryParameters: query,
+        queryParameters: {
+          "name": name,
+          "page": page,
+        },
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonData = response.data;
@@ -56,7 +58,7 @@ class ItemRepository {
         debugPrint('Error code: ${errorResponse!.statusCode}');
         debugPrint('Error message: ${errorResponse.statusMessage}');
         debugPrint('Error data: ${errorResponse.data}');
-        throw Exception('Failed to load items');
+        return [];
       } else {
         throw Exception(e);
       }
@@ -90,7 +92,7 @@ class ItemRepository {
     } catch (e) {
       if (e is DioException) {
         Response? errorResponse = e.response;
-        final errMsg= errorResponse!.data['error'];
+        final errMsg = errorResponse!.data['error'];
         return errMsg;
       } else {
         // それ以外のエラーを出力
