@@ -1,27 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final itemsQueryProvider =
-    StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>((ref) {
-  return ItemsQueryNotifier();
-});
-
-final likeItemsQueryProvider =
-    StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>((ref) {
-  return ItemsQueryNotifier();
-});
-
-final purchasedItemsQueryProvider =
-    StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>((ref) {
-  return ItemsQueryNotifier();
-});
-
-final listingItemsQueryProvider =
-    StateNotifierProvider<ItemsQueryNotifier, Map<String, dynamic>>((ref) {
-  return ItemsQueryNotifier();
-});
-
 class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
-  ItemsQueryNotifier() : super({"name": "", "page": 0, "listing_status":""});
+  ItemsQueryNotifier() : super({"name": "","listing_status":""});
 
   void changeQuery(Map<String, dynamic> query) {
     state = {...state, ...query};
@@ -37,10 +17,6 @@ class ItemsQueryNotifier extends StateNotifier<Map<String, dynamic>> {
     } else {
       state = {...state, "listing_status": "unpurchased"};
     }
-  }
-
-  void incrementPage() {
-    state = {...state, "page": state["page"] + 1};
   }
 
   void resetPage() {

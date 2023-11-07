@@ -39,55 +39,54 @@ class _TopViewState extends ConsumerState<TopView> {
   }
 
   Future<void> _fetchItems() async {
-    ref.read(itemsProvider.notifier).removeAll();
-    final query = ref.read(itemsQueryProvider);
-    ref.read(itemsProvider.notifier).fetchItems(query, '${Url.apiUrl}items/');
-    ref.read(itemsQueryProvider.notifier).incrementPage();
+    // ref.read(itemsProvider.notifier).removeAll();
+    // final query = ref.read(itemsQueryProvider);
+    // ref.read(itemsProvider.notifier).fetchItems(query, '${Url.apiUrl}items/');
   }
 
   @override
   Widget build(BuildContext context) {
-    final itemsQueryState = ref.read(itemsQueryProvider);
-    final isShowSoldItem = itemsQueryState["listing_status"] == "";
+    ref.watch(itemsProvider.notifier).changeListingStatus(true);
+    final isShowSoldItem = ref.watch(itemsProvider.notifier).isUnPurchased();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            GestureDetector(
-              onTap: (isShowSoldItem)
-                  ? () async {
-                      ref
-                          .read(itemsQueryProvider.notifier)
-                          .changeIsShowSoldItem(false);
-                      ref.read(itemsQueryProvider.notifier).resetPage();
-                      await _fetchItems();
-                      setState(() {});
-                    }
-                  : () async {
-                      ref
-                          .read(itemsQueryProvider.notifier)
-                          .changeIsShowSoldItem(true);
-                      ref.read(itemsQueryProvider.notifier).resetPage();
-                      await _fetchItems();
-                      setState(() {});
-                    },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      '売切も表示',
-                    ),
-                    Icon(
-                      isShowSoldItem
-                          ? Icons.check_box
-                          : Icons.check_box_outline_blank,
-                    )
-                  ],
-                ),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: (isShowSoldItem)
+            //       ? () async {
+            //           ref
+            //               .read(itemsQueryProvider.notifier)
+            //               .changeIsShowSoldItem(false);
+            //           ref.read(itemsQueryProvider.notifier).resetPage();
+            //           await _fetchItems();
+            //           setState(() {});
+            //         }
+            //       : () async {
+            //           ref
+            //               .read(itemsQueryProvider.notifier)
+            //               .changeIsShowSoldItem(true);
+            //           ref.read(itemsQueryProvider.notifier).resetPage();
+            //           await _fetchItems();
+            //           setState(() {});
+            //         },
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: 24),
+            //     child: Row(
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       children: [
+            //         const Text(
+            //           '売切も表示',
+            //         ),
+            //         Icon(
+            //           isShowSoldItem
+            //               ? Icons.check_box
+            //               : Icons.check_box_outline_blank,
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
           backgroundColor: MyColors.ghostWhiteColor,
           bottom: PreferredSize(
@@ -129,12 +128,8 @@ class _TopViewState extends ConsumerState<TopView> {
                   ),
                   onFieldSubmitted: (value) async {
                     debugPrint('onFieldSubmitted: $value');
-                    final query = {
-                      "name": value,
-                      "page": 1,
-                    };
-                    ref.read(itemsQueryProvider.notifier).changeQuery(query);
-                    _fetchItems();
+                    ref.read(itemsProvider.notifier).changeName(value);
+                    ref.read(itemsProvider.notifier).fetch();
                   },
                 ),
               ),
@@ -142,9 +137,7 @@ class _TopViewState extends ConsumerState<TopView> {
           ),
         ),
         body: ItemGridView(
-          url: '${Url.apiUrl}items/',
           provider: itemsProvider,
-          queryProvider: itemsQueryProvider,
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/config/user_data_provider.dart';
@@ -54,7 +55,7 @@ class _ActivationWaitViewState extends ConsumerState<ActivationWaitView> {
           children: <Widget>[
             const Text('メールを確認してアカウントを有効化してください'),
             const SizedBox(height: 16),
-            if (isLoading) const CircularProgressIndicator(),
+            if (isLoading) const CupertinoActivityIndicator(),
             const SizedBox(height: 16),
           ],
         ),
