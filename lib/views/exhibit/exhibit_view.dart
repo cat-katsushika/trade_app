@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -317,7 +318,7 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                       } else if (snapshot.hasError) {
                         return const Text("エラー");
                       } else {
-                        return const CircularProgressIndicator();
+                        return const CupertinoActivityIndicator();
                       }
                     }),
                 const SizedBox(height: 16),

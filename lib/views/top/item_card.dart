@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/models/item_model.dart';
@@ -38,9 +39,7 @@ class _ItemCardState extends State<ItemCard> {
                         imageUrl: widget.item.images.first.photoPath,
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                          value: downloadProgress.progress,
-                        ),
+                            const CupertinoActivityIndicator(),
                         errorWidget: (context, url, dynamic error) =>
                             const Icon(Icons.error),
                         fit: BoxFit.contain,

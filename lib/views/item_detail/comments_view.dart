@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/comment_card.dart';
@@ -113,7 +114,7 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
     }, error: (err, stack) {
       return const Center(child: Text('コメントが読み込めません'));
     }, loading: () {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: CupertinoActivityIndicator());
     });
   }
 }
