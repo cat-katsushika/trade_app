@@ -22,7 +22,6 @@ class _TopViewState extends ConsumerState<TopView> {
 
   @override
   void initState() {
-
     //画面描画後に処理をコールバックで実行するもの
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       Future(() {
@@ -37,56 +36,41 @@ class _TopViewState extends ConsumerState<TopView> {
     });
     super.initState();
   }
-
   Future<void> _fetchItems() async {
-    // ref.read(itemsProvider.notifier).removeAll();
-    // final query = ref.read(itemsQueryProvider);
-    // ref.read(itemsProvider.notifier).fetchItems(query, '${Url.apiUrl}items/');
+    ref.read(itemsProvider.notifier).fetch();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(itemsProvider.notifier).changeListingStatus(true);
-    final isShowSoldItem = ref.watch(itemsProvider.notifier).isUnPurchased();
+    final isShowSoldItem =
+        ref.watch(itemsProvider.notifier).getIsShowSoldItem();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            // GestureDetector(
-            //   onTap: (isShowSoldItem)
-            //       ? () async {
-            //           ref
-            //               .read(itemsQueryProvider.notifier)
-            //               .changeIsShowSoldItem(false);
-            //           ref.read(itemsQueryProvider.notifier).resetPage();
-            //           await _fetchItems();
-            //           setState(() {});
-            //         }
-            //       : () async {
-            //           ref
-            //               .read(itemsQueryProvider.notifier)
-            //               .changeIsShowSoldItem(true);
-            //           ref.read(itemsQueryProvider.notifier).resetPage();
-            //           await _fetchItems();
-            //           setState(() {});
-            //         },
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(horizontal: 24),
-            //     child: Row(
-            //       crossAxisAlignment: CrossAxisAlignment.center,
-            //       children: [
-            //         const Text(
-            //           '売切も表示',
-            //         ),
-            //         Icon(
-            //           isShowSoldItem
-            //               ? Icons.check_box
-            //               : Icons.check_box_outline_blank,
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            GestureDetector(
+              onTap: () async {
+                ref.read(itemsProvider.notifier).setIsShowSoldItem(!isShowSoldItem);
+                await _fetchItems();
+                setState(() {});
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '売切も表示',
+                    ),
+                    Icon(
+                      isShowSoldItem
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
           backgroundColor: MyColors.ghostWhiteColor,
           bottom: PreferredSize(
