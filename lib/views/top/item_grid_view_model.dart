@@ -12,19 +12,22 @@ final itemsProvider =
 //いいねした商品
 final likeItemsProvider =
     StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
-  return ItemsNotifier(ref.read(itemRepositoryProvider), '${Url.apiUrl}items/user/like');
+  return ItemsNotifier(
+      ref.read(itemRepositoryProvider), '${Url.apiUrl}items/user/like');
 });
 
 //買った商品
 final purchasedItemsProvider =
     StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
-  return ItemsNotifier(ref.read(itemRepositoryProvider), '${Url.apiUrl}items/user/buy');
+  return ItemsNotifier(
+      ref.read(itemRepositoryProvider), '${Url.apiUrl}items/user/buy');
 });
 
 //販売中
 final listingItemsProvider =
     StateNotifierProvider<ItemsNotifier, AsyncValue<List<Item>>>((ref) {
-  return ItemsNotifier(ref.read(itemRepositoryProvider), '${Url.apiUrl}items/user/sell');
+  return ItemsNotifier(
+      ref.read(itemRepositoryProvider), '${Url.apiUrl}items/user/sell');
 });
 
 final itemRepositoryProvider = Provider<ItemRepository>((ref) {
@@ -33,16 +36,17 @@ final itemRepositoryProvider = Provider<ItemRepository>((ref) {
 
 //〇〇商品一覧データを管理する雛形
 class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
-  ItemsNotifier(this._repository, this.apiUrl) : super(const AsyncValue.loading()) {
-    // Providerが初めて呼び出されたときに実U
+  ItemsNotifier(this._repository, this.apiUrl)
+      : super(const AsyncLoading<List<Item>>()) {
+    // Providerが初めて呼び出されたときに実行
     fetch();
   }
-  final String apiUrl;
 
+  final String apiUrl;
 
   int page = 1;
   String name = '';
-  String listingStatus = '';
+  bool isShowSoldItem = false;
 
   final ItemRepository _repository;
 
@@ -51,19 +55,13 @@ class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
     name = str;
   }
 
-  bool isUnPurchased() {
-    return listingStatus == 'unpurchased';
-  }
-
-  void changeListingStatus(bool toggle) {
-    listingStatus = toggle ? 'unpurchased' : '';
-  }
-
   Future<void> fetch({
     bool isLoadMore = false,
   }) async {
+    final url = isShowSoldItem ? apiUrl : "$apiUrl?listing_status=unpurchased";
     state = await AsyncValue.guard(() async {
-      final items = await _repository.fetchItems(name, page, apiUrl);
+      final items = await _repository.fetchItems(name, page, url);
+      print('---$url---$state---');
       return [if (isLoadMore) ...state.value ?? [], ...items];
     });
   }
@@ -86,8 +84,17 @@ class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
     fetch();
   }
 
-  void removeAll() {
-    state = const AsyncValue.data([]);
+  Future<void> removeAll() async {
+    state = const AsyncLoading<List<Item>>();
+  }
+
+  bool getIsShowSoldItem() => isShowSoldItem;
+
+  void setIsShowSoldItem(bool isShow) async {
+    isShowSoldItem = isShow;
+    // await removeAll();
+    page = 1;
+    fetch();
   }
 
   void toggleLike(String id, bool isLike) {
