@@ -1,9 +1,23 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/views/splash_screen/splash_screen_view.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // FCM の通知権限リクエスト
+  final messaging = FirebaseMessaging.instance;
+  final response = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  debugPrint("$response");
   runApp(
     const TradeApp(
       home: Scaffold(
