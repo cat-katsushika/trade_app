@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
+import 'package:trade_app/models/user_data_model.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({Key? key, required this.item, required this.navigate})
+  const ItemCard({Key? key, required this.item, required this.navigate, required this.userData})
       : super(key: key);
   final Item item;
+  final UserData userData;
 
   //ItemCardからnavigateすると変更したstateが反映されないのでItemGridViewから遷移するため．
   final VoidCallback navigate;
@@ -18,10 +20,12 @@ class ItemCard extends StatefulWidget {
 }
 
 class _ItemCardState extends State<ItemCard> {
+
   @override
   Widget build(BuildContext context) {
     final listingStatus =
         ListingStatus.values.byName(widget.item.listingStatus);
+    final isMyItem = (widget.item.buyer == widget.userData.id || widget.item.seller == widget.userData.id);
     return GestureDetector(
       onTap: () async {
         widget.navigate();
@@ -48,13 +52,15 @@ class _ItemCardState extends State<ItemCard> {
                   : Center(
                       child: Image.asset(ImagePath.errorImage),
                     ),
-              if (listingStatus == ListingStatus.purchased ||
+              if ((!isMyItem && listingStatus == ListingStatus.purchased) ||
                   listingStatus == ListingStatus.completed)
                 IgnorePointer(
                     child: Image.asset(
-                  ImagePath.soldOutImage,
-                  fit: BoxFit.contain,
-                )),
+                      ImagePath.soldOutImage,
+                      fit: BoxFit.contain,
+                    )),
+              if (isMyItem && listingStatus == ListingStatus.purchased)
+                IgnorePointer(child: Image.asset(ImagePath.tradingImage)),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(

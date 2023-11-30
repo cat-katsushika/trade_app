@@ -3,4 +3,5 @@ class ImagePath{
   static const appIconTransplant = 'assets/images/app_icon_transparent.png';
   static const errorImage = 'assets/images/mark_question.png';
   static const soldOutImage = 'assets/images/sold_out.png';
+  static const tradingImage = 'assets/images/trading.png';
 }

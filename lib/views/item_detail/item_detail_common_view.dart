@@ -11,16 +11,20 @@ import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/models/product_condition.dart';
+import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/models/writing_state.dart';
 
 class ItemDetailCommonView extends StatelessWidget {
-  const ItemDetailCommonView({Key? key, required this.item}) : super(key: key);
+  const ItemDetailCommonView(
+      {Key? key, required this.item, required this.userData})
+      : super(key: key);
   final Item item;
+  final UserData userData;
 
   @override
   Widget build(BuildContext context) {
     //brand_newに対してbyNameが使えないため例外処理
-    //TODO:brandNewに対応したら削除
+    final isMyItem = (item.buyer == userData.id || item.seller == userData.id);
     var productCondition = ProductCondition.brandNew;
     if (item.condition != 'brand_new') {
       productCondition = ProductCondition.values.byName(item.condition);
@@ -51,7 +55,7 @@ class ItemDetailCommonView extends StatelessWidget {
                           fit: BoxFit.contain,
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) =>
-                              const CupertinoActivityIndicator(),
+                                  const CupertinoActivityIndicator(),
                           errorWidget: (context, url, dynamic error) =>
                               const Icon(Icons.error),
                         );
@@ -60,8 +64,11 @@ class ItemDetailCommonView extends StatelessWidget {
                       child: Image.asset(ImagePath.errorImage),
                     ),
             ),
-            if (listingStatus == ListingStatus.purchased||listingStatus==ListingStatus.completed)
+            if ((!isMyItem && listingStatus == ListingStatus.purchased) ||
+                listingStatus == ListingStatus.completed)
               IgnorePointer(child: Image.asset(ImagePath.soldOutImage)),
+            if (isMyItem && listingStatus == ListingStatus.purchased)
+              IgnorePointer(child: Image.asset(ImagePath.tradingImage)),
           ],
         ),
         Padding(

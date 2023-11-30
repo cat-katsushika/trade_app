@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trade_app/models/item_model.dart';
+import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/views/item_detail/item_detail_view.dart';
 import 'package:trade_app/views/top/item_card.dart';
 
 class GridViewComponent extends StatelessWidget {
-  const GridViewComponent({Key? key, required this.items}) : super(key: key);
+  const GridViewComponent({Key? key, required this.items, required this.userData}) : super(key: key);
   final List<Item> items;
+  final UserData userData;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +26,11 @@ class GridViewComponent extends StatelessWidget {
           (BuildContext context, int index) {
             return ItemCard(
               item: items[index],
+              userData: userData,
               navigate: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ItemDetailView(items[index]),
+                    builder: (context) => ItemDetailView(items[index], userData),
                   ),
                 );
               },

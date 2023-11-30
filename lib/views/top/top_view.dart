@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
-import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/views/top/item_grid_view.dart';
 import 'package:trade_app/views/top/item_grid_view_model.dart';
-import 'package:trade_app/views/top/items_query_provider.dart';
 
 class TopView extends ConsumerStatefulWidget {
   const TopView({super.key, this.snackMessage});

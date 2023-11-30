@@ -78,6 +78,7 @@ flutter:
     - assets/images/mark_question.png
     - assets/images/sold_out.png
     - assets/images/app_icon_transparent.png
+    - assets/images/trading.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

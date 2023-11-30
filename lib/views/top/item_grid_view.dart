@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/grid_view_component.dart';
 import 'package:trade_app/component/on_going_bottom.dart';
+import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/views/top/item_grid_view_model.dart';
 
@@ -23,6 +24,7 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<Item>> asyncValue = ref.watch(widget.provider);
+    final userData = ref.read(userDataProvider);
     return NotificationListener<ScrollEndNotification>(
       child: Scrollbar(
         child: CustomScrollView(
@@ -37,11 +39,11 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
             ),
             asyncValue.when(
               data: (items) {
-                return GridViewComponent(items: items);
+                return GridViewComponent(items: items, userData: userData);
               },
               error: (error, stacktrace) {
                 if (asyncValue.hasValue) {
-                  return GridViewComponent(items: asyncValue.value!);
+                  return GridViewComponent(items: asyncValue.value!, userData: userData,);
                 }
                 debugPrint(error.toString());
                 return const SliverToBoxAdapter(

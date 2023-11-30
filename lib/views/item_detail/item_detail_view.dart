@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
+import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/repository/item_repository.dart';
 import 'package:trade_app/views/navigation_root/navigation_root.dart';
 import 'package:trade_app/views/item_detail/comments_view.dart';
@@ -9,9 +10,10 @@ import 'package:trade_app/views/item_detail/item_detail_common_view.dart';
 import 'package:trade_app/views/item_detail/purchase_button_view.dart';
 
 class ItemDetailView extends StatefulWidget {
-  const ItemDetailView(this.item, {super.key});
+  const ItemDetailView(this.item, this.userData,{super.key});
 
   final Item item;
+  final UserData userData;
 
   @override
   State<ItemDetailView> createState() => _ItemDetailViewState();
@@ -31,7 +33,7 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                 padding: const EdgeInsets.only(bottom: 50),
                 child: Column(
                   children: [
-                    ItemDetailCommonView(item: widget.item),
+                    ItemDetailCommonView(item: widget.item, userData: widget.userData),
                     CommentsView(
                       item: widget.item,
                     ),
