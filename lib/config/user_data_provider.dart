@@ -11,6 +11,7 @@ import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/repository/other_repository.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 final userDataProvider =
     StateNotifierProvider<UserDataNotifier, UserData>((ref) {
@@ -19,6 +20,31 @@ final userDataProvider =
 
 class UserDataNotifier extends StateNotifier<UserData> {
   UserDataNotifier() : super(const UserData());
+
+  Future<void> postFCMToken() async {
+    var dio = Dio();
+    dio = await OtherRepository.addCookie(dio);
+    dio.interceptors.add(LogInterceptor());
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    const url = '${Url.apiUrl}devices/';
+
+    try {
+      final registrationId = await messaging.getToken();
+      final type = Platform.isAndroid ? "android" : "ios";
+      final response = await dio.post(
+        url,
+        data: {
+          'registration_id': registrationId,
+          'type': type,
+        },
+      );
+      debugPrint('Response status: ${response.statusCode}');
+      debugPrint('Response data: ${response.data}');
+    } catch (e) {
+      debugPrint('Error sending registration data: $e');
+    }
+  }
 
   Future<void> navigateWithUserData(BuildContext context) async {
     //id,email,passwordが保存されていたらログイン
@@ -57,14 +83,10 @@ class UserDataNotifier extends StateNotifier<UserData> {
     }
   }
 
-
   Future<void> fetchCampuses() async {
     final campuses = await OtherRepository.fetchCampuses();
-    state = state.copyWith(
-      campuses: campuses
-    );
+    state = state.copyWith(campuses: campuses);
   }
-
 
   void setMailAndPW(String email, String password) {
     state = state.copyWith(
@@ -92,7 +114,6 @@ class UserDataNotifier extends StateNotifier<UserData> {
       });
 
       if (response.statusCode == 200) {
-
         final Map<String, dynamic> data = response.data;
         state = state.copyWith(
           accessToken: data['access'],
@@ -107,13 +128,13 @@ class UserDataNotifier extends StateNotifier<UserData> {
         cookieJar.saveFromResponse(Url.uriHost, cookies);
 
         // 格納されたクッキーをプリントする処理
-        List<Cookie> cookieList =
-            await cookieJar.loadForRequest(Url.uriHost);
+        List<Cookie> cookieList = await cookieJar.loadForRequest(Url.uriHost);
         debugPrint(cookieList.toString());
 
         //userIDは別で取得
         final id = await OtherRepository.getMyId();
         state = state.copyWith(id: id);
+        postFCMToken();
         return true;
       } else {
         return false;
