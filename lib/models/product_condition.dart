@@ -13,17 +13,4 @@ extension TypeExtensions on ProductCondition {
         return '破損あり';
     }
   }
-// //予約語new回避のため.nameの代用として
-//   String get name_ {
-//     switch (this) {
-//       case ProductCondition.brandNew:
-//         return 'new';
-//       case ProductCondition.fine:
-//         return 'fine';
-//       case ProductCondition.used:
-//         return 'used';
-//       case ProductCondition.damaged:
-//         return 'damaged';
-//     }
-//   }
 }

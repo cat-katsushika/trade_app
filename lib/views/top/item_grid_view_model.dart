@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
-import 'package:trade_app/repository/item_repository_provider.dart';
+import 'package:trade_app/repository/item_repository.dart';
 
 //全体の商品
 final itemsProvider =

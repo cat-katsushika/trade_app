@@ -13,7 +13,7 @@ import 'package:trade_app/models/product_condition.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:trade_app/models/writing_state.dart';
-import 'package:trade_app/repository/item_repository_provider.dart';
+import 'package:trade_app/repository/item_repository.dart';
 import 'package:trade_app/views/navigation_root/navigation_root.dart';
 
 class ExhibitView extends ConsumerStatefulWidget {

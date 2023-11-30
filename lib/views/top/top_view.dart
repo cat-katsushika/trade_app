@@ -51,7 +51,8 @@ class _TopViewState extends ConsumerState<TopView> {
             GestureDetector(
               onTap: () async {
                 ref.read(itemsProvider.notifier).setIsShowSoldItem(!isShowSoldItem);
-                await _fetchItems();
+                await ref.read(itemsProvider.notifier).fetch();
+                // await _fetchItems();
                 setState(() {});
               },
               child: Padding(
