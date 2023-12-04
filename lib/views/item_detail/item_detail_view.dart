@@ -150,9 +150,8 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                 }
               },
               onTapRelist: () async {
-                //TODO:再出品
                 final response =
-                await ItemRepository.patchItemData(widget.item.id,'complete');
+                await ItemRepository.patchItemData(widget.item.id,'relisting');
                 if (response == 'true') {
                   Future(() {
                     Navigator.pushAndRemoveUntil(

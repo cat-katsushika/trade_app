@@ -57,8 +57,8 @@ class PurchaseButtonView extends ConsumerWidget {
             showDialog(
               context: context,
               builder: (_) => AlertDialogComponent(
-                alertMessage: '再度出品しますか？',
-                leftText: '再度出品する',
+                alertMessage: '再出品しますか？',
+                leftText: '再出品する',
                 rightText: Texts.buttonPopText,
                 onTap: onTapRelist,
               ),
