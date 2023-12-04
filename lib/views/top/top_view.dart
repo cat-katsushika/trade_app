@@ -34,9 +34,7 @@ class _TopViewState extends ConsumerState<TopView> {
     });
     super.initState();
   }
-  Future<void> _fetchItems() async {
-    ref.read(itemsProvider.notifier).fetch();
-  }
+
 
   @override
   Widget build(BuildContext context) {

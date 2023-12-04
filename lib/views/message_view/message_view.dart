@@ -2,22 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/component/comment_card.dart';
+import 'package:trade_app/component/purchase_dialog.dart';
 import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
+import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/views/item_detail/message_view_model.dart';
 
 class MessageView extends ConsumerStatefulWidget {
-  const MessageView({Key? key, required this.item}) : super(key: key);
+  const MessageView({Key? key, required this.item, required this.onTapComplete}) : super(key: key);
   final Item item;
+  final VoidCallback onTapComplete;
 
   @override
-  ConsumerState createState() => _CommentsViewState();
+  ConsumerState createState() => _MessageViewState();
 }
 
-class _CommentsViewState extends ConsumerState<MessageView> {
+class _MessageViewState extends ConsumerState<MessageView> {
   final newCommentController = TextEditingController();
 
   @override
@@ -42,6 +45,32 @@ class _CommentsViewState extends ConsumerState<MessageView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialogComponent(
+                                  alertMessage: '取引を完了しますか',
+                                  leftText: '完了する',
+                                  rightText: Texts.buttonPopText,
+                                  onTap: widget.onTapComplete,
+                                ),
+                              );
+                            },
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(MyColors.tertiary),
+                            ),
+                            child: const Text(
+                              "取引を完了する",
+                              style: TextStyle(color: MyColors.white),
+                            ),
+                          ),
+                        ],
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -79,7 +108,8 @@ class _CommentsViewState extends ConsumerState<MessageView> {
                                 onPressed: () async {
                                   if (newCommentController.text != '') {
                                     final isPost = await ref
-                                        .watch(messageViewModelProvider.notifier)
+                                        .watch(
+                                            messageViewModelProvider.notifier)
                                         .postMessage(
                                           widget.item.id,
                                           newCommentController.text,
@@ -89,11 +119,13 @@ class _CommentsViewState extends ConsumerState<MessageView> {
                                     if (isPost) {
                                       newCommentController.text = '';
                                       ref
-                                          .read(messageViewModelProvider.notifier)
-                                          .fetchMessages(widget.item.id, Url.msg);
+                                          .read(
+                                              messageViewModelProvider.notifier)
+                                          .fetchMessages(
+                                              widget.item.id, Url.msg);
                                     } else {
-                                      Future(() =>
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                      Future(() => ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             const SnackBar(
                                               content: Text('投稿できませんでした'),
                                             ),

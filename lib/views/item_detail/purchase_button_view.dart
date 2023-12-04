@@ -16,16 +16,20 @@ class PurchaseButtonView extends ConsumerWidget {
     required this.onTapUnpurchased,
     required this.onTapRepost,
     required this.onTapCancel,
+    required this.onTapComplete,
+    required this.onTapRelist,
   }) : super(key: key);
   final ListingStatus listingStatus;
   final VoidCallback onTapUnpurchased;
   final VoidCallback onTapRepost;
   final VoidCallback onTapCancel;
+  final VoidCallback onTapComplete;
+  final VoidCallback onTapRelist;
   final Item item;
 
   Widget _buttonView(ListingStatus listingStatus, BuildContext context,
-      bool isMeSeller, bool isMeBuyer) {
-    if (isMeSeller) {
+      bool amISeller, bool amIBuyer) {
+    if (amISeller) {
       if (listingStatus == ListingStatus.unpurchased) {
         return ElevatedButton(
           onPressed: () {
@@ -49,8 +53,24 @@ class PurchaseButtonView extends ConsumerWidget {
         );
       } else if (listingStatus == ListingStatus.canceled) {
         return ElevatedButton(
-          onPressed: () {},
-          child: const Text("再出品"),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (_) => AlertDialogComponent(
+                alertMessage: '再度出品しますか？',
+                leftText: '再度出品する',
+                rightText: Texts.buttonPopText,
+                onTap: onTapRelist,
+              ),
+            );
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(MyColors.tertiary),
+          ),
+          child: const Text(
+            "再出品",
+            style: TextStyle(color: MyColors.white),
+          ),
         );
       } else {
         return const ElevatedButton(
@@ -74,12 +94,15 @@ class PurchaseButtonView extends ConsumerWidget {
           },
           child: const Text("購入"),
         );
-      } else if (listingStatus == ListingStatus.purchased && isMeBuyer) {
+      } else if (listingStatus == ListingStatus.purchased && amIBuyer) {
         return ElevatedButton(
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
-              return MessageView(item: item);
+              return MessageView(
+                item: item,
+                onTapComplete: onTapComplete,
+              );
             }));
           },
           child: const Text(
@@ -100,8 +123,11 @@ class PurchaseButtonView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint('seller:${item.seller}');
     debugPrint('buyer:${item.buyer}');
-    final isMeSeller = (item.seller == ref.read(userDataProvider).email);
-    final isMeBuyer = (item.buyer == ref.read(userDataProvider).id);
+    debugPrint('email:${ref.read(userDataProvider).id}');
+
+    final amISeller = (item.seller == ref.read(userDataProvider).email);
+    final amIBuyer = (item.buyer == ref.read(userDataProvider).id);
+    //↑なぜかsellerはuserのemail, buyerはuserのidが返ってきているのでこの実装。
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
@@ -109,7 +135,7 @@ class PurchaseButtonView extends ConsumerWidget {
         child: SizedBox(
           height: 50,
           width: 200,
-          child: _buttonView(listingStatus, context, isMeSeller, isMeBuyer),
+          child: _buttonView(listingStatus, context, amISeller, amIBuyer),
         ),
       ),
     );

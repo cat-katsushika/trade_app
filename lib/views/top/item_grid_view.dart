@@ -22,6 +22,12 @@ class ItemGridView extends ConsumerStatefulWidget {
 class _ItemGridViewState extends ConsumerState<ItemGridView> {
 
   @override
+  void initState() {
+    ref.read(itemsProvider.notifier).fetch();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final AsyncValue<List<Item>> asyncValue = ref.watch(widget.provider);
     final userData = ref.read(userDataProvider);

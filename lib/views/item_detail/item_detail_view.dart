@@ -127,6 +127,51 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                   ));
                 }
               },
+              onTapComplete: () async {
+                final response =
+                await ItemRepository.patchItemData(widget.item.id,'complete');
+                if (response == 'true') {
+                  Future(() {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                        const NavigationRoot(snackMessage: '取引を完了しました'),
+                      ),
+                          (_) => false,
+                    );
+                  });
+                } else {
+                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(response),
+                    ),
+                  ));
+                }
+              },
+              onTapRelist: () async {
+                //TODO:再出品
+                final response =
+                await ItemRepository.patchItemData(widget.item.id,'complete');
+                if (response == 'true') {
+                  Future(() {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                        const NavigationRoot(snackMessage: '再出品が完了しました'),
+                      ),
+                          (_) => false,
+                    );
+                  });
+                } else {
+                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(response),
+                    ),
+                  ));
+                }
+              },
             ),
           ],
         ),
