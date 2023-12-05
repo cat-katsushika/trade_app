@@ -25,6 +25,7 @@ class OnGoingBottom extends StatelessWidget {
           },
           error: (error, stackTrace) {
             // 取得済みのデータがあるなら最下部にエラー表示
+            //TODO エラー処理
             if (asyncValue.hasValue) {
               return const Center(
                 child: Text(
