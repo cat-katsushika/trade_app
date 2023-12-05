@@ -5,6 +5,7 @@ import 'package:trade_app/component/grid_view_component.dart';
 import 'package:trade_app/component/on_going_bottom.dart';
 import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/models/item_model.dart';
+import 'package:trade_app/views/error/network_error_view.dart';
 import 'package:trade_app/views/top/item_grid_view_model.dart';
 
 class ItemGridView extends ConsumerStatefulWidget {
@@ -23,7 +24,7 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
 
   @override
   void initState() {
-    ref.read(itemsProvider.notifier).fetch();
+    ref.read(widget.provider.notifier).fetch();
     super.initState();
   }
 
@@ -52,14 +53,11 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
                   return GridViewComponent(items: asyncValue.value!, userData: userData,);
                 }
                 debugPrint(error.toString());
-                //TODO エラー画面
-                return const SliverToBoxAdapter(
-                  child: Center(
-                    child: Text(
-                      'エラーが発生しました',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+                return SliverToBoxAdapter(
+                  child: NetworkErrorView(onRetry: () {
+                    ref.read(userDataProvider.notifier).refreshAccessToken();
+                    ref.read(widget.provider.notifier).refresh();
+                  }),
                 );
               },
               loading: () => const SliverToBoxAdapter(

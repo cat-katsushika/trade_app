@@ -12,9 +12,15 @@ import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/views/item_detail/message_view_model.dart';
 
 class MessageView extends ConsumerStatefulWidget {
-  const MessageView({Key? key, required this.item, required this.onTapComplete}) : super(key: key);
+  const MessageView(
+      {Key? key,
+      required this.item,
+      required this.onTapComplete,
+      required this.amISeller})
+      : super(key: key);
   final Item item;
   final VoidCallback onTapComplete;
+  final bool amISeller;
 
   @override
   ConsumerState createState() => _MessageViewState();
@@ -48,27 +54,29 @@ class _MessageViewState extends ConsumerState<MessageView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialogComponent(
-                                  alertMessage: '取引を完了しますか',
-                                  leftText: '完了する',
-                                  rightText: Texts.buttonPopText,
-                                  onTap: widget.onTapComplete,
-                                ),
-                              );
-                            },
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(MyColors.tertiary),
-                            ),
-                            child: const Text(
-                              "取引を完了する",
-                              style: TextStyle(color: MyColors.white),
-                            ),
-                          ),
+                          widget.amISeller
+                              ? ElevatedButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) => AlertDialogComponent(
+                                        alertMessage: '取引を完了しますか',
+                                        leftText: '完了する',
+                                        rightText: Texts.buttonPopText,
+                                        onTap: widget.onTapComplete,
+                                      ),
+                                    );
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        MyColors.tertiary),
+                                  ),
+                                  child: const Text(
+                                    "取引を完了する",
+                                    style: TextStyle(color: MyColors.white),
+                                  ),
+                                )
+                              : const SizedBox(height: 50)
                         ],
                       ),
                       Column(

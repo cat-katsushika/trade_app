@@ -7,28 +7,26 @@ class NetworkErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Icon(
-              Icons.wifi_off, // ネットワークエラーを示すアイコン
-              size: 80.0,
-              color: Colors.grey,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'ネットワーク接続がありません',
-              style: TextStyle(fontSize: 18.0, color: Colors.black54),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: onRetry, // ボタンが押された時にコールバック関数を実行
-              child: const Text('再試行'),
-            ),
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Icon(
+            Icons.wifi_off, // ネットワークエラーを示すアイコン
+            size: 80.0,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'ネットワーク接続がありません',
+            style: TextStyle(fontSize: 18.0, color: Colors.black54),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: onRetry, // ボタンが押された時にコールバック関数を実行
+            child: const Text('再試行'),
+          ),
+        ],
       ),
     );
   }

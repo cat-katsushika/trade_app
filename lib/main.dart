@@ -7,24 +7,6 @@ import 'package:trade_app/views/splash_screen/splash_screen_view.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  // FCM の通知権限リクエスト
-  final messaging = FirebaseMessaging.instance;
-  final response = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-  final token = await messaging.getToken();
-  debugPrint('🐯 FCM TOKEN: $token');
-  debugPrint("${response.authorizationStatus}");
   runApp(
     const TradeApp(
       home: Scaffold(

@@ -46,13 +46,34 @@ class UserDataNotifier extends StateNotifier<UserData> {
     }
   }
 
-  Future<void> navigateWithUserData(BuildContext context) async {
+  Future<void> refreshAccessToken() async {
+    Dio dio = Dio();
+    try {
+      final response = await dio.post(
+        '${Url.apiUrl}auth/api/refresh/',
+        data: {
+          'refresh': state.refreshToken,
+        },
+      );
+
+      String accessToken = response.data['access'];
+      state = state.copyWith(accessToken: accessToken);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> loginWithUserData(BuildContext context) async {
     //id,email,passwordが保存されていたらログイン
     if (await loadUserData() && await login()) {
       //ログインできたらstateを変更。splashScreen等で検知して画面遷移
       state = state.copyWith(isLogin: true);
+      debugPrint('[isLogin] ${state.isLogin}');
+      return true;
+    } else {
+      debugPrint('[isLogin] ${state.isLogin}');
+      return false;
     }
-    debugPrint('[isLogin] ${state.isLogin}');
   }
 
   Future<bool> loadUserData() async {

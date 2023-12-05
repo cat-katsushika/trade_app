@@ -14,14 +14,12 @@ class PurchaseButtonView extends ConsumerWidget {
     required this.item,
     required this.listingStatus,
     required this.onTapUnpurchased,
-    required this.onTapRepost,
     required this.onTapCancel,
     required this.onTapComplete,
     required this.onTapRelist,
   }) : super(key: key);
   final ListingStatus listingStatus;
   final VoidCallback onTapUnpurchased;
-  final VoidCallback onTapRepost;
   final VoidCallback onTapCancel;
   final VoidCallback onTapComplete;
   final VoidCallback onTapRelist;
@@ -36,8 +34,8 @@ class PurchaseButtonView extends ConsumerWidget {
             showDialog(
               context: context,
               builder: (_) => AlertDialogComponent(
-                alertMessage: '出品を取りやめますか？',
-                leftText: '取りやめる',
+                alertMessage: '出品を取り消しますか？',
+                leftText: '取り消す',
                 rightText: Texts.buttonPopText,
                 onTap: onTapCancel,
               ),
@@ -47,8 +45,25 @@ class PurchaseButtonView extends ConsumerWidget {
             backgroundColor: MaterialStateProperty.all(MyColors.tertiary),
           ),
           child: const Text(
-            "出品をやめる",
+            "出品を取り消す",
             style: TextStyle(color: MyColors.white),
+          ),
+        );
+      } else if (listingStatus == ListingStatus.purchased) {
+        return ElevatedButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return MessageView(
+                item: item,
+                onTapComplete: onTapComplete,
+                amISeller: amISeller,
+              );
+            }));
+          },
+          child: const Text(
+            "取引画面",
+            textAlign: TextAlign.center,
           ),
         );
       } else if (listingStatus == ListingStatus.canceled) {
@@ -102,6 +117,7 @@ class PurchaseButtonView extends ConsumerWidget {
               return MessageView(
                 item: item,
                 onTapComplete: onTapComplete,
+                amISeller: amISeller,
               );
             }));
           },

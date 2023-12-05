@@ -58,10 +58,10 @@ class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
   Future<void> fetch({
     bool isLoadMore = false,
   }) async {
-    final url = isShowSoldItem ? "$apiUrl?purchased=true" : "$apiUrl?purchased=false";
+    final url =
+        isShowSoldItem ? "$apiUrl?purchased=true" : "$apiUrl?purchased=false";
     state = await AsyncValue.guard(() async {
       final items = await _repository.fetchItems(name, page, url);
-      print('---$url---$state---');
       return [if (isLoadMore) ...state.value ?? [], ...items];
     });
   }
@@ -92,7 +92,6 @@ class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
 
   void setIsShowSoldItem(bool isShow) async {
     isShowSoldItem = isShow;
-    // await removeAll();
     page = 1;
     fetch();
   }

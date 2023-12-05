@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -359,25 +360,35 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                             'description': _productDescriptionController.text,
                             'condition': productCondition.name,
                             'writing_state': writingState.name,
-                            'receivable_campus': campus != null ? campus!.id : '',
+                            'receivable_campus':
+                                campus != null ? campus!.id : '',
                           };
-                          final response = await ItemRepository.createItemWithDio(newItemData, images);
-                          if (response=='true') {
+                          try {
+                            await ItemRepository.exhibitItem(
+                                newItemData, images);
                             Future(() {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const NavigationRoot(snackMessage: '出品が完了しました！'),
+                                  builder: (context) => const NavigationRoot(
+                                      snackMessage: '出品が完了しました！'),
                                 ),
-                                    (_) => false,
+                                (_) => false,
                               );
                             });
-                          } else {
-                            Future(() => ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(response),
-                              ),
-                            ));
+                          } catch (e) {
+                            if ((e is DioException) &&
+                                e.response!.statusCode == 401) {
+                              ref
+                                  .read(userDataProvider.notifier)
+                                  .refreshAccessToken();
+                            }
+                            Future(() =>
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("出品できませんでした。"),
+                                  ),
+                                ));
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

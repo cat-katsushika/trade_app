@@ -10,7 +10,7 @@ import 'package:trade_app/views/item_detail/item_detail_common_view.dart';
 import 'package:trade_app/views/item_detail/purchase_button_view.dart';
 
 class ItemDetailView extends StatefulWidget {
-  const ItemDetailView(this.item, this.userData,{super.key});
+  const ItemDetailView(this.item, this.userData, {super.key});
 
   final Item item;
   final UserData userData;
@@ -20,6 +20,28 @@ class ItemDetailView extends StatefulWidget {
 }
 
 class _ItemDetailViewState extends State<ItemDetailView> {
+  patchTemplate(BuildContext context, String endpoint, String name) async {
+    try {
+      await ItemRepository.patchItemData(widget.item.id, endpoint);
+      Future(() {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NavigationRoot(snackMessage: '$nameが完了しました！'),
+          ),
+          (_) => false,
+        );
+      });
+    } catch (e) {
+      Future(() => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("$nameに失敗しました。"),
+            ),
+          ));
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final listingStatus =
@@ -33,7 +55,8 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                 padding: const EdgeInsets.only(bottom: 50),
                 child: Column(
                   children: [
-                    ItemDetailCommonView(item: widget.item, userData: widget.userData),
+                    ItemDetailCommonView(
+                        item: widget.item, userData: widget.userData),
                     CommentsView(
                       item: widget.item,
                     ),
@@ -60,116 +83,17 @@ class _ItemDetailViewState extends State<ItemDetailView> {
             PurchaseButtonView(
               item: widget.item,
               listingStatus: listingStatus,
-              //購入後画面遷移を行うためここでコールバックを定義
-              onTapUnpurchased: () async {
-                final response =
-                    await ItemRepository.patchItemData(widget.item.id, 'purchase');
-                if (response == 'true') {
-                  Future(() {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const NavigationRoot(snackMessage: '購入が完了しました！'),
-                      ),
-                      (_) => false,
-                    );
-                  });
-                } else {
-                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(response),
-                        ),
-                      ));
-                }
+              onTapUnpurchased: () {
+                patchTemplate(context, 'purchase', '購入');
               },
-              onTapRepost: () async {
-                final response =
-                await ItemRepository.patchItemData(widget.item.id, 'repost');
-                if (response == 'true') {
-                  Future(() {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                        const NavigationRoot(snackMessage: '再出品しました'),
-                      ),
-                          (_) => false,
-                    );
-                  });
-                } else {
-                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(response),
-                    ),
-                  ));
-                }
+              onTapRelist: () {
+                patchTemplate(context, 'relisting', '再出品');
               },
-              onTapCancel: () async {
-                final response =
-                await ItemRepository.patchItemData(widget.item.id,'cancel');
-                if (response == 'true') {
-                  Future(() {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                        const NavigationRoot(snackMessage: '出品を取りやめました'),
-                      ),
-                          (_) => false,
-                    );
-                  });
-                } else {
-                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(response),
-                    ),
-                  ));
-                }
+              onTapCancel: () {
+                patchTemplate(context, 'cancel', '出品取り消し');
               },
-              onTapComplete: () async {
-                final response =
-                await ItemRepository.patchItemData(widget.item.id,'complete');
-                if (response == 'true') {
-                  Future(() {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                        const NavigationRoot(snackMessage: '取引を完了しました'),
-                      ),
-                          (_) => false,
-                    );
-                  });
-                } else {
-                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(response),
-                    ),
-                  ));
-                }
-              },
-              onTapRelist: () async {
-                final response =
-                await ItemRepository.patchItemData(widget.item.id,'relisting');
-                if (response == 'true') {
-                  Future(() {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                        const NavigationRoot(snackMessage: '再出品が完了しました'),
-                      ),
-                          (_) => false,
-                    );
-                  });
-                } else {
-                  Future(() => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(response),
-                    ),
-                  ));
-                }
+              onTapComplete: () {
+                patchTemplate(context, 'complete', '取引');
               },
             ),
           ],

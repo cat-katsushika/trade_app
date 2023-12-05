@@ -7,24 +7,14 @@ import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/repository/other_repository.dart';
 
 class ItemRepository {
-  static Future<String> patchItemData(String itemId, String endPoint) async {
+  static Future<void> patchItemData(String itemId, String endPoint) async {
     var dio = Dio();
     dio.interceptors.add(LogInterceptor());
     dio = await OtherRepository.addCookie(dio);
     try {
-      final response = await dio.put('${Url.apiUrl}items/$itemId/$endPoint/');
-      return 'true';
+      await dio.put('${Url.apiUrl}items/$itemId/$endPoint/');
     } catch (e) {
-      if (e is DioException) {
-        Response? errorResponse = e.response;
-        debugPrint('Error code: ${errorResponse!.statusCode}');
-        debugPrint('Error message: ${errorResponse.statusMessage}');
-        debugPrint('Error data: ${errorResponse.data}');
-        return errorResponse.data['error'].toString();
-      } else {
-        Exception(e);
-        return e.toString();
-      }
+      throw Exception(e);
     }
   }
 
@@ -41,30 +31,21 @@ class ItemRepository {
           "page": page,
         },
       );
-      if (response.statusCode == 200) {
-        Map<String, dynamic> jsonData = response.data;
-        debugPrint(response.data.toString());
-        debugPrint(jsonData.toString());
-        return (jsonData['results'] as List)
-            .map((itemData) => Item.fromJson(itemData as Map<String, dynamic>))
-            .toList();
-      } else {
-        throw Exception('Failed to load items');
-      }
+      Map<String, dynamic> jsonData = response.data;
+      debugPrint(response.data.toString());
+      debugPrint(jsonData.toString());
+      return (jsonData['results'] as List)
+          .map((itemData) => Item.fromJson(itemData as Map<String, dynamic>))
+          .toList();
     } catch (e) {
-      if (e is DioException) {
-        Response? errorResponse = e.response;
-        debugPrint('Error code: ${errorResponse!.statusCode}');
-        debugPrint('Error message: ${errorResponse.statusMessage}');
-        debugPrint('Error data: ${errorResponse.data}');
+      if ((e is DioException) && e.response!.statusCode == 404) {
         return [];
-      } else {
-        throw Exception(e);
       }
+      throw Exception(e);
     }
   }
 
-  static Future<String> createItemWithDio(
+  static Future<void> exhibitItem(
       Map<String, dynamic> itemData, List<File> imageFiles) async {
     var dio = Dio();
     const url = '${Url.apiUrl}items/create/';
@@ -80,24 +61,9 @@ class ItemRepository {
       ...imageData,
     });
     try {
-      final response = await dio.post(url, data: formData);
-      if (response.statusCode == 201) {
-        debugPrint('Item created successfully!');
-        return 'true';
-      } else {
-        debugPrint(response.data);
-        throw Exception('Failed to create item: ${response.data}');
-      }
+      await dio.post(url, data: formData);
     } catch (e) {
-      if (e is DioException) {
-        Response? errorResponse = e.response;
-        final errMsg = errorResponse!.data['error'];
-        return errMsg;
-      } else {
-        // それ以外のエラーを出力
-        debugPrint('Unexpected error: $e');
-      }
+      throw Exception(e);
     }
-    return '';
   }
 }
