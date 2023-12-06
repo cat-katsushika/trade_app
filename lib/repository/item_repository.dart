@@ -48,6 +48,7 @@ class ItemRepository {
   static Future<void> exhibitItem(
       Map<String, dynamic> itemData, List<File> imageFiles) async {
     var dio = Dio();
+    dio.interceptors.add(LogInterceptor());
     const url = '${Url.apiUrl}items/create/';
     Map<String, dynamic> imageData = {};
     dio = await OtherRepository.addCookie(dio);
@@ -61,7 +62,8 @@ class ItemRepository {
       ...imageData,
     });
     try {
-      await dio.post(url, data: formData);
+      final response = await dio.post(url, data: formData);
+      print(response);
     } catch (e) {
       throw Exception(e);
     }

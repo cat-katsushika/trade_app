@@ -6,8 +6,8 @@ class Url{
   static const termsUrl = "https://uni-bo.net/terms-of-service/";
   static const policyUrl = "https://uni-bo.net/privacy-policy/";
 
-  static const apiUrl = 'https://uni-bo.net/api/';
-  static final  uriHost = Uri.parse('https://uni-bo.net/');
+  static const apiUrl = 'https://www.uni-bo.net/api/';
+  static final  uriHost = Uri.parse('https://www.uni-bo.net/');
   // static const apiUrl = 'http://127.0.0.1:8000/api/';
   // static final uriHost = Uri.parse('http://127.0.0.1:8000/');
 
