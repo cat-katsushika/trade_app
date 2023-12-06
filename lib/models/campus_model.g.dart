@@ -6,13 +6,14 @@ part of 'campus_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Campus _$$_CampusFromJson(Map<String, dynamic> json) => _$_Campus(
+_$CampusImpl _$$CampusImplFromJson(Map<String, dynamic> json) => _$CampusImpl(
       id: json['id'] as String,
       campus: json['campus'] as String,
       university: json['university'] as String,
     );
 
-Map<String, dynamic> _$$_CampusToJson(_$_Campus instance) => <String, dynamic>{
+Map<String, dynamic> _$$CampusImplToJson(_$CampusImpl instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'campus': instance.campus,
       'university': instance.university,

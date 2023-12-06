@@ -68,22 +68,22 @@ class _$UniversityCopyWithImpl<$Res, $Val extends University>
 }
 
 /// @nodoc
-abstract class _$$_UniversityCopyWith<$Res>
+abstract class _$$UniversityImplCopyWith<$Res>
     implements $UniversityCopyWith<$Res> {
-  factory _$$_UniversityCopyWith(
-          _$_University value, $Res Function(_$_University) then) =
-      __$$_UniversityCopyWithImpl<$Res>;
+  factory _$$UniversityImplCopyWith(
+          _$UniversityImpl value, $Res Function(_$UniversityImpl) then) =
+      __$$UniversityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String name});
 }
 
 /// @nodoc
-class __$$_UniversityCopyWithImpl<$Res>
-    extends _$UniversityCopyWithImpl<$Res, _$_University>
-    implements _$$_UniversityCopyWith<$Res> {
-  __$$_UniversityCopyWithImpl(
-      _$_University _value, $Res Function(_$_University) _then)
+class __$$UniversityImplCopyWithImpl<$Res>
+    extends _$UniversityCopyWithImpl<$Res, _$UniversityImpl>
+    implements _$$UniversityImplCopyWith<$Res> {
+  __$$UniversityImplCopyWithImpl(
+      _$UniversityImpl _value, $Res Function(_$UniversityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_UniversityCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
   }) {
-    return _then(_$_University(
+    return _then(_$UniversityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -107,11 +107,11 @@ class __$$_UniversityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_University implements _University {
-  const _$_University({this.id = "", this.name = ""});
+class _$UniversityImpl implements _University {
+  const _$UniversityImpl({this.id = "", this.name = ""});
 
-  factory _$_University.fromJson(Map<String, dynamic> json) =>
-      _$$_UniversityFromJson(json);
+  factory _$UniversityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UniversityImplFromJson(json);
 
   @override
   @JsonKey()
@@ -129,7 +129,7 @@ class _$_University implements _University {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_University &&
+            other is _$UniversityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name));
   }
@@ -141,12 +141,12 @@ class _$_University implements _University {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UniversityCopyWith<_$_University> get copyWith =>
-      __$$_UniversityCopyWithImpl<_$_University>(this, _$identity);
+  _$$UniversityImplCopyWith<_$UniversityImpl> get copyWith =>
+      __$$UniversityImplCopyWithImpl<_$UniversityImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UniversityToJson(
+    return _$$UniversityImplToJson(
       this,
     );
   }
@@ -154,10 +154,10 @@ class _$_University implements _University {
 
 abstract class _University implements University {
   const factory _University({final String id, final String name}) =
-      _$_University;
+      _$UniversityImpl;
 
   factory _University.fromJson(Map<String, dynamic> json) =
-      _$_University.fromJson;
+      _$UniversityImpl.fromJson;
 
   @override
   String get id;
@@ -165,6 +165,6 @@ abstract class _University implements University {
   String get name;
   @override
   @JsonKey(ignore: true)
-  _$$_UniversityCopyWith<_$_University> get copyWith =>
+  _$$UniversityImplCopyWith<_$UniversityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -72,19 +72,21 @@ class _$CampusCopyWithImpl<$Res, $Val extends Campus>
 }
 
 /// @nodoc
-abstract class _$$_CampusCopyWith<$Res> implements $CampusCopyWith<$Res> {
-  factory _$$_CampusCopyWith(_$_Campus value, $Res Function(_$_Campus) then) =
-      __$$_CampusCopyWithImpl<$Res>;
+abstract class _$$CampusImplCopyWith<$Res> implements $CampusCopyWith<$Res> {
+  factory _$$CampusImplCopyWith(
+          _$CampusImpl value, $Res Function(_$CampusImpl) then) =
+      __$$CampusImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String campus, String university});
 }
 
 /// @nodoc
-class __$$_CampusCopyWithImpl<$Res>
-    extends _$CampusCopyWithImpl<$Res, _$_Campus>
-    implements _$$_CampusCopyWith<$Res> {
-  __$$_CampusCopyWithImpl(_$_Campus _value, $Res Function(_$_Campus) _then)
+class __$$CampusImplCopyWithImpl<$Res>
+    extends _$CampusCopyWithImpl<$Res, _$CampusImpl>
+    implements _$$CampusImplCopyWith<$Res> {
+  __$$CampusImplCopyWithImpl(
+      _$CampusImpl _value, $Res Function(_$CampusImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +96,7 @@ class __$$_CampusCopyWithImpl<$Res>
     Object? campus = null,
     Object? university = null,
   }) {
-    return _then(_$_Campus(
+    return _then(_$CampusImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -113,12 +115,12 @@ class __$$_CampusCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Campus implements _Campus {
-  const _$_Campus(
+class _$CampusImpl implements _Campus {
+  const _$CampusImpl(
       {required this.id, required this.campus, required this.university});
 
-  factory _$_Campus.fromJson(Map<String, dynamic> json) =>
-      _$$_CampusFromJson(json);
+  factory _$CampusImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CampusImplFromJson(json);
 
   @override
   final String id;
@@ -136,7 +138,7 @@ class _$_Campus implements _Campus {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Campus &&
+            other is _$CampusImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.campus, campus) || other.campus == campus) &&
             (identical(other.university, university) ||
@@ -150,12 +152,12 @@ class _$_Campus implements _Campus {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CampusCopyWith<_$_Campus> get copyWith =>
-      __$$_CampusCopyWithImpl<_$_Campus>(this, _$identity);
+  _$$CampusImplCopyWith<_$CampusImpl> get copyWith =>
+      __$$CampusImplCopyWithImpl<_$CampusImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CampusToJson(
+    return _$$CampusImplToJson(
       this,
     );
   }
@@ -165,9 +167,9 @@ abstract class _Campus implements Campus {
   const factory _Campus(
       {required final String id,
       required final String campus,
-      required final String university}) = _$_Campus;
+      required final String university}) = _$CampusImpl;
 
-  factory _Campus.fromJson(Map<String, dynamic> json) = _$_Campus.fromJson;
+  factory _Campus.fromJson(Map<String, dynamic> json) = _$CampusImpl.fromJson;
 
   @override
   String get id;
@@ -177,6 +179,6 @@ abstract class _Campus implements Campus {
   String get university;
   @override
   @JsonKey(ignore: true)
-  _$$_CampusCopyWith<_$_Campus> get copyWith =>
+  _$$CampusImplCopyWith<_$CampusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

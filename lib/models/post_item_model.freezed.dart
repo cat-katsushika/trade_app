@@ -120,10 +120,11 @@ class _$PostItemCopyWithImpl<$Res, $Val extends PostItem>
 }
 
 /// @nodoc
-abstract class _$$_PostItemCopyWith<$Res> implements $PostItemCopyWith<$Res> {
-  factory _$$_PostItemCopyWith(
-          _$_PostItem value, $Res Function(_$_PostItem) then) =
-      __$$_PostItemCopyWithImpl<$Res>;
+abstract class _$$PostItemImplCopyWith<$Res>
+    implements $PostItemCopyWith<$Res> {
+  factory _$$PostItemImplCopyWith(
+          _$PostItemImpl value, $Res Function(_$PostItemImpl) then) =
+      __$$PostItemImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -140,11 +141,11 @@ abstract class _$$_PostItemCopyWith<$Res> implements $PostItemCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_PostItemCopyWithImpl<$Res>
-    extends _$PostItemCopyWithImpl<$Res, _$_PostItem>
-    implements _$$_PostItemCopyWith<$Res> {
-  __$$_PostItemCopyWithImpl(
-      _$_PostItem _value, $Res Function(_$_PostItem) _then)
+class __$$PostItemImplCopyWithImpl<$Res>
+    extends _$PostItemCopyWithImpl<$Res, _$PostItemImpl>
+    implements _$$PostItemImplCopyWith<$Res> {
+  __$$PostItemImplCopyWithImpl(
+      _$PostItemImpl _value, $Res Function(_$PostItemImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -161,7 +162,7 @@ class __$$_PostItemCopyWithImpl<$Res>
     Object? buyer = null,
     Object? seller = null,
   }) {
-    return _then(_$_PostItem(
+    return _then(_$PostItemImpl(
       receivableCampus: null == receivableCampus
           ? _value.receivableCampus
           : receivableCampus // ignore: cast_nullable_to_non_nullable
@@ -208,8 +209,8 @@ class __$$_PostItemCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PostItem implements _PostItem {
-  const _$_PostItem(
+class _$PostItemImpl implements _PostItem {
+  const _$PostItemImpl(
       {this.receivableCampus = "",
       required final List<File> images,
       this.listingStatus = "unpurchased",
@@ -267,7 +268,7 @@ class _$_PostItem implements _PostItem {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PostItem &&
+            other is _$PostItemImpl &&
             (identical(other.receivableCampus, receivableCampus) ||
                 other.receivableCampus == receivableCampus) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
@@ -302,8 +303,8 @@ class _$_PostItem implements _PostItem {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PostItemCopyWith<_$_PostItem> get copyWith =>
-      __$$_PostItemCopyWithImpl<_$_PostItem>(this, _$identity);
+  _$$PostItemImplCopyWith<_$PostItemImpl> get copyWith =>
+      __$$PostItemImplCopyWithImpl<_$PostItemImpl>(this, _$identity);
 }
 
 abstract class _PostItem implements PostItem {
@@ -317,7 +318,7 @@ abstract class _PostItem implements PostItem {
       final String condition,
       final String writingState,
       final String buyer,
-      final String seller}) = _$_PostItem;
+      final String seller}) = _$PostItemImpl;
 
   @override
   String get receivableCampus;
@@ -341,7 +342,7 @@ abstract class _PostItem implements PostItem {
   String get seller;
   @override
   @JsonKey(ignore: true)
-  _$$_PostItemCopyWith<_$_PostItem> get copyWith =>
+  _$$PostItemImplCopyWith<_$PostItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -393,21 +394,22 @@ class _$ImageSetCopyWithImpl<$Res, $Val extends ImageSet>
 }
 
 /// @nodoc
-abstract class _$$_ImageSetCopyWith<$Res> implements $ImageSetCopyWith<$Res> {
-  factory _$$_ImageSetCopyWith(
-          _$_ImageSet value, $Res Function(_$_ImageSet) then) =
-      __$$_ImageSetCopyWithImpl<$Res>;
+abstract class _$$ImageSetImplCopyWith<$Res>
+    implements $ImageSetCopyWith<$Res> {
+  factory _$$ImageSetImplCopyWith(
+          _$ImageSetImpl value, $Res Function(_$ImageSetImpl) then) =
+      __$$ImageSetImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({File photo, String parentItem});
 }
 
 /// @nodoc
-class __$$_ImageSetCopyWithImpl<$Res>
-    extends _$ImageSetCopyWithImpl<$Res, _$_ImageSet>
-    implements _$$_ImageSetCopyWith<$Res> {
-  __$$_ImageSetCopyWithImpl(
-      _$_ImageSet _value, $Res Function(_$_ImageSet) _then)
+class __$$ImageSetImplCopyWithImpl<$Res>
+    extends _$ImageSetCopyWithImpl<$Res, _$ImageSetImpl>
+    implements _$$ImageSetImplCopyWith<$Res> {
+  __$$ImageSetImplCopyWithImpl(
+      _$ImageSetImpl _value, $Res Function(_$ImageSetImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -416,7 +418,7 @@ class __$$_ImageSetCopyWithImpl<$Res>
     Object? photo = null,
     Object? parentItem = null,
   }) {
-    return _then(_$_ImageSet(
+    return _then(_$ImageSetImpl(
       photo: null == photo
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
@@ -431,8 +433,8 @@ class __$$_ImageSetCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ImageSet implements _ImageSet {
-  const _$_ImageSet({required this.photo, this.parentItem = ""});
+class _$ImageSetImpl implements _ImageSet {
+  const _$ImageSetImpl({required this.photo, this.parentItem = ""});
 
   @override
   final File photo;
@@ -449,7 +451,7 @@ class _$_ImageSet implements _ImageSet {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageSet &&
+            other is _$ImageSetImpl &&
             (identical(other.photo, photo) || other.photo == photo) &&
             (identical(other.parentItem, parentItem) ||
                 other.parentItem == parentItem));
@@ -461,13 +463,13 @@ class _$_ImageSet implements _ImageSet {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ImageSetCopyWith<_$_ImageSet> get copyWith =>
-      __$$_ImageSetCopyWithImpl<_$_ImageSet>(this, _$identity);
+  _$$ImageSetImplCopyWith<_$ImageSetImpl> get copyWith =>
+      __$$ImageSetImplCopyWithImpl<_$ImageSetImpl>(this, _$identity);
 }
 
 abstract class _ImageSet implements ImageSet {
   const factory _ImageSet(
-      {required final File photo, final String parentItem}) = _$_ImageSet;
+      {required final File photo, final String parentItem}) = _$ImageSetImpl;
 
   @override
   File get photo;
@@ -475,6 +477,6 @@ abstract class _ImageSet implements ImageSet {
   String get parentItem;
   @override
   @JsonKey(ignore: true)
-  _$$_ImageSetCopyWith<_$_ImageSet> get copyWith =>
+  _$$ImageSetImplCopyWith<_$ImageSetImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
