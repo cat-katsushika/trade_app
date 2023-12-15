@@ -21,6 +21,8 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
   bool isButtonDisabled = false;
   bool isTermsChecked = false;
   bool isPolicyChecked = false;
+  bool _isObscure1 = true;
+  bool _isObscure2 = true;
 
   Future<void> handleButtonPress(RegistrationViewModel viewModel) async {
     setState(() => isButtonDisabled = true);
@@ -77,27 +79,50 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
                 labelText: Texts.emailHintText,
                 hintText: Texts.emailHintText,
               ),
+              autofillHints: const [AutofillHints.email],
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
                 labelText: Texts.passwordHintText,
                 hintText: Texts.passwordHintText,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                      _isObscure1 ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () {
+                    setState(() {
+                      _isObscure1 = !_isObscure1;
+                    });
+                  },
+                ),
               ),
-              obscureText: true,
+              autofillHints: const [AutofillHints.password],
+              keyboardType: TextInputType.visiblePassword,
+              obscureText: _isObscure1,
             ),
             const SizedBox(height: 16.0),
             TextField(
               controller: _rePasswordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
                 labelText: Texts.rePasswordHintText,
                 hintText: Texts.rePasswordHintText,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                      _isObscure2 ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () {
+                    setState(() {
+                      _isObscure2 = !_isObscure2;
+                    });
+                  },
+                ),
               ),
-              obscureText: true,
+              autofillHints: const [AutofillHints.password],
+              keyboardType: TextInputType.visiblePassword,
+              obscureText: _isObscure2,
             ),
             const Spacer(),
             Row(
@@ -171,7 +196,7 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
                 onPressed: (isButtonDisabled)
                     ? null
                     : () {
-                        if (!isTermsChecked|| !isPolicyChecked) {
+                        if (!isTermsChecked || !isPolicyChecked) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('同意をお願いします'),

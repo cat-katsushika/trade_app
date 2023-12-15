@@ -77,25 +77,25 @@ class ItemsNotifier extends StateNotifier<AsyncValue<List<Item>>> {
     fetch(isLoadMore: true);
   }
 
+// 取得済みのデータを保持しながら状態をローディング中にする
   void refresh() {
-    // 取得済みのデータを保持しながら状態をローディング中にする
     state = const AsyncLoading<List<Item>>().copyWithPrevious(state);
     page = 1;
     fetch();
   }
 
-  Future<void> removeAll() async {
-    state = const AsyncLoading<List<Item>>();
-  }
-
+  //購入済み商品を表示するかどうかを返すgetter
   bool getIsShowSoldItem() => isShowSoldItem;
 
+  //購入済み商品を表示するかどうかを切り替えるsetter
+  //切り替えた後再読み込み
   void setIsShowSoldItem(bool isShow) async {
     isShowSoldItem = isShow;
     page = 1;
     fetch();
   }
 
+//いいねのon/off
   void toggleLike(String id, bool isLike) {
     if (state.value != null) {
       final targetItemIndex =

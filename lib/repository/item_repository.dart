@@ -44,7 +44,7 @@ class ItemRepository {
       throw Exception(e);
     }
   }
-
+//出品
   static Future<void> exhibitItem(
       Map<String, dynamic> itemData, List<File> imageFiles) async {
     var dio = Dio();
@@ -62,8 +62,7 @@ class ItemRepository {
       ...imageData,
     });
     try {
-      final response = await dio.post(url, data: formData);
-      print(response);
+     await dio.post(url, data: formData);
     } catch (e) {
       throw Exception(e);
     }
