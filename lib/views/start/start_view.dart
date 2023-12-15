@@ -82,7 +82,6 @@ class _StartViewState extends State<StartView> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: MyColors.tertiary,
-                  decoration: TextDecoration.underline,
                 ),
               ),
             ),
