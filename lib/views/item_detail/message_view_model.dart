@@ -29,6 +29,7 @@ class MessageViewModel extends StateNotifier<AsyncValue<List<Message>>> {
 
   Future<bool> postMessage(String itemId, String message, String userId, String msgOrCom) async {
     final apiUrl = '${Url.apiUrl}$msgOrCom/create/';
+    state = const AsyncValue.loading();
     try {
       final isPost = await _repository.postMessage(
         apiUrl,
