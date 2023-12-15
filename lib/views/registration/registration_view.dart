@@ -64,153 +64,158 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
     final viewModel = ref.read(registrationViewModelProvider);
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: MyColors.ghostWhiteColor,
       appBar: AppBar(backgroundColor: MyColors.ghostWhiteColor),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Spacer(),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: Texts.emailHintText,
-                hintText: Texts.emailHintText,
-              ),
-              autofillHints: const [AutofillHints.email],
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: Texts.passwordHintText,
-                hintText: Texts.passwordHintText,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                      _isObscure1 ? Icons.visibility_off : Icons.visibility),
-                  onPressed: () {
-                    setState(() {
-                      _isObscure1 = !_isObscure1;
-                    });
-                  },
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Spacer(),
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: Texts.emailHintText,
+                  hintText: Texts.emailHintText,
                 ),
+                autofillHints: const [AutofillHints.email],
+                keyboardType: TextInputType.emailAddress,
               ),
-              autofillHints: const [AutofillHints.password],
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: _isObscure1,
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _rePasswordController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: Texts.rePasswordHintText,
-                hintText: Texts.rePasswordHintText,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                      _isObscure2 ? Icons.visibility_off : Icons.visibility),
-                  onPressed: () {
-                    setState(() {
-                      _isObscure2 = !_isObscure2;
-                    });
-                  },
-                ),
-              ),
-              autofillHints: const [AutofillHints.password],
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: _isObscure2,
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: '利用規約',
-                        style: const TextStyle(color: Colors.blue),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Url.launch(Url.termsUrl);
-                          }),
-                    const TextSpan(
-                        text: 'に同意する', style: TextStyle(color: Colors.black))
-                  ]),
-                ),
-                SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: Checkbox(
-                    value: isTermsChecked,
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() => isTermsChecked = value);
-                      }
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: Texts.passwordHintText,
+                  hintText: Texts.passwordHintText,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        _isObscure1 ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _isObscure1 = !_isObscure1;
+                      });
                     },
                   ),
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: 'プライバシーポリシー',
-                        style: const TextStyle(color: Colors.blue),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Url.launch(Url.policyUrl);
-                          }),
-                    const TextSpan(
-                        text: 'に同意する', style: TextStyle(color: Colors.black))
-                  ]),
-                ),
-                SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: Checkbox(
-                    value: isPolicyChecked,
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() => isPolicyChecked = value);
-                      }
+                autofillHints: const [AutofillHints.password],
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: _isObscure1,
+              ),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _rePasswordController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: Texts.rePasswordHintText,
+                  hintText: Texts.rePasswordHintText,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        _isObscure2 ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _isObscure2 = !_isObscure2;
+                      });
                     },
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MyColors.primary,
-                  foregroundColor: MyColors.white,
-                ),
-                onPressed: (isButtonDisabled)
-                    ? null
-                    : () {
-                        if (!isTermsChecked || !isPolicyChecked) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('同意をお願いします'),
-                            ),
-                          );
-                        } else {
-                          handleButtonPress(viewModel);
+                autofillHints: const [AutofillHints.password],
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: _isObscure2,
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: '利用規約',
+                          style: const TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Url.launch(Url.termsUrl);
+                            }),
+                      const TextSpan(
+                          text: 'に同意する', style: TextStyle(color: Colors.black))
+                    ]),
+                  ),
+                  SizedBox(
+                    height: 36,
+                    width: 36,
+                    child: Checkbox(
+                      value: isTermsChecked,
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() => isTermsChecked = value);
                         }
                       },
-                child: const Text('登録'),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const Spacer(),
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: 'プライバシーポリシー',
+                          style: const TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Url.launch(Url.policyUrl);
+                            }),
+                      const TextSpan(
+                          text: 'に同意する', style: TextStyle(color: Colors.black))
+                    ]),
+                  ),
+                  SizedBox(
+                    height: 36,
+                    width: 36,
+                    child: Checkbox(
+                      value: isPolicyChecked,
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() => isPolicyChecked = value);
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors.primary,
+                    foregroundColor: MyColors.white,
+                  ),
+                  onPressed: (isButtonDisabled)
+                      ? null
+                      : () {
+                          if (!isTermsChecked || !isPolicyChecked) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('同意をお願いします'),
+                              ),
+                            );
+                          } else {
+                            handleButtonPress(viewModel);
+                          }
+                        },
+                  child: const Text('登録'),
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
         ),
       ),
     );

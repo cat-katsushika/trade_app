@@ -20,87 +20,92 @@ class _LoginViewState extends ConsumerState<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: MyColors.ghostWhiteColor,
       appBar: AppBar(backgroundColor: MyColors.ghostWhiteColor),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: AutofillGroup(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Spacer(),
-              TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: Texts.emailHintText,
-                  hintText: Texts.emailHintText,
-                ),
-                autofillHints: const [AutofillHints.email],
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 16.0),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: Texts.passwordHintText,
-                  hintText: Texts.passwordHintText,
-                  suffixIcon: IconButton(
-                    icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () {
-                      setState(() {
-                        _isObscure = !_isObscure;
-                      });
-                    },
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: AutofillGroup(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Spacer(),
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: Texts.emailHintText,
+                    hintText: Texts.emailHintText,
                   ),
+                  autofillHints: const [AutofillHints.email],
+                  keyboardType: TextInputType.emailAddress,
                 ),
-                autofillHints: const [AutofillHints.password],
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: _isObscure,
-              ),
-              const Spacer(),
-              SizedBox(
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyColors.tertiary,
-                    foregroundColor: MyColors.white,
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: Texts.passwordHintText,
+                    hintText: Texts.passwordHintText,
+                    suffixIcon: IconButton(
+                      icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          _isObscure = !_isObscure;
+                        });
+                      },
+                    ),
                   ),
-                  onPressed: () async {
-                    ref.watch(userDataProvider.notifier).setMailAndPW(
-                      _emailController.text,
-                      _passwordController.text,
-                    );
-                    final isLogin = await ref.watch(userDataProvider.notifier).login(
-                      context: context,
-                      errMsg: 'エラー 再度ログインしてください。',
-                    );
-                    final userDataState = ref.read(userDataProvider);
-                    if (isLogin) {
-                      // ユーザーデータをShared Preferencesに保存
-                      UserPreferences.saveUserData(
-                        id: userDataState.id,
-                        email: userDataState.email,
-                        password: userDataState.password,
+                  autofillHints: const [AutofillHints.password],
+                  keyboardType: TextInputType.visiblePassword,
+                  obscureText: _isObscure,
+                ),
+                const Spacer(),
+                SizedBox(
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyColors.tertiary,
+                      foregroundColor: MyColors.white,
+                    ),
+                    onPressed: () async {
+                      ref.watch(userDataProvider.notifier).setMailAndPW(
+                        _emailController.text,
+                        _passwordController.text,
                       );
-                      Future(() {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const NavigationRoot(),
-                          ),
-                              (_) => false,
+                      final isLogin = await ref.watch(userDataProvider.notifier).login(
+                        context: context,
+                        errMsg: 'エラー 再度ログインしてください。',
+                      );
+                      final userDataState = ref.read(userDataProvider);
+                      if (isLogin) {
+                        // ユーザーデータをShared Preferencesに保存
+                        UserPreferences.saveUserData(
+                          id: userDataState.id,
+                          email: userDataState.email,
+                          password: userDataState.password,
                         );
-                      });
-                    }
-                  },
-                  child: const Text(Texts.login),
+                        Future(() {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NavigationRoot(),
+                            ),
+                                (_) => false,
+                          );
+                        });
+                      }
+                    },
+                    child: const Text(Texts.login),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              const Spacer(),
-            ],
+                const SizedBox(height: 16),
+                const Spacer(),
+              ],
+            ),
           ),
         ),
       ),

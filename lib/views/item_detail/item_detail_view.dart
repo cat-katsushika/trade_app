@@ -47,56 +47,60 @@ class _ItemDetailViewState extends State<ItemDetailView> {
     final listingStatus =
         ListingStatus.values.byName(widget.item.listingStatus);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 50),
-                child: Column(
-                  children: [
-                    ItemDetailCommonView(
-                        item: widget.item, userData: widget.userData),
-                    CommentsView(
-                      item: widget.item,
-                    ),
-                    const SizedBox(height: 32),
-                  ],
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: MyColors.secondary,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: Column(
+                    children: [
+                      ItemDetailCommonView(
+                          item: widget.item, userData: widget.userData),
+                      CommentsView(
+                        item: widget.item,
+                      ),
+                      const SizedBox(height: 32),
+                    ],
                   ),
                 ),
               ),
-            ),
-            PurchaseButtonView(
-              item: widget.item,
-              listingStatus: listingStatus,
-              onTapUnpurchased: () {
-                patchTemplate(context, 'purchase', '購入');
-              },
-              onTapRelist: () {
-                patchTemplate(context, 'relisting', '再出品');
-              },
-              onTapCancel: () {
-                patchTemplate(context, 'cancel', '出品取り消し');
-              },
-              onTapComplete: () {
-                patchTemplate(context, 'complete', '取引');
-              },
-            ),
-          ],
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      color: MyColors.secondary,
+                    ),
+                  ),
+                ),
+              ),
+              PurchaseButtonView(
+                item: widget.item,
+                listingStatus: listingStatus,
+                onTapUnpurchased: () {
+                  patchTemplate(context, 'purchase', '購入');
+                },
+                onTapRelist: () {
+                  patchTemplate(context, 'relisting', '再出品');
+                },
+                onTapCancel: () {
+                  patchTemplate(context, 'cancel', '出品取り消し');
+                },
+                onTapComplete: () {
+                  patchTemplate(context, 'complete', '取引');
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

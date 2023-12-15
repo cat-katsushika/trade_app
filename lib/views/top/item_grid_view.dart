@@ -33,40 +33,43 @@ class _ItemGridViewState extends ConsumerState<ItemGridView> {
     final AsyncValue<List<Item>> asyncValue = ref.watch(widget.provider);
     final userData = ref.read(userDataProvider);
     return NotificationListener<ScrollEndNotification>(
-      child: Scrollbar(
-        child: CustomScrollView(
-          primary: false,
-          restorationId: 'articles',
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: <Widget>[
-            CupertinoSliverRefreshControl(
-              onRefresh: () async {
-                ref.read(widget.provider.notifier).refresh();
-              },
-            ),
-            asyncValue.when(
-              data: (items) {
-                return GridViewComponent(items: items, userData: userData);
-              },
-              error: (error, stacktrace) {
-                if (asyncValue.hasValue) {
-                  return GridViewComponent(items: asyncValue.value!, userData: userData,);
-                }
-                debugPrint(error.toString());
-                return SliverToBoxAdapter(
-                  child: NetworkErrorView(onRetry: () {
-                    ref.read(userDataProvider.notifier).refreshAccessToken();
-                    ref.read(widget.provider.notifier).refresh();
-                  }),
-                );
-              },
-              loading: () => const SliverToBoxAdapter(
-                  child: Center(child: CupertinoActivityIndicator())),
-            ),
-            OnGoingBottom(
-              asyncValue: asyncValue,
-            ),
-          ],
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scrollbar(
+          child: CustomScrollView(
+            primary: false,
+            restorationId: 'articles',
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: <Widget>[
+              CupertinoSliverRefreshControl(
+                onRefresh: () async {
+                  ref.read(widget.provider.notifier).refresh();
+                },
+              ),
+              asyncValue.when(
+                data: (items) {
+                  return GridViewComponent(items: items, userData: userData);
+                },
+                error: (error, stacktrace) {
+                  if (asyncValue.hasValue) {
+                    return GridViewComponent(items: asyncValue.value!, userData: userData,);
+                  }
+                  debugPrint(error.toString());
+                  return SliverToBoxAdapter(
+                    child: NetworkErrorView(onRetry: () {
+                      ref.read(userDataProvider.notifier).refreshAccessToken();
+                      ref.read(widget.provider.notifier).refresh();
+                    }),
+                  );
+                },
+                loading: () => const SliverToBoxAdapter(
+                    child: Center(child: CupertinoActivityIndicator())),
+              ),
+              OnGoingBottom(
+                asyncValue: asyncValue,
+              ),
+            ],
+          ),
         ),
       ),
       onNotification: (notification) {

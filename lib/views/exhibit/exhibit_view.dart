@@ -92,322 +92,326 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
     }
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 100,
-                  child: images.isEmpty
-                      ? Card(
-                          elevation: 4,
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.photo,
-                              size: 60, // アイコンのサイズを調整
-                              color: Colors.grey[400], // アイコンの色を灰色に
+        resizeToAvoidBottomInset: true,
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 100,
+                    child: images.isEmpty
+                        ? Card(
+                            elevation: 4,
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                        )
-                      : ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: images.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Stack(
-                                children: [
-                                  AspectRatio(
-                                    aspectRatio: 1,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              PhotoViewGallery.builder(
-                                            itemCount: images.length,
-                                            builder: (context, index) {
-                                              return PhotoViewGalleryPageOptions(
-                                                imageProvider:
-                                                    FileImage(images[index]),
-                                                minScale: PhotoViewComputedScale
-                                                    .contained,
-                                                maxScale: PhotoViewComputedScale
-                                                    .covered,
-                                              );
-                                            },
-                                            scrollPhysics:
-                                                const BouncingScrollPhysics(),
-                                            backgroundDecoration:
-                                                const BoxDecoration(
-                                              color: Colors.black,
+                            child: Center(
+                              child: Icon(
+                                Icons.photo,
+                                size: 60, // アイコンのサイズを調整
+                                color: Colors.grey[400], // アイコンの色を灰色に
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: images.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Stack(
+                                  children: [
+                                    AspectRatio(
+                                      aspectRatio: 1,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                PhotoViewGallery.builder(
+                                              itemCount: images.length,
+                                              builder: (context, index) {
+                                                return PhotoViewGalleryPageOptions(
+                                                  imageProvider:
+                                                      FileImage(images[index]),
+                                                  minScale: PhotoViewComputedScale
+                                                      .contained,
+                                                  maxScale: PhotoViewComputedScale
+                                                      .covered,
+                                                );
+                                              },
+                                              scrollPhysics:
+                                                  const BouncingScrollPhysics(),
+                                              backgroundDecoration:
+                                                  const BoxDecoration(
+                                                color: Colors.black,
+                                              ),
+                                              pageController: PageController(
+                                                  initialPage: index),
                                             ),
-                                            pageController: PageController(
-                                                initialPage: index),
+                                          ));
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.file(
+                                            images[index],
+                                            width: 80,
+                                            height: 80,
+                                            fit: BoxFit.cover,
                                           ),
-                                        ));
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.file(
-                                          images[index],
-                                          width: 80,
-                                          height: 80,
-                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(8.0),
-                                        bottomRight: Radius.circular(8.0),
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 4),
-                                        color: Colors.grey,
-                                        child: Text(
-                                          "${index + 1}",
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          images.removeAt(index);
-                                        });
-                                      },
+                                    Positioned(
+                                      top: 0,
+                                      left: 0,
                                       child: ClipRRect(
                                         borderRadius: const BorderRadius.only(
-                                          topRight: Radius.circular(8.0),
-                                          bottomLeft: Radius.circular(8.0),
+                                          topLeft: Radius.circular(8.0),
+                                          bottomRight: Radius.circular(8.0),
                                         ),
                                         child: Container(
-                                          padding: const EdgeInsets.all(4),
-                                          color: Colors.red,
-                                          child: const Icon(Icons.close,
-                                              color: Colors.white, size: 20),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 4),
+                                          color: Colors.grey,
+                                          child: Text(
+                                            "${index + 1}",
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
                                         ),
                                       ),
                                     ),
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            images.removeAt(index);
+                                          });
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                            topRight: Radius.circular(8.0),
+                                            bottomLeft: Radius.circular(8.0),
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(4),
+                                            color: Colors.red,
+                                            child: const Icon(Icons.close,
+                                                color: Colors.white, size: 20),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                  const SizedBox(height: 16),
+                  // 画像が4枚未満の場合のみ、画像追加ボタンを表示
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.camera),
+                          label: const Text("撮影"),
+                          onPressed: images.length < 4
+                              ? () async {
+                                  final pickedImage = await ImagePicker()
+                                      .pickImage(source: ImageSource.camera);
+                                  if (pickedImage != null) {
+                                    final tempFile = File(pickedImage.path);
+                                    final targetPath =
+                                        "${tempFile.path}_compressed.jpg";
+                                    final compressedImage =
+                                        await _compressAndGetFile(
+                                            tempFile, targetPath);
+                                    if (compressedImage != null) {
+                                      setState(() {
+                                        images.add(compressedImage);
+                                      });
+                                    }
+                                  }
+                                }
+                              : null, // 画像が4枚以上の場合はボタンを無効化
+                        ),
+                      ),
+                      const SizedBox(width: 10), // ボタン間のスペース
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.camera),
+                          label: const Text("画像を選択"),
+                          onPressed: images.length < 4
+                              ? () async {
+                                  final pickedImage = await ImagePicker()
+                                      .pickImage(source: ImageSource.gallery);
+                                  if (pickedImage != null) {
+                                    final tempFile = File(pickedImage.path);
+                                    final targetPath =
+                                        "${tempFile.path}_compressed.jpg";
+                                    final compressedImage =
+                                        await _compressAndGetFile(
+                                            tempFile, targetPath);
+                                    if (compressedImage != null) {
+                                      setState(() {
+                                        images.add(compressedImage);
+                                      });
+                                    }
+                                  }
+                                }
+                              : null, // 画像が4枚以上の場合はボタンを無効化
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _productNameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '商品名',
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownMenu<ProductCondition>(
+                    initialSelection: ProductCondition.brandNew,
+                    label: const Text('商品の状態'),
+                    dropdownMenuEntries: productConditionEntries,
+                    onSelected: (value) {
+                      setState(() {
+                        if (value != null) productCondition = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownMenu<WritingState>(
+                    initialSelection: WritingState.none,
+                    label: const Text('書き込み'),
+                    dropdownMenuEntries: writingStateEntries,
+                    onSelected: (value) {
+                      setState(() {
+                        if (value != null) writingState = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  FutureBuilder<List<DropdownMenuEntry<Campus>>>(
+                      future: _loadCampusData(ref),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return DropdownMenu<Campus>(
+                            initialSelection: snapshot.data!.first.value,
+                            label: const Text('キャンパス'),
+                            dropdownMenuEntries: snapshot.data!,
+                            onSelected: (value) {
+                              setState(() {
+                                if (value != null) campus = value;
+                              });
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return const Text("エラー");
+                        } else {
+                          return const CupertinoActivityIndicator();
+                        }
+                      }),
+                  const SizedBox(height: 16),
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    controller: _productPriceController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: '価格',
+                        hintText: '1000'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _productDescriptionController,
+                    decoration: const InputDecoration(
+                      labelText: '商品の詳細情報',
+                      border: OutlineInputBorder(),
+                      alignLabelWithHint: true,
+                      hintText: '詳細情報を記入してください',
+                    ),
+                    maxLines: 10,
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (images.isNotEmpty &&
+                              _productNameController.text != '' &&
+                              _productPriceController.text != '') {
+                            final newItemData = {
+                              'price': int.parse(_productPriceController.text),
+                              'name': _productNameController.text,
+                              'description': _productDescriptionController.text,
+                              'condition': productCondition.name,
+                              'writing_state': writingState.name,
+                              'receivable_campus':
+                                  campus != null ? campus!.id : '',
+                            };
+                            try {
+                              await ItemRepository.exhibitItem(
+                                  newItemData, images);
+                              Future(() {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const NavigationRoot(
+                                        snackMessage: '出品が完了しました！'),
                                   ),
-                                ],
+                                  (_) => false,
+                                );
+                              });
+                            } catch (e) {
+                              if ((e is DioException) &&
+                                  e.response!.statusCode == 401) {
+                                ref
+                                    .read(userDataProvider.notifier)
+                                    .refreshAccessToken();
+                              }
+                              Future(() =>
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("出品できませんでした。"),
+                                    ),
+                                  ));
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('未記入の項目があります'),
                               ),
                             );
-                          },
-                        ),
-                ),
-                const SizedBox(height: 16),
-                // 画像が4枚未満の場合のみ、画像追加ボタンを表示
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        icon: const Icon(Icons.camera),
-                        label: const Text("撮影"),
-                        onPressed: images.length < 4
-                            ? () async {
-                                final pickedImage = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
-                                if (pickedImage != null) {
-                                  final tempFile = File(pickedImage.path);
-                                  final targetPath =
-                                      "${tempFile.path}_compressed.jpg";
-                                  final compressedImage =
-                                      await _compressAndGetFile(
-                                          tempFile, targetPath);
-                                  if (compressedImage != null) {
-                                    setState(() {
-                                      images.add(compressedImage);
-                                    });
-                                  }
-                                }
-                              }
-                            : null, // 画像が4枚以上の場合はボタンを無効化
-                      ),
-                    ),
-                    const SizedBox(width: 10), // ボタン間のスペース
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        icon: const Icon(Icons.camera),
-                        label: const Text("画像を選択"),
-                        onPressed: images.length < 4
-                            ? () async {
-                                final pickedImage = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (pickedImage != null) {
-                                  final tempFile = File(pickedImage.path);
-                                  final targetPath =
-                                      "${tempFile.path}_compressed.jpg";
-                                  final compressedImage =
-                                      await _compressAndGetFile(
-                                          tempFile, targetPath);
-                                  if (compressedImage != null) {
-                                    setState(() {
-                                      images.add(compressedImage);
-                                    });
-                                  }
-                                }
-                              }
-                            : null, // 画像が4枚以上の場合はボタンを無効化
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _productNameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: '商品名',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                DropdownMenu<ProductCondition>(
-                  initialSelection: ProductCondition.brandNew,
-                  label: const Text('商品の状態'),
-                  dropdownMenuEntries: productConditionEntries,
-                  onSelected: (value) {
-                    setState(() {
-                      if (value != null) productCondition = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                DropdownMenu<WritingState>(
-                  initialSelection: WritingState.none,
-                  label: const Text('書き込み'),
-                  dropdownMenuEntries: writingStateEntries,
-                  onSelected: (value) {
-                    setState(() {
-                      if (value != null) writingState = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                FutureBuilder<List<DropdownMenuEntry<Campus>>>(
-                    future: _loadCampusData(ref),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return DropdownMenu<Campus>(
-                          initialSelection: snapshot.data!.first.value,
-                          label: const Text('キャンパス'),
-                          dropdownMenuEntries: snapshot.data!,
-                          onSelected: (value) {
-                            setState(() {
-                              if (value != null) campus = value;
-                            });
-                          },
-                        );
-                      } else if (snapshot.hasError) {
-                        return const Text("エラー");
-                      } else {
-                        return const CupertinoActivityIndicator();
-                      }
-                    }),
-                const SizedBox(height: 16),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  controller: _productPriceController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '価格',
-                      hintText: '1000'),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _productDescriptionController,
-                  decoration: const InputDecoration(
-                    labelText: '商品の詳細情報',
-                    border: OutlineInputBorder(),
-                    alignLabelWithHint: true,
-                    hintText: '詳細情報を記入してください',
-                  ),
-                  maxLines: 10,
-                ),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (images.isNotEmpty &&
-                            _productNameController.text != '' &&
-                            _productPriceController.text != '') {
-                          final newItemData = {
-                            'price': int.parse(_productPriceController.text),
-                            'name': _productNameController.text,
-                            'description': _productDescriptionController.text,
-                            'condition': productCondition.name,
-                            'writing_state': writingState.name,
-                            'receivable_campus':
-                                campus != null ? campus!.id : '',
-                          };
-                          try {
-                            await ItemRepository.exhibitItem(
-                                newItemData, images);
-                            Future(() {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const NavigationRoot(
-                                      snackMessage: '出品が完了しました！'),
-                                ),
-                                (_) => false,
-                              );
-                            });
-                          } catch (e) {
-                            if ((e is DioException) &&
-                                e.response!.statusCode == 401) {
-                              ref
-                                  .read(userDataProvider.notifier)
-                                  .refreshAccessToken();
-                            }
-                            Future(() =>
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("出品できませんでした。"),
-                                  ),
-                                ));
                           }
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('未記入の項目があります'),
-                            ),
-                          );
-                        }
-                      },
-                      child: Text(
-                        '出品',
-                        style: MyTextStyles.mediumBold.copyWith(
-                          color: MyColors.primary,
+                        },
+                        child: Text(
+                          '出品',
+                          style: MyTextStyles.mediumBold.copyWith(
+                            color: MyColors.primary,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
