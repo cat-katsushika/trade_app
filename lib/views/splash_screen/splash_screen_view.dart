@@ -17,7 +17,7 @@ class SplashScreenView extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenViewState extends ConsumerState<SplashScreenView> {
-  bool initStatus = false;
+  bool isError = false;
 
   @override
   void initState() {
@@ -34,6 +34,8 @@ class _SplashScreenViewState extends ConsumerState<SplashScreenView> {
         await ref.watch(userDataProvider.notifier).loginWithUserData(context);
     if (await firebaseSetup()) {
       navigation(isLogin);
+    } else {
+      isError = true;
     }
   }
 
@@ -88,9 +90,9 @@ class _SplashScreenViewState extends ConsumerState<SplashScreenView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: initStatus
-          ? const CupertinoActivityIndicator()
-          : NetworkErrorView(onRetry: setUp),
+      body: isError
+          ? NetworkErrorView(onRetry: setUp)
+          : const Center(child: CupertinoActivityIndicator()),
     );
   }
 }

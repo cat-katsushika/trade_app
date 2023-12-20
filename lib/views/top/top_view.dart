@@ -38,7 +38,7 @@ class _TopViewState extends ConsumerState<TopView> {
 
   @override
   Widget build(BuildContext context) {
-    final isShowSoldItem =
+    bool isShowSoldItem =
         ref.watch(itemsProvider.notifier).getIsShowSoldItem();
     return SafeArea(
       child: Scaffold(
@@ -59,12 +59,13 @@ class _TopViewState extends ConsumerState<TopView> {
                 ),
                 GestureDetector(
                   onTap: () async {
+                    isShowSoldItem = !isShowSoldItem;
+                    //サクサク動かしたいのでチェックボックスの表示を切り替えてからローディング
+                    setState(() {});
                     ref
                         .read(itemsProvider.notifier)
-                        .setIsShowSoldItem(!isShowSoldItem);
+                        .setIsShowSoldItem(isShowSoldItem);
                     await ref.read(itemsProvider.notifier).fetch();
-                    // await _fetchItems();
-                    setState(() {});
                   },
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 24, 0),
@@ -125,6 +126,7 @@ class _TopViewState extends ConsumerState<TopView> {
                     ),
                   ),
                   onFieldSubmitted: (value) async {
+                    //検索時の処理
                     debugPrint('onFieldSubmitted: $value');
                     ref.read(itemsProvider.notifier).changeName(value);
                     ref.read(itemsProvider.notifier).fetch();
