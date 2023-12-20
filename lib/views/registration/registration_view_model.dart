@@ -9,11 +9,15 @@ final registrationViewModelProvider = Provider<RegistrationViewModel>((ref) {
 
 class RegistrationViewModel {
   final Dio _dio = Dio();
-
   final String _apiEndpoint = '${Url.apiUrl}auth/users/';
 
-  Future<bool> registration({required String email, required String password, required String rePassword, required Function(String value) snackFunction}) async {
+  Future<bool> registration(
+      {required String email,
+      required String password,
+      required String rePassword,
+      required Function(String value) snackFunction}) async {
     try {
+      _dio.interceptors.add(LogInterceptor());
       final response = await _dio.post(
         _apiEndpoint,
         data: {
@@ -22,18 +26,14 @@ class RegistrationViewModel {
           're_password': rePassword,
         },
       );
-      if (response.statusCode == 201) {
-        debugPrint('registration successful: ${response.data}');
-        snackFunction("登録に成功しました");
-        return true;
-      } else {
-        debugPrint('registration failed: ${response.data}');
-        snackFunction("登録に失敗しました${response.data}");
-        return false;
-      }
+
+      debugPrint('registration successful: ${response.data}');
+      snackFunction("登録に成功しました");
+      return true;
     } catch (e) {
-      snackFunction("登録に失敗しました$e");
-      debugPrint('Error during registration: $e');
+      if (e is DioException && (e.response != null)) {
+        snackFunction("${e.response!.data['password'].join('\n')}");
+      }
       return false;
     }
   }

@@ -38,12 +38,15 @@ class ItemRepository {
           .map((itemData) => Item.fromJson(itemData as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      if ((e is DioException) && e.response!.statusCode == 404) {
+      if ((e is DioException) &&
+          (e.response != null) &&
+          e.response!.statusCode == 404) {
         return [];
       }
       throw Exception(e);
     }
   }
+
 //出品
   static Future<void> exhibitItem(
       Map<String, dynamic> itemData, List<File> imageFiles) async {
@@ -62,7 +65,7 @@ class ItemRepository {
       ...imageData,
     });
     try {
-     await dio.post(url, data: formData);
+      await dio.post(url, data: formData);
     } catch (e) {
       throw Exception(e);
     }
