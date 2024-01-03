@@ -7,4 +7,6 @@ abstract class MyColors
   static const Color tertiary = Color(0xFFB76C32);
   static const Color ghostWhiteColor = Color(0xFFf4f5fc);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color validationRed = Color(0xFFE24242);
+  static const Color black = Color(0xFF545454);
 }
