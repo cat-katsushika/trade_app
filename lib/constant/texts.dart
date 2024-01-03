@@ -8,9 +8,11 @@ class Texts {
   static const myPage = 'マイページ';
   static const setting = '設定';
   static const notLoginText = 'ログインせずにwebで試す';
+  static const emailHintText = '8121000@ed.tus.ac.jp';
   static const studentNumberHintText = '学籍番号';
-  static const emailHintText = 'メールアドレス';
-  static const passwordHintText = 'パスワード';
+  static const emailLabelText = 'メールアドレス';
+  static const passwordLabelText = 'パスワード';
+  static const passwordHintText = '半角英数字を2種類以上使用';
   static const rePasswordHintText = 'パスワードを再度入力';
   static const searchHintText = 'Search';
   static const likeToggleOnMessage = 'いいねしました。';
