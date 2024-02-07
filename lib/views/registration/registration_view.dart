@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trade_app/component/circle_number_component.dart';
 import 'package:trade_app/component/custom_text_form_field.dart';
+import 'package:trade_app/component/horizontal_line.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/constant/texts.dart';
@@ -74,13 +76,49 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Spacer(),
+                const Text(
+                  '会員登録のステップ',
+                  style: MyTextStyles.shortBold,
+                ),
+                const SizedBox(height: 12),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleNumberComponent(
+                      number: 1,
+                      text: '設定',
+                      isBlack: true,
+                    ),
+                    HorizontalLine(),
+                    CircleNumberComponent(
+                      number: 2,
+                      text: '送信',
+                      isBlack: false,
+                    ),
+                    HorizontalLine(),
+                    CircleNumberComponent(
+                      number: 3,
+                      text: '完了',
+                      isBlack: false,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 36),
+                const Text(
+                  '会員登録をする',
+                  style: MyTextStyles.largeBold,
+                ),
+                const Text(
+                  'メールアドレスとパスワードを設定してください。設定したメールアドレス宛に確認メールが届きます。「認証メールを送る」ボタンを押してください。',
+                  style: MyTextStyles.mediumNormal,
+                ),
+                const SizedBox(height: 32),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
@@ -98,7 +136,7 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
                   onToggleObscure: (value) {},
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return Texts.emailValidationMessage;
                     }
                     return null;
                   },
@@ -127,7 +165,7 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return Texts.passwordValidationMessage;
                     }
                     return null;
                   },
@@ -156,7 +194,7 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return Texts.rePasswordValidationMessage;
                     }
                     return null;
                   },
@@ -248,7 +286,7 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
                               handleButtonPress(viewModel);
                             }
                           },
-                    child: const Text('登録'),
+                    child: const Text(Texts.sendEmail),
                   ),
                 ),
                 const Spacer(),
