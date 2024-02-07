@@ -116,6 +116,23 @@ class UserDataNotifier extends StateNotifier<UserData> {
     );
   }
 
+  Future<void> activation(Map<String, String> parameter) async {
+    Dio dio = Dio();
+    try {
+      final response = await dio.post(
+        '${Url.apiUrl}auth/users/activation/',
+        data: parameter
+      );
+
+      String accessToken = response.data['access'];
+      state = state.copyWith(accessToken: accessToken);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+
+
   Future<bool> login({BuildContext? context, String? errMsg}) async {
     final Dio dio = Dio();
     dio.interceptors.add(LogInterceptor());

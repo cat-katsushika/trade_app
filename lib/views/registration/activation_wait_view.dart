@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/views/navigation_root/navigation_root.dart';
+import 'package:uni_links/uni_links.dart';
 
 class ActivationWaitView extends ConsumerStatefulWidget {
   final String email;
@@ -24,6 +27,7 @@ class _ActivationWaitViewState extends ConsumerState<ActivationWaitView> {
   void initState() {
     super.initState();
     bool isLogin = false;
+    initUniLinks(ref);
     Future(() async {
       ref
           .watch(userDataProvider.notifier)
@@ -43,6 +47,29 @@ class _ActivationWaitViewState extends ConsumerState<ActivationWaitView> {
           );
         }
       }
+    });
+  }
+
+  Map<String, String>? getQueryParameter(String? link) {
+    if (link == null) return null;
+    final uri = Uri.parse(link);
+    String? id = uri.queryParameters['id'];
+    String? token = uri.queryParameters['token'];
+    debugPrint('[from DeepLink] id:$id token:$token');
+    if (id == null || token == null) return null;
+    return {'id': id, 'token': token};
+  }
+
+  Future<void> initUniLinks(WidgetRef ref) async {
+    linkStream.listen((String? link) {
+      //設定したスキームをキャッチしてここが走る。
+      final parameter = getQueryParameter(link);
+      if (parameter != null) {
+        ref.watch(userDataProvider.notifier).activation(parameter);
+      }
+      setState(() {});
+    }, onError: (err) {
+      debugPrint(err);
     });
   }
 
