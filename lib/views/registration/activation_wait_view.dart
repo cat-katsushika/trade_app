@@ -22,56 +22,63 @@ class _ActivationWaitViewState extends ConsumerState<ActivationWaitView> {
   bool isLoading = true;
   String accessToken = '';
   String refreshToken = '';
+  String? id;
+  String? token;
 
   @override
   void initState() {
     super.initState();
-    bool isLogin = false;
-    initUniLinks(ref);
+    initUniLinks();
     Future(() async {
       ref
           .watch(userDataProvider.notifier)
           .setMailAndPW(widget.email, widget.password);
-      while (!isLogin) {
-        isLogin =
-            await ref.watch(userDataProvider.notifier).login(context: context);
-        await Future.delayed(const Duration(seconds: 3));
-        if (isLogin) {
-          if (!mounted) return;
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NavigationRoot(),
-            ),
-            (_) => false,
-          );
-        }
-      }
     });
   }
 
   Map<String, String>? getQueryParameter(String? link) {
     if (link == null) return null;
     final uri = Uri.parse(link);
-    String? id = uri.queryParameters['id'];
-    String? token = uri.queryParameters['token'];
+    id = uri.queryParameters['id'];
+    token = uri.queryParameters['token'];
     debugPrint('[from DeepLink] id:$id token:$token');
     if (id == null || token == null) return null;
-    return {'id': id, 'token': token};
+    return {'id': id!, 'token': token!};
   }
 
-  Future<void> initUniLinks(WidgetRef ref) async {
-    linkStream.listen((String? link) {
-      //設定したスキームをキャッチしてここが走る。
+  Future<void> initUniLinks() async {
+    linkStream.listen((String? link) async {
+      bool isLogin = false;
       final parameter = getQueryParameter(link);
       if (parameter != null) {
         ref.watch(userDataProvider.notifier).activation(parameter);
+        while (!isLogin && mounted) {
+          final loginSuccess = await ref.read(userDataProvider.notifier).login();
+          if (loginSuccess) {
+            isLogin = true;
+            break; // ログイン成功時にループから抜けます。
+          }
+
+          // ログインが成功しない場合は数秒待ちます。
+          await Future.delayed(const Duration(seconds: 3));
+
+          if (!mounted) return;
+        }
+
+        if (isLogin && mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const NavigationRoot()),
+                (_) => false,
+          );
+        }
       }
-      setState(() {});
     }, onError: (err) {
       debugPrint(err);
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {

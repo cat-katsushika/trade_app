@@ -118,6 +118,7 @@ class UserDataNotifier extends StateNotifier<UserData> {
 
   Future<void> activation(Map<String, String> parameter) async {
     Dio dio = Dio();
+    dio.interceptors.add(LogInterceptor());
     try {
       final response = await dio.post(
         '${Url.apiUrl}auth/users/activation/',
