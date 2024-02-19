@@ -218,6 +218,13 @@ class _RegistrationViewState extends ConsumerState<RegistrationView> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _emailController.text = "0101010@ed.tus.ac.jp";
+          _passwordController.text= "testdesu";
+          _rePasswordController.text = "testdesu";
+        },
+      ),
     );
   }
 }
