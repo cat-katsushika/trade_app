@@ -23,8 +23,10 @@ class _StartViewState extends State<StartView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(flex:3,child: Container()),
-            const Expanded(flex: 3,child: Image(image: AssetImage(ImagePath.appIconTransplant))),
+            Expanded(flex: 3, child: Container()),
+            const Expanded(
+                flex: 3,
+                child: Image(image: AssetImage(ImagePath.appIconTransplant))),
             Expanded(child: Container()),
             SizedBox(
               height: 50,
@@ -69,7 +71,7 @@ class _StartViewState extends State<StartView> {
                     ),
                   );
                 },
-                child: const Text('登録'),
+                child: const Text(Texts.register),
               ),
             ),
             const SizedBox(height: 16),
