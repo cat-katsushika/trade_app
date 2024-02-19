@@ -39,11 +39,11 @@ class _ActivationWaitViewState extends ConsumerState<ActivationWaitView> {
   Map<String, String>? getQueryParameter(String? link) {
     if (link == null) return null;
     final uri = Uri.parse(link);
-    id = uri.queryParameters['id'];
+    id = uri.queryParameters['uid'];
     token = uri.queryParameters['token'];
-    debugPrint('[from DeepLink] id:$id token:$token');
+    debugPrint('[from DeepLink] uid:$id token:$token');
     if (id == null || token == null) return null;
-    return {'id': id!, 'token': token!};
+    return {'uid': id!, 'token': token!};
   }
 
   Future<void> initUniLinks() async {

@@ -61,20 +61,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-<!-- Deep Links　ここから -->
-<key>FlutterDeepLinkingEnabled</key>
-<true/>
-<key>CFBundleURLTypes</key>
-<array>
-    <dict>
-    <key>CFBundleTypeRole</key>
-    <string>Editor</string>
-    <key>CFBundleURLSchemes</key>
+    <!-- Deep Links　ここから -->
+    <key>FlutterDeepLinkingEnabled</key>
+    <true/>
+    <key>CFBundleURLTypes</key>
     <array>
-    <string>uniboo</string>
+        <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+        <string>uniboo</string>
+        </array>
+        </dict>
     </array>
-    </dict>
-</array>
-<!-- Deep Links　ここまで追加 -->
+    <!-- Deep Links　ここまで追加 -->
 </dict>
 </plist>
