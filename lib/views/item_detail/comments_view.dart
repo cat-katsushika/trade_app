@@ -34,82 +34,76 @@ class _CommentsViewState extends ConsumerState<CommentsView> {
         ListingStatus.values.byName(widget.item.listingStatus);
     final userDataState = ref.read(userDataProvider);
     return ref.watch(commentViewModelProvider).when(data: (comments) {
-      return Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  "コメント",
+                  style: MyTextStyles.mediumBold,
+                ),
+              ),
+              for (var comment in comments) CommentCard(comment),
+            ],
+          ),
+          if (listingStatus == ListingStatus.unpurchased)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    "コメント",
-                    style: MyTextStyles.mediumBold,
+                Expanded(
+                  flex: 5,
+                  child: TextField(
+                    controller: newCommentController,
+                    decoration: const InputDecoration(
+                      labelText: 'コメント',
+                      border: OutlineInputBorder(),
+                      alignLabelWithHint: true,
+                      hintText: 'コメント',
+                    ),
+                    maxLines: 1,
                   ),
                 ),
-                for (var comment in comments) CommentCard(comment),
-              ],
-            ),
-            if (listingStatus == ListingStatus.unpurchased)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: TextField(
-                        controller: newCommentController,
-                        decoration: const InputDecoration(
-                          labelText: 'コメント',
-                          border: OutlineInputBorder(),
-                          alignLabelWithHint: true,
-                          hintText: 'コメント',
-                        ),
-                        maxLines: 1,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: IconButton(
-                        onPressed: () async {
-                          if (newCommentController.text != '') {
-                            final isPost = await ref
-                                .watch(commentViewModelProvider.notifier)
-                                .postMessage(
-                                  widget.item.id,
-                                  newCommentController.text,
-                                  userDataState.id,
-                                  Url.com,
-                                );
-                            if (isPost) {
-                              newCommentController.text = '';
-                              ref
-                                  .read(commentViewModelProvider.notifier)
-                                  .fetchMessages(widget.item.id, Url.com);
-                            } else {
-                              Future(() =>
-                                  ScaffoldMessenger.of(context).showSnackBar(
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    onPressed: () async {
+                      if (newCommentController.text != '') {
+                        final isPost = await ref
+                            .watch(commentViewModelProvider.notifier)
+                            .postMessage(
+                              widget.item.id,
+                              newCommentController.text,
+                              userDataState.id,
+                              Url.com,
+                            );
+                        if (isPost) {
+                          newCommentController.text = '';
+                          ref
+                              .read(commentViewModelProvider.notifier)
+                              .fetchMessages(widget.item.id, Url.com);
+                        } else {
+                          Future(
+                              () => ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text('投稿できませんでした'),
                                     ),
                                   ));
-                            }
-                          }
-                        },
-                        icon: const Icon(
-                          Icons.send,
-                          size: 40,
-                        ),
-                      ),
+                        }
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.send,
+                      size: 40,
                     ),
-                  ],
+                  ),
                 ),
-              ),
-          ],
-        ),
+              ],
+            ),
+        ],
       );
     }, error: (err, stack) {
       return const Center(child: Text('コメントが読み込めません'));

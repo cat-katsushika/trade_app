@@ -9,11 +9,12 @@ class CommentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(comment.userEmail.split('@').first, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(comment.userEmail.split('@').first,
+              style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 5),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),

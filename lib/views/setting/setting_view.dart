@@ -37,7 +37,7 @@ class _SettingViewState extends ConsumerState {
       body: Column(
         children: [
           SettingsItemComponent(
-            title: Texts.emailHintText,
+            title: 'Email',
             trailing: Text(
               myData.email,
             ),

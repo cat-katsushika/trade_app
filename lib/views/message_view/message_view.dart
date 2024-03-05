@@ -11,16 +11,16 @@ import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/views/item_detail/message_view_model.dart';
 
-class MessageView extends ConsumerStatefulWidget {
+class MessageView<T> extends ConsumerStatefulWidget {
   const MessageView(
       {Key? key,
       required this.item,
-      required this.onTapComplete,
-      required this.amISeller})
+      this.onTapComplete,
+      required this.isShowCompleteButton})
       : super(key: key);
   final Item item;
-  final VoidCallback onTapComplete;
-  final bool amISeller;
+  final VoidCallback? onTapComplete;
+  final bool isShowCompleteButton;
 
   @override
   ConsumerState createState() => _MessageViewState();
@@ -55,7 +55,7 @@ class _MessageViewState extends ConsumerState<MessageView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            widget.amISeller
+                            widget.isShowCompleteButton
                                 ? ElevatedButton(
                                     onPressed: () {
                                       showDialog(
@@ -64,13 +64,14 @@ class _MessageViewState extends ConsumerState<MessageView> {
                                           alertMessage: '取引を完了しますか',
                                           leftText: '完了する',
                                           rightText: Texts.buttonPopText,
-                                          onTap: widget.onTapComplete,
+                                          onTap: () => widget.onTapComplete,
                                         ),
                                       );
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all(
-                                          MyColors.tertiary),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              MyColors.tertiary),
                                     ),
                                     child: const Text(
                                       "取引を完了する",
@@ -128,12 +129,13 @@ class _MessageViewState extends ConsumerState<MessageView> {
                                       if (isPost) {
                                         newCommentController.text = '';
                                         ref
-                                            .read(
-                                                messageViewModelProvider.notifier)
+                                            .read(messageViewModelProvider
+                                                .notifier)
                                             .fetchMessages(
                                                 widget.item.id, Url.msg);
                                       } else {
-                                        Future(() => ScaffoldMessenger.of(context)
+                                        Future(() =>
+                                            ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               const SnackBar(
                                                 content: Text('投稿できませんでした'),

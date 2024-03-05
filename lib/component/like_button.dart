@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/repository/other_repository.dart';
@@ -74,19 +75,31 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: _status == LikeStatus.liking
-          ? const CupertinoActivityIndicator()
-          : Icon(
-              _status == LikeStatus.liked
-                  ? Icons.favorite
-                  : Icons.favorite_outline,
-              color: _status == LikeStatus.liked ? Colors.red : Colors.grey,
-              size: 32,
-            ),
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         _toggleLike(ref);
       },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _status == LikeStatus.liking
+              ? const CupertinoActivityIndicator()
+              : Icon(
+                  _status == LikeStatus.liked
+                      ? Icons.favorite
+                      : Icons.favorite_outline,
+                  color: MyColors.primary,
+                  size: 28,
+                ),
+          const Text(
+            'お気に入り',
+            style: TextStyle(
+              fontSize: 10,
+              color: MyColors.grey,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

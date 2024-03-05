@@ -2,17 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_app/component/item_detail_data_view.dart';
-import 'package:trade_app/component/like_button.dart';
 import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/constant/texts.dart';
-import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/models/product_condition.dart';
 import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/models/writing_state.dart';
+import 'package:trade_app/views/item_detail/comments_view.dart';
 
 class ItemDetailCommonView extends StatelessWidget {
   const ItemDetailCommonView(
@@ -72,35 +71,23 @@ class ItemDetailCommonView extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Text(
-                    item.name,
-                    style: const TextStyle(
-                      color: MyColors.primary,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: LikeButton(
-                      apiUrl: '${Url.apiUrl}items/${item.id}/like-toggle/',
-                      item: item,
-                    ),
-                  )
-                ],
+              Text(
+                item.name,
+                style: const TextStyle(
+                  color: MyColors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 4.0),
               Text(
                 "¥${item.price}",
                 style: const TextStyle(
-                  color: MyColors.primary,
+                  color: MyColors.black,
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
                 ),
@@ -109,7 +96,7 @@ class ItemDetailCommonView extends StatelessWidget {
               const Text(
                 "商品の説明",
                 style: TextStyle(
-                  color: MyColors.primary,
+                  color: MyColors.black,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -118,7 +105,7 @@ class ItemDetailCommonView extends StatelessWidget {
               Text(
                 item.description,
                 style: const TextStyle(
-                  color: MyColors.primary,
+                  color: MyColors.black,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -168,9 +155,12 @@ class ItemDetailCommonView extends StatelessWidget {
                       textStyle: MyTextStyles.mediumNormal),
                 ],
               ),
+              CommentsView(
+                item: item,
+              ),
             ],
           ),
-        ),
+        )
       ],
     );
   }

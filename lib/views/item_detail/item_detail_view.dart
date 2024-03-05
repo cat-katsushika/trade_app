@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:trade_app/component/like_button.dart';
 import 'package:trade_app/constant/my_colors.dart';
+import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/item_model.dart';
 import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/repository/item_repository.dart';
-import 'package:trade_app/views/navigation_root/navigation_root.dart';
-import 'package:trade_app/views/item_detail/comments_view.dart';
 import 'package:trade_app/views/item_detail/item_detail_common_view.dart';
 import 'package:trade_app/views/item_detail/purchase_button_view.dart';
+import 'package:trade_app/views/message_view/message_view.dart';
+import 'package:trade_app/views/navigation_root/navigation_root.dart';
 
 class ItemDetailView extends StatefulWidget {
   const ItemDetailView(this.item, this.userData, {super.key});
@@ -46,6 +48,7 @@ class _ItemDetailViewState extends State<ItemDetailView> {
   Widget build(BuildContext context) {
     final listingStatus =
         ListingStatus.values.byName(widget.item.listingStatus);
+    final deviseHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -60,9 +63,6 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                     children: [
                       ItemDetailCommonView(
                           item: widget.item, userData: widget.userData),
-                      CommentsView(
-                        item: widget.item,
-                      ),
                       const SizedBox(height: 32),
                     ],
                   ),
@@ -83,25 +83,77 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                   ),
                 ),
               ),
-              PurchaseButtonView(
-                item: widget.item,
-                listingStatus: listingStatus,
-                onTapUnpurchased: () {
-                  patchTemplate(context, 'purchase', '購入');
-                },
-                onTapRelist: () {
-                  patchTemplate(context, 'relisting', '再出品');
-                },
-                onTapCancel: () {
-                  patchTemplate(context, 'cancel', '出品取り消し');
-                },
-                onTapComplete: () {
-                  patchTemplate(context, 'complete', '取引');
-                },
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: 70,
+                  width: double.infinity,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: MyColors.grey,
+                          width: 1,
+                        ),
+                      ),
+                      color: MyColors.white,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 28,
+                        vertical: 8,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: PurchaseButtonView(
+                              item: widget.item,
+                              listingStatus: listingStatus,
+                              onTapUnpurchased: () {
+                                patchTemplate(context, 'purchase', '購入');
+                              },
+                              onTapRelist: () {
+                                patchTemplate(context, 'relisting', '再出品');
+                              },
+                              onTapCancel: () {
+                                patchTemplate(context, 'cancel', '出品取り消し');
+                              },
+                              onTapComplete: () {
+                                patchTemplate(context, 'complete', '取引');
+                              },
+                            ),
+                          ),
+                          const Spacer(),
+                          LikeButton(
+                            apiUrl:
+                                '${Url.apiUrl}items/${widget.item.id}/like-toggle/',
+                            item: widget.item,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MessageView(
+                item: widget.item,
+                onTapComplete: null,
+                isShowCompleteButton: false,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -25,11 +25,39 @@ class PurchaseButtonView extends ConsumerWidget {
   final VoidCallback onTapRelist;
   final Item item;
 
+  Widget _createElevatedButton({
+    VoidCallback? onPressed,
+    required String buttonText,
+    Color? buttonColor,
+    Color textColor = MyColors.white,
+  }) {
+    return SizedBox(
+      height: double.infinity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: buttonColor ?? MyColors.primary,
+        ),
+        onPressed: onPressed,
+        child: Text(
+          buttonText,
+          style: TextStyle(
+            color: textColor,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buttonView(ListingStatus listingStatus, BuildContext context,
       bool amISeller, bool amIBuyer) {
     if (amISeller) {
       if (listingStatus == ListingStatus.unpurchased) {
-        return ElevatedButton(
+        return _createElevatedButton(
           onPressed: () {
             showDialog(
               context: context,
@@ -41,33 +69,26 @@ class PurchaseButtonView extends ConsumerWidget {
               ),
             );
           },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(MyColors.tertiary),
-          ),
-          child: const Text(
-            "出品を取り消す",
-            style: TextStyle(color: MyColors.white),
-          ),
+          buttonText: "出品を取り消す",
+          buttonColor: MyColors.tertiary,
         );
       } else if (listingStatus == ListingStatus.purchased) {
-        return ElevatedButton(
+        return _createElevatedButton(
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
               return MessageView(
                 item: item,
                 onTapComplete: onTapComplete,
-                amISeller: amISeller,
+                isShowCompleteButton: amISeller,
               );
             }));
           },
-          child: const Text(
-            "取引画面",
-            textAlign: TextAlign.center,
-          ),
+          buttonText: "取引画面",
+          buttonColor: MyColors.secondary,
         );
       } else if (listingStatus == ListingStatus.canceled) {
-        return ElevatedButton(
+        return _createElevatedButton(
           onPressed: () {
             showDialog(
               context: context,
@@ -79,23 +100,19 @@ class PurchaseButtonView extends ConsumerWidget {
               ),
             );
           },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(MyColors.tertiary),
-          ),
-          child: const Text(
-            "再出品",
-            style: TextStyle(color: MyColors.white),
-          ),
+          buttonText: "再出品",
+          buttonColor: MyColors.tertiary,
         );
       } else {
-        return const ElevatedButton(
+        return _createElevatedButton(
           onPressed: null,
-          child: Text("取引完了"),
+          buttonText: "取引完了",
+          buttonColor: MyColors.grey,
         );
       }
     } else {
       if (listingStatus == ListingStatus.unpurchased) {
-        return ElevatedButton(
+        return _createElevatedButton(
           onPressed: () {
             showDialog(
               context: context,
@@ -107,29 +124,27 @@ class PurchaseButtonView extends ConsumerWidget {
               ),
             );
           },
-          child: const Text("購入"),
+          buttonText: "購入",
         );
       } else if (listingStatus == ListingStatus.purchased && amIBuyer) {
-        return ElevatedButton(
+        return _createElevatedButton(
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
               return MessageView(
                 item: item,
                 onTapComplete: onTapComplete,
-                amISeller: amISeller,
+                isShowCompleteButton: amISeller, //自分が出品者の場合のみ取引完了ボタンを表示
               );
             }));
           },
-          child: const Text(
-            "取引画面",
-            textAlign: TextAlign.center,
-          ),
+          buttonText: "取引画面",
+          buttonColor: MyColors.secondary,
         );
       } else {
-        return const ElevatedButton(
+        return _createElevatedButton(
           onPressed: null,
-          child: Text("SOLD OUT"),
+          buttonText: "SOLD OUT",
         );
       }
     }
@@ -144,16 +159,6 @@ class PurchaseButtonView extends ConsumerWidget {
     final amISeller = (item.seller == ref.read(userDataProvider).email);
     final amIBuyer = (item.buyer == ref.read(userDataProvider).id);
     //↑なぜかsellerはuserのemail, buyerはuserのidが返ってきているのでこの実装。
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          height: 50,
-          width: 200,
-          child: _buttonView(listingStatus, context, amISeller, amIBuyer),
-        ),
-      ),
-    );
+    return _buttonView(listingStatus, context, amISeller, amIBuyer);
   }
 }
