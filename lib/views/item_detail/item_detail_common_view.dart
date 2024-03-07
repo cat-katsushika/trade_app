@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:trade_app/component/item_detail_data_view.dart';
 import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/constant/my_colors.dart';
@@ -11,7 +12,7 @@ import 'package:trade_app/models/listing_status.dart';
 import 'package:trade_app/models/product_condition.dart';
 import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/models/writing_state.dart';
-import 'package:trade_app/views/item_detail/comments_view.dart';
+import 'package:trade_app/views/message_view/message_view.dart';
 
 class ItemDetailCommonView extends StatelessWidget {
   const ItemDetailCommonView(
@@ -37,6 +38,7 @@ class ItemDetailCommonView extends StatelessWidget {
       productCondition.jpName,
       writingState.jpName
     ];
+    final formatter = NumberFormat("#,###");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -85,7 +87,7 @@ class ItemDetailCommonView extends StatelessWidget {
               ),
               const SizedBox(height: 4.0),
               Text(
-                "¥${item.price}",
+                "¥${formatter.format(item.price)}",
                 style: const TextStyle(
                   color: MyColors.black,
                   fontSize: 24,
@@ -98,7 +100,7 @@ class ItemDetailCommonView extends StatelessWidget {
                 style: TextStyle(
                   color: MyColors.black,
                   fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -148,16 +150,53 @@ class ItemDetailCommonView extends StatelessWidget {
               Row(
                 children: [
                   const ItemDetailDataView(
-                      dataList: ['受取可能キャンパス'],
-                      textStyle: MyTextStyles.mediumBold),
+                      dataList: ['受け取り場所'], textStyle: MyTextStyles.mediumBold),
                   ItemDetailDataView(
                       dataList: [item.receivableCampus],
                       textStyle: MyTextStyles.mediumNormal),
                 ],
               ),
-              CommentsView(
-                item: item,
-              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MessageView(
+                              isComment: true,
+                              item: item,
+                              onTapComplete: null,
+                              isShowCompleteButton: false,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: MyColors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            width: 2,
+                            color: MyColors.primary,
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'コメントする',
+                            style: TextStyle(
+                              color: MyColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         )

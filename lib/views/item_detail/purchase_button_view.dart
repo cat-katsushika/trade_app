@@ -78,6 +78,7 @@ class PurchaseButtonView extends ConsumerWidget {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
               return MessageView(
+                isComment: false,
                 item: item,
                 onTapComplete: onTapComplete,
                 isShowCompleteButton: amISeller,
@@ -132,6 +133,7 @@ class PurchaseButtonView extends ConsumerWidget {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
               return MessageView(
+                isComment: false,
                 item: item,
                 onTapComplete: onTapComplete,
                 isShowCompleteButton: amISeller, //自分が出品者の場合のみ取引完了ボタンを表示

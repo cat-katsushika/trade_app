@@ -28,16 +28,14 @@ class _SettingViewState extends ConsumerState {
     final myData = ref.read(userDataProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyColors.ghostWhiteColor,
         title: const Text(
           Texts.setting,
-          style: TextStyle(color: MyColors.primary),
         ),
       ),
       body: Column(
         children: [
           SettingsItemComponent(
-            title: 'Email',
+            title: 'メールアドレス',
             trailing: Text(
               myData.email,
             ),
@@ -67,8 +65,7 @@ class _SettingViewState extends ConsumerState {
             },
           ),
           SettingsItemComponent(
-            onTap: () =>
-              Url.launch(Url.termsUrl),
+            onTap: () => Url.launch(Url.termsUrl),
             title: '利用規約',
             trailing: const Icon(
               Icons.arrow_forward_ios_outlined,
@@ -77,8 +74,7 @@ class _SettingViewState extends ConsumerState {
             ),
           ),
           SettingsItemComponent(
-            onTap: () =>
-              Url.launch(Url.policyUrl),
+            onTap: () => Url.launch(Url.policyUrl),
             title: 'プライバシーポリシー',
             trailing: const Icon(
               Icons.arrow_forward_ios_outlined,
@@ -103,14 +99,14 @@ class _SettingViewState extends ConsumerState {
                     onTap: () async {
                       await UserPreferences.clearUserData();
                       Future(
-                            () => Navigator.pushAndRemoveUntil(
+                        () => Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => const StartView()),
-                              (_) => false,
+                          MaterialPageRoute(
+                              builder: (context) => const StartView()),
+                          (_) => false,
                         ),
                       );
-                    }
-                ),
+                    }),
               );
             },
           ),

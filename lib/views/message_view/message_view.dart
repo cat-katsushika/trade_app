@@ -14,6 +14,7 @@ import 'package:trade_app/views/item_detail/message_view_model.dart';
 class MessageView<T> extends ConsumerStatefulWidget {
   const MessageView(
       {Key? key,
+      required this.isComment,
       required this.item,
       this.onTapComplete,
       required this.isShowCompleteButton})
@@ -21,6 +22,7 @@ class MessageView<T> extends ConsumerStatefulWidget {
   final Item item;
   final VoidCallback? onTapComplete;
   final bool isShowCompleteButton;
+  final bool isComment;
 
   @override
   ConsumerState createState() => _MessageViewState();
@@ -28,12 +30,15 @@ class MessageView<T> extends ConsumerStatefulWidget {
 
 class _MessageViewState extends ConsumerState<MessageView> {
   final newCommentController = TextEditingController();
-
+  var provider = commentViewModelProvider;
   @override
   void initState() {
+    widget.isComment
+        ? provider = commentViewModelProvider
+        : provider = messageViewModelProvider;
     ref
-        .read(messageViewModelProvider.notifier)
-        .fetchMessages(widget.item.id, Url.msg);
+        .read(provider.notifier)
+        .fetchMessages(widget.item.id, widget.isComment ? Url.com : Url.msg);
     super.initState();
   }
 
@@ -43,7 +48,7 @@ class _MessageViewState extends ConsumerState<MessageView> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: ref.watch(messageViewModelProvider).when(data: (comments) {
+          child: ref.watch(provider).when(data: (comments) {
             return Stack(
               children: [
                 SingleChildScrollView(
@@ -51,7 +56,7 @@ class _MessageViewState extends ConsumerState<MessageView> {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -84,18 +89,18 @@ class _MessageViewState extends ConsumerState<MessageView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(
-                                "メッセージ",
+                                widget.isComment ? "コメント" : "メッセージ",
                                 style: MyTextStyles.mediumBold,
                               ),
                             ),
                             for (var comment in comments) CommentCard(comment),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        const SizedBox(height: 8),
+                        IntrinsicHeight(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -103,53 +108,85 @@ class _MessageViewState extends ConsumerState<MessageView> {
                                 flex: 5,
                                 child: TextField(
                                   controller: newCommentController,
-                                  decoration: const InputDecoration(
-                                    labelText: 'コメント',
-                                    border: OutlineInputBorder(),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      borderSide: const BorderSide(
+                                        color: MyColors.grey,
+                                      ), // 通常のボーダーの色
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      borderSide: const BorderSide(
+                                        color: MyColors.primary,
+                                      ), // フォーカスされたときのボーダーの色
+                                    ),
+                                    labelText: widget.isComment
+                                        ? 'コメントする'
+                                        : 'メッセージを送信',
                                     alignLabelWithHint: true,
-                                    hintText: 'コメント',
+                                    hintText: widget.isComment
+                                        ? 'コメントする'
+                                        : 'メッセージを送信',
                                   ),
                                   maxLines: 1,
                                 ),
                               ),
+                              const SizedBox(width: 12),
                               Expanded(
-                                flex: 1,
-                                child: IconButton(
-                                  onPressed: () async {
-                                    if (newCommentController.text != '') {
-                                      final isPost = await ref
-                                          .watch(
-                                              messageViewModelProvider.notifier)
-                                          .postMessage(
-                                            widget.item.id,
-                                            newCommentController.text,
-                                            userDataState.id,
-                                            Url.msg,
-                                          );
-                                      if (isPost) {
-                                        newCommentController.text = '';
-                                        ref
-                                            .read(messageViewModelProvider
-                                                .notifier)
-                                            .fetchMessages(
-                                                widget.item.id, Url.msg);
-                                      } else {
-                                        Future(() =>
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text('投稿できませんでした'),
-                                              ),
-                                            ));
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      String url = Url.msg;
+                                      widget.isComment
+                                          ? url = Url.com
+                                          : Url.msg;
+                                      if (newCommentController.text != '') {
+                                        final isPost = await ref
+                                            .watch(provider.notifier)
+                                            .postMessage(
+                                              widget.item.id,
+                                              newCommentController.text,
+                                              userDataState.id,
+                                              url,
+                                            );
+                                        if (isPost) {
+                                          newCommentController.text = '';
+                                          ref
+                                              .read(provider.notifier)
+                                              .fetchMessages(
+                                                  widget.item.id, url);
+                                        } else {
+                                          Future(() =>
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text('投稿できませんでした'),
+                                                ),
+                                              ));
+                                        }
                                       }
-                                    }
-                                  },
-                                  icon: const Icon(
-                                    Icons.send,
-                                    size: 40,
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: MyColors.grey,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          '送信',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: MyColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ),

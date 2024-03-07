@@ -56,6 +56,7 @@ dependencies:
   cached_network_image: ^3.3.0
   firebase_core: ^2.23.0
   uni_links: ^0.5.1
+  intl:
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,5 @@
 class Texts {
-  static const itemDetailKey = ['出品者', '状態', '書き込み'];
+  static const itemDetailKey = ['出品者', '商品の状態', '書き込み'];
   static const purchase = '購入';
   static const register = '登録';
   static const sendEmail = '認証メールを送る';
@@ -18,9 +18,8 @@ class Texts {
   static const emailValidationMessage = '大学のメールアドレスを入力して下さい。';
   static const passwordValidationMessage = '半角英数字を2種類以上使用してください。';
   static const rePasswordValidationMessage = 'パスワードを再度入力してください。';
-  static const searchHintText = 'Search';
+  static const searchHintText = 'キーワードから探す';
   static const likeToggleOnMessage = 'いいねしました。';
   static const likeToggleOffMessage = 'いいねを取り消しました。';
   static const buttonPopText = '戻る';
-
 }

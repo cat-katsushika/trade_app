@@ -8,7 +8,6 @@ import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/repository/item_repository.dart';
 import 'package:trade_app/views/item_detail/item_detail_common_view.dart';
 import 'package:trade_app/views/item_detail/purchase_button_view.dart';
-import 'package:trade_app/views/message_view/message_view.dart';
 import 'package:trade_app/views/navigation_root/navigation_root.dart';
 
 class ItemDetailView extends StatefulWidget {
@@ -107,7 +106,6 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            flex: 4,
                             child: PurchaseButtonView(
                               item: widget.item,
                               listingStatus: listingStatus,
@@ -125,7 +123,7 @@ class _ItemDetailViewState extends State<ItemDetailView> {
                               },
                             ),
                           ),
-                          const Spacer(),
+                          const SizedBox(width: 36),
                           LikeButton(
                             apiUrl:
                                 '${Url.apiUrl}items/${widget.item.id}/like-toggle/',
@@ -140,20 +138,6 @@ class _ItemDetailViewState extends State<ItemDetailView> {
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MessageView(
-                item: widget.item,
-                onTapComplete: null,
-                isShowCompleteButton: false,
-              ),
-            ),
-          );
-        },
       ),
     );
   }

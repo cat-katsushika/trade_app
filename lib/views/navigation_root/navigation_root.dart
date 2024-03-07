@@ -43,6 +43,8 @@ class _NavigationRootState extends State<NavigationRoot> {
       //   child: _widgetOptions.elementAt((_selectedIndex)),
       // ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

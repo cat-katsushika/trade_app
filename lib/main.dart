@@ -1,10 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/views/splash_screen/splash_screen_view.dart';
-import 'firebase_options.dart';
 
 Future<void> main() async {
   runApp(
@@ -28,9 +25,23 @@ class TradeApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: MyColors.primary),
-            useMaterial3: true,
-            scaffoldBackgroundColor: MyColors.ghostWhiteColor),
+          appBarTheme: const AppBarTheme(
+            color: MyColors.white,
+            titleTextStyle: TextStyle(
+              color: MyColors.light3,
+              fontSize: 24,
+            ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: MyColors.white,
+            ),
+          ),
+          tabBarTheme: const TabBarTheme(unselectedLabelColor: MyColors.grey),
+          colorScheme: ColorScheme.fromSeed(seedColor: MyColors.primary),
+          useMaterial3: true,
+          scaffoldBackgroundColor: MyColors.ghostWhiteColor,
+        ),
         home: home,
       ),
     );

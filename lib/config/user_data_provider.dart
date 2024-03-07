@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,7 +12,6 @@ import 'package:trade_app/config/user_preferences.dart';
 import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/models/user_data_model.dart';
 import 'package:trade_app/repository/other_repository.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 final userDataProvider =
     StateNotifierProvider<UserDataNotifier, UserData>((ref) {
@@ -48,9 +48,14 @@ class UserDataNotifier extends StateNotifier<UserData> {
 
   Future<void> refreshAccessToken() async {
     Dio dio = Dio();
+    dio = await OtherRepository.addCookie(dio);
+    dio.interceptors.add(LogInterceptor());
+    debugPrint(state.refreshToken);
+    debugPrint("---");
+    debugPrint(state.accessToken);
     try {
       final response = await dio.post(
-        '${Url.apiUrl}auth/api/refresh/',
+        '${Url.apiUrl}auth/jwt/refresh/',
         data: {
           'refresh': state.refreshToken,
         },
@@ -120,10 +125,8 @@ class UserDataNotifier extends StateNotifier<UserData> {
     Dio dio = Dio();
     dio.interceptors.add(LogInterceptor());
     try {
-      final response = await dio.post(
-        '${Url.apiUrl}auth/users/activation/',
-        data: parameter
-      );
+      final response = await dio.post('${Url.apiUrl}auth/users/activation/',
+          data: parameter);
 
       String accessToken = response.data['access'];
       state = state.copyWith(accessToken: accessToken);
@@ -131,8 +134,6 @@ class UserDataNotifier extends StateNotifier<UserData> {
       throw Exception(e);
     }
   }
-
-
 
   Future<bool> login({BuildContext? context, String? errMsg}) async {
     final Dio dio = Dio();

@@ -38,100 +38,108 @@ class _TopViewState extends ConsumerState<TopView> {
 
   @override
   Widget build(BuildContext context) {
-    bool isShowSoldItem =
-        ref.watch(itemsProvider.notifier).getIsShowSoldItem();
+    bool isShowSoldItem = ref.watch(itemsProvider.notifier).getIsShowSoldItem();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          actions: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NotificationView(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.notifications_outlined),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    isShowSoldItem = !isShowSoldItem;
-                    //サクサク動かしたいのでチェックボックスの表示を切り替えてからローディング
-                    setState(() {});
-                    ref
-                        .read(itemsProvider.notifier)
-                        .setIsShowSoldItem(isShowSoldItem);
-                    await ref.read(itemsProvider.notifier).fetch();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 24, 0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          '売切も表示',
-                        ),
-                        Icon(
-                          isShowSoldItem
-                              ? Icons.check_box
-                              : Icons.check_box_outline_blank,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
           backgroundColor: MyColors.ghostWhiteColor,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(30.0),
-            child: SizedBox(
-              height: 46,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                child: TextFormField(
-                  autocorrect: true,
-                  controller: textEditingController,
-                  decoration: InputDecoration(
-                    hintText: Texts.searchHintText,
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      size: 25,
-                      color: MyColors.secondary,
-                    ),
-                    isDense: true,
-                    contentPadding: const EdgeInsets.fromLTRB(10, 12, 12, 10),
-                    hintStyle: const TextStyle(color: MyColors.secondary),
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide:
-                          const BorderSide(color: MyColors.secondary, width: 1),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide:
-                          const BorderSide(color: MyColors.secondary, width: 1),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide:
-                          const BorderSide(color: MyColors.tertiary, width: 1),
-                    ),
+            preferredSize: const Size.fromHeight(60.0),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          autocorrect: true,
+                          controller: textEditingController,
+                          decoration: InputDecoration(
+                            hintText: Texts.searchHintText,
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              size: 24,
+                              color: MyColors.grey,
+                            ),
+                            isDense: true,
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(10, 12, 12, 10),
+                            hintStyle: const TextStyle(color: MyColors.grey),
+                            filled: true,
+                            fillColor: MyColors.white,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: const BorderSide(
+                                  color: MyColors.grey, width: 1),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: const BorderSide(
+                                  color: MyColors.grey, width: 1),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: const BorderSide(
+                                  color: MyColors.tertiary, width: 1),
+                            ),
+                          ),
+                          onFieldSubmitted: (value) async {
+                            //検索時の処理
+                            debugPrint('onFieldSubmitted: $value');
+                            ref.read(itemsProvider.notifier).changeName(value);
+                            ref.read(itemsProvider.notifier).fetch();
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NotificationView(),
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.notifications_outlined,
+                          size: 30,
+                          color: MyColors.darkGrey,
+                        ),
+                      ),
+                    ],
                   ),
-                  onFieldSubmitted: (value) async {
-                    //検索時の処理
-                    debugPrint('onFieldSubmitted: $value');
-                    ref.read(itemsProvider.notifier).changeName(value);
-                    ref.read(itemsProvider.notifier).fetch();
-                  },
-                ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Text(
+                              '売り切れも表示する',
+                              style: TextStyle(color: MyColors.darkGrey),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                isShowSoldItem = !isShowSoldItem;
+                                //サクサク動かしたいのでチェックボックスの表示を切り替えてからローディング
+                                setState(() {});
+                                ref
+                                    .read(itemsProvider.notifier)
+                                    .setIsShowSoldItem(isShowSoldItem);
+                                await ref.read(itemsProvider.notifier).fetch();
+                              },
+                              child: const Icon(Icons.sunny),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

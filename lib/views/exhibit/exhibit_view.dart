@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/my_text_style.dart';
 import 'package:trade_app/models/campus_model.dart';
 import 'package:trade_app/models/product_condition.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:trade_app/models/writing_state.dart';
 import 'package:trade_app/repository/item_repository.dart';
 import 'package:trade_app/views/navigation_root/navigation_root.dart';
@@ -93,6 +94,9 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          title: Text('出品'),
+        ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SingleChildScrollView(
@@ -139,10 +143,12 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                                                 return PhotoViewGalleryPageOptions(
                                                   imageProvider:
                                                       FileImage(images[index]),
-                                                  minScale: PhotoViewComputedScale
-                                                      .contained,
-                                                  maxScale: PhotoViewComputedScale
-                                                      .covered,
+                                                  minScale:
+                                                      PhotoViewComputedScale
+                                                          .contained,
+                                                  maxScale:
+                                                      PhotoViewComputedScale
+                                                          .covered,
                                                 );
                                               },
                                               scrollPhysics:
@@ -222,54 +228,74 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                   Row(
                     children: [
                       Expanded(
-                        child: ElevatedButton.icon(
-                          icon: const Icon(Icons.camera),
-                          label: const Text("撮影"),
-                          onPressed: images.length < 4
-                              ? () async {
-                                  final pickedImage = await ImagePicker()
-                                      .pickImage(source: ImageSource.camera);
-                                  if (pickedImage != null) {
-                                    final tempFile = File(pickedImage.path);
-                                    final targetPath =
-                                        "${tempFile.path}_compressed.jpg";
-                                    final compressedImage =
-                                        await _compressAndGetFile(
-                                            tempFile, targetPath);
-                                    if (compressedImage != null) {
-                                      setState(() {
-                                        images.add(compressedImage);
-                                      });
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: MyColors.white,
+                              side: const BorderSide(
+                                color: MyColors.secondary,
+                                width: 2,
+                              ),
+                            ),
+                            icon: const Icon(Icons.photo_camera),
+                            label: const Text("撮影"),
+                            onPressed: images.length < 4
+                                ? () async {
+                                    final pickedImage = await ImagePicker()
+                                        .pickImage(source: ImageSource.camera);
+                                    if (pickedImage != null) {
+                                      final tempFile = File(pickedImage.path);
+                                      final targetPath =
+                                          "${tempFile.path}_compressed.jpg";
+                                      final compressedImage =
+                                          await _compressAndGetFile(
+                                              tempFile, targetPath);
+                                      if (compressedImage != null) {
+                                        setState(() {
+                                          images.add(compressedImage);
+                                        });
+                                      }
                                     }
                                   }
-                                }
-                              : null, // 画像が4枚以上の場合はボタンを無効化
+                                : null, // 画像が4枚以上の場合はボタンを無効化
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10), // ボタン間のスペース
                       Expanded(
-                        child: ElevatedButton.icon(
-                          icon: const Icon(Icons.camera),
-                          label: const Text("画像を選択"),
-                          onPressed: images.length < 4
-                              ? () async {
-                                  final pickedImage = await ImagePicker()
-                                      .pickImage(source: ImageSource.gallery);
-                                  if (pickedImage != null) {
-                                    final tempFile = File(pickedImage.path);
-                                    final targetPath =
-                                        "${tempFile.path}_compressed.jpg";
-                                    final compressedImage =
-                                        await _compressAndGetFile(
-                                            tempFile, targetPath);
-                                    if (compressedImage != null) {
-                                      setState(() {
-                                        images.add(compressedImage);
-                                      });
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: MyColors.white,
+                              side: const BorderSide(
+                                color: MyColors.secondary,
+                                width: 2,
+                              ),
+                            ),
+                            icon: const Icon(Icons.image),
+                            label: const Text("画像を選択"),
+                            onPressed: images.length < 4
+                                ? () async {
+                                    final pickedImage = await ImagePicker()
+                                        .pickImage(source: ImageSource.gallery);
+                                    if (pickedImage != null) {
+                                      final tempFile = File(pickedImage.path);
+                                      final targetPath =
+                                          "${tempFile.path}_compressed.jpg";
+                                      final compressedImage =
+                                          await _compressAndGetFile(
+                                              tempFile, targetPath);
+                                      if (compressedImage != null) {
+                                        setState(() {
+                                          images.add(compressedImage);
+                                        });
+                                      }
                                     }
                                   }
-                                }
-                              : null, // 画像が4枚以上の場合はボタンを無効化
+                                : null, // 画像が4枚以上の場合はボタンを無効化
+                          ),
                         ),
                       ),
                     ],
