@@ -14,7 +14,10 @@ class MessageRepository {
         final List<Message> messages = (response.data as List)
             .map((data) => Message.fromJson(data))
             .toList();
-        debugPrint('fetched Messages');
+        messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+        for (var message in messages) {
+          debugPrint("${message.message} :${message.createdAt}");
+        }
         return messages;
       } else {
         throw Exception('Failed to fetch Messages');

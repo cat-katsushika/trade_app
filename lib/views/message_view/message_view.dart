@@ -31,6 +31,7 @@ class MessageView<T> extends ConsumerStatefulWidget {
 class _MessageViewState extends ConsumerState<MessageView> {
   final newCommentController = TextEditingController();
   var provider = commentViewModelProvider;
+  bool postButtonEnable = false;
   @override
   void initState() {
     widget.isComment
@@ -45,6 +46,7 @@ class _MessageViewState extends ConsumerState<MessageView> {
   @override
   Widget build(BuildContext context) {
     final userDataState = ref.read(userDataProvider);
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -107,6 +109,10 @@ class _MessageViewState extends ConsumerState<MessageView> {
                               Expanded(
                                 flex: 5,
                                 child: TextField(
+                                  onChanged: (text) {
+                                    setState(
+                                        () => postButtonEnable = text != '');
+                                  },
                                   controller: newCommentController,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -118,7 +124,7 @@ class _MessageViewState extends ConsumerState<MessageView> {
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(5.0),
                                       borderSide: const BorderSide(
-                                        color: MyColors.primary,
+                                        color: MyColors.secondary,
                                       ), // フォーカスされたときのボーダーの色
                                     ),
                                     labelText: widget.isComment
@@ -171,7 +177,9 @@ class _MessageViewState extends ConsumerState<MessageView> {
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: MyColors.grey,
+                                        color: postButtonEnable
+                                            ? MyColors.secondary
+                                            : MyColors.grey,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: const Center(

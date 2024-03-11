@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trade_app/component/button_component.dart';
 import 'package:trade_app/component/custom_text_form_field.dart';
 import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/config/user_preferences.dart';
@@ -24,9 +25,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'ログイン',
+          style: TextStyle(color: MyColors.black),
+        ),
+      ),
       resizeToAvoidBottomInset: true,
       backgroundColor: MyColors.ghostWhiteColor,
-      appBar: AppBar(backgroundColor: MyColors.ghostWhiteColor),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
@@ -93,48 +99,42 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     keyboardType: TextInputType.visiblePassword,
                   ),
                   const Spacer(),
-                  SizedBox(
+                  ButtonComponent(
                     height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: MyColors.tertiary,
-                        foregroundColor: MyColors.white,
-                      ),
-                      onPressed: () async {
-                        _formKey.currentState!.validate();
-                        ref.watch(userDataProvider.notifier).setMailAndPW(
-                              _emailController.text,
-                              _passwordController.text,
-                            );
-                        final isLogin =
-                            await ref.watch(userDataProvider.notifier).login(
-                                  context: context,
-                                  errMsg: 'エラー 再度ログインしてください。',
-                                );
-                        final userDataState = ref.read(userDataProvider);
-                        if (isLogin) {
-                          // ユーザーデータをShared Preferencesに保存
-                          UserPreferences.saveUserData(
-                            id: userDataState.id,
-                            email: userDataState.email,
-                            password: userDataState.password,
+                    buttonColor: MyColors.secondary,
+                    onPressed: () async {
+                      _formKey.currentState!.validate();
+                      ref.watch(userDataProvider.notifier).setMailAndPW(
+                            _emailController.text,
+                            _passwordController.text,
                           );
-                          Future(() {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const NavigationRoot(),
-                              ),
-                              (_) => false,
-                            );
-                          });
-                        }
-                      },
-                      child: const Text(Texts.login),
-                    ),
+                      final isLogin =
+                          await ref.watch(userDataProvider.notifier).login(
+                                context: context,
+                                errMsg: 'エラー 再度ログインしてください。',
+                              );
+                      final userDataState = ref.read(userDataProvider);
+                      if (isLogin) {
+                        // ユーザーデータをShared Preferencesに保存
+                        UserPreferences.saveUserData(
+                          id: userDataState.id,
+                          email: userDataState.email,
+                          password: userDataState.password,
+                        );
+                        Future(() {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NavigationRoot(),
+                            ),
+                            (_) => false,
+                          );
+                        });
+                      }
+                    },
+                    buttonText: Texts.login,
                   ),
-                  const SizedBox(height: 16),
-                  const Spacer(),
+                  const SizedBox(height: 32),
                 ],
               ),
             ),

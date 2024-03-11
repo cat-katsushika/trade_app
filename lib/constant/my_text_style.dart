@@ -17,6 +17,11 @@ class MyTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.bold,
   );
+  static const largeNormal = TextStyle(
+    color: MyColors.black,
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+  );
   static const mediumNormal = TextStyle(
     color: MyColors.black,
     fontSize: 14,

@@ -26,21 +26,26 @@ class TradeApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           appBarTheme: const AppBarTheme(
+            surfaceTintColor: MyColors.white,
             color: MyColors.white,
             titleTextStyle: TextStyle(
               color: MyColors.light3,
               fontSize: 24,
             ),
           ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: MyColors.white,
-            ),
-          ),
           tabBarTheme: const TabBarTheme(unselectedLabelColor: MyColors.grey),
           colorScheme: ColorScheme.fromSeed(seedColor: MyColors.primary),
           useMaterial3: true,
           scaffoldBackgroundColor: MyColors.ghostWhiteColor,
+          primaryColor: MyColors.secondary,
+          inputDecorationTheme: const InputDecorationTheme(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyColors.grey, width: 1.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyColors.secondary, width: 1.5),
+              ),
+              labelStyle: TextStyle(color: MyColors.grey, fontSize: 16)),
         ),
         home: home,
       ),

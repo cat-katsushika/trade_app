@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:trade_app/component/button_component.dart';
 import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/constant/my_colors.dart';
-import 'package:trade_app/constant/texts.dart';
-import 'package:trade_app/constant/url.dart';
 import 'package:trade_app/views/login/login_view.dart';
 import 'package:trade_app/views/registration/registration_view.dart';
 
@@ -23,29 +22,28 @@ class _StartViewState extends State<StartView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(flex: 3, child: Container()),
+            const Spacer(flex: 2),
             const Expanded(
-                flex: 3,
-                child: Image(image: AssetImage(ImagePath.appIconTransplant))),
-            Expanded(child: Container()),
-            SizedBox(
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MyColors.tertiary,
-                  foregroundColor: MyColors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginView(),
-                    ),
-                  );
-                },
-                child: const Text('ログイン'),
+              flex: 2,
+              child: Image(
+                image: AssetImage(ImagePath.appIconText),
               ),
             ),
+            const Spacer(flex: 1),
+            ButtonComponent(
+              height: 50,
+              buttonColor: MyColors.secondary,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginView(),
+                  ),
+                );
+              },
+              buttonText: 'ログイン',
+            ),
+
             const Row(
               children: [
                 Expanded(child: Divider()),
@@ -56,36 +54,18 @@ class _StartViewState extends State<StartView> {
                 Expanded(child: Divider()),
               ],
             ),
-            SizedBox(
+            ButtonComponent(
               height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MyColors.primary,
-                  foregroundColor: MyColors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RegistrationView(),
-                    ),
-                  );
-                },
-                child: const Text(Texts.register),
-              ),
-            ),
-            const SizedBox(height: 16),
-            InkWell(
-              onTap: () {
-                Url.launch(Url.webVerUrl);
+              buttonColor: MyColors.primary,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegistrationView(),
+                  ),
+                );
               },
-              child: const Text(
-                Texts.notLoginText,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: MyColors.tertiary,
-                ),
-              ),
+              buttonText: '登録',
             ),
             const SizedBox(height: 32),
             // Expanded(child: Container()),

@@ -95,7 +95,7 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          title: Text('出品'),
+          title: const Text('出品'),
         ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -232,14 +232,23 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                           height: 50,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: MyColors.white,
+                              surfaceTintColor: Colors.white,
+                              backgroundColor: Colors.white,
                               side: const BorderSide(
                                 color: MyColors.secondary,
                                 width: 2,
+                              ), // ボーダーの色と幅
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(15), // ボーダーラディアス
                               ),
                             ),
                             icon: const Icon(Icons.photo_camera),
-                            label: const Text("撮影"),
+                            label: Text(
+                              "撮影",
+                              style: MyTextStyles.largeNormal
+                                  .copyWith(color: MyColors.secondary),
+                            ),
                             onPressed: images.length < 4
                                 ? () async {
                                     final pickedImage = await ImagePicker()
@@ -262,20 +271,29 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10), // ボタン間のスペース
+                      const SizedBox(width: 28), // ボタン間のスペース
                       Expanded(
                         child: SizedBox(
                           height: 50,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
+                              surfaceTintColor: MyColors.white,
                               backgroundColor: MyColors.white,
                               side: const BorderSide(
                                 color: MyColors.secondary,
                                 width: 2,
+                              ), // ボーダーの色と幅
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(15), // ボーダーラディアス
                               ),
                             ),
                             icon: const Icon(Icons.image),
-                            label: const Text("画像を選択"),
+                            label: Text(
+                              "画像を選択",
+                              style: MyTextStyles.largeNormal
+                                  .copyWith(color: MyColors.secondary),
+                            ),
                             onPressed: images.length < 4
                                 ? () async {
                                     final pickedImage = await ImagePicker()
@@ -373,65 +391,68 @@ class _ExhibitViewState extends ConsumerState<ExhibitView> {
                     maxLines: 10,
                   ),
                   const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (images.isNotEmpty &&
-                              _productNameController.text != '' &&
-                              _productPriceController.text != '') {
-                            final newItemData = {
-                              'price': int.parse(_productPriceController.text),
-                              'name': _productNameController.text,
-                              'description': _productDescriptionController.text,
-                              'condition': productCondition.name,
-                              'writing_state': writingState.name,
-                              'receivable_campus':
-                                  campus != null ? campus!.id : '',
-                            };
-                            try {
-                              await ItemRepository.exhibitItem(
-                                  newItemData, images);
-                              Future(() {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const NavigationRoot(
-                                        snackMessage: '出品が完了しました！'),
-                                  ),
-                                  (_) => false,
-                                );
-                              });
-                            } catch (e) {
-                              if ((e is DioException) &&
-                                  e.response!.statusCode == 401) {
-                                ref
-                                    .read(userDataProvider.notifier)
-                                    .refreshAccessToken();
-                              }
-                              Future(() =>
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("出品できませんでした。"),
-                                    ),
-                                  ));
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        backgroundColor: MyColors.secondary,
+                      ),
+                      onPressed: () async {
+                        if (images.isNotEmpty &&
+                            _productNameController.text != '' &&
+                            _productPriceController.text != '') {
+                          final newItemData = {
+                            'price': int.parse(_productPriceController.text),
+                            'name': _productNameController.text,
+                            'description': _productDescriptionController.text,
+                            'condition': productCondition.name,
+                            'writing_state': writingState.name,
+                            'receivable_campus':
+                                campus != null ? campus!.id : '',
+                          };
+                          try {
+                            await ItemRepository.exhibitItem(
+                                newItemData, images);
+                            Future(() {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const NavigationRoot(
+                                      snackMessage: '出品が完了しました！'),
+                                ),
+                                (_) => false,
+                              );
+                            });
+                          } catch (e) {
+                            if ((e is DioException) &&
+                                e.response!.statusCode == 401) {
+                              ref
+                                  .read(userDataProvider.notifier)
+                                  .refreshAccessToken();
                             }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('未記入の項目があります'),
-                              ),
-                            );
+                            Future(() =>
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("出品できませんでした。"),
+                                  ),
+                                ));
                           }
-                        },
-                        child: Text(
-                          '出品',
-                          style: MyTextStyles.mediumBold.copyWith(
-                            color: MyColors.primary,
-                          ),
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('未記入の項目があります'),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text(
+                        '出品',
+                        style: MyTextStyles.mediumBold.copyWith(
+                          color: MyColors.white,
                         ),
                       ),
                     ),

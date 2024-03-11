@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trade_app/component/button_component.dart';
 import 'package:trade_app/component/purchase_dialog.dart';
 import 'package:trade_app/config/user_data_provider.dart';
 import 'package:trade_app/constant/my_colors.dart';
@@ -25,39 +26,11 @@ class PurchaseButtonView extends ConsumerWidget {
   final VoidCallback onTapRelist;
   final Item item;
 
-  Widget _createElevatedButton({
-    VoidCallback? onPressed,
-    required String buttonText,
-    Color? buttonColor,
-    Color textColor = MyColors.white,
-  }) {
-    return SizedBox(
-      height: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          backgroundColor: buttonColor ?? MyColors.primary,
-        ),
-        onPressed: onPressed,
-        child: Text(
-          buttonText,
-          style: TextStyle(
-            color: textColor,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buttonView(ListingStatus listingStatus, BuildContext context,
       bool amISeller, bool amIBuyer) {
     if (amISeller) {
       if (listingStatus == ListingStatus.unpurchased) {
-        return _createElevatedButton(
+        return ButtonComponent(
           onPressed: () {
             showDialog(
               context: context,
@@ -73,7 +46,7 @@ class PurchaseButtonView extends ConsumerWidget {
           buttonColor: MyColors.tertiary,
         );
       } else if (listingStatus == ListingStatus.purchased) {
-        return _createElevatedButton(
+        return ButtonComponent(
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
@@ -89,7 +62,7 @@ class PurchaseButtonView extends ConsumerWidget {
           buttonColor: MyColors.secondary,
         );
       } else if (listingStatus == ListingStatus.canceled) {
-        return _createElevatedButton(
+        return ButtonComponent(
           onPressed: () {
             showDialog(
               context: context,
@@ -105,7 +78,7 @@ class PurchaseButtonView extends ConsumerWidget {
           buttonColor: MyColors.tertiary,
         );
       } else {
-        return _createElevatedButton(
+        return const ButtonComponent(
           onPressed: null,
           buttonText: "取引完了",
           buttonColor: MyColors.grey,
@@ -113,7 +86,7 @@ class PurchaseButtonView extends ConsumerWidget {
       }
     } else {
       if (listingStatus == ListingStatus.unpurchased) {
-        return _createElevatedButton(
+        return ButtonComponent(
           onPressed: () {
             showDialog(
               context: context,
@@ -128,7 +101,7 @@ class PurchaseButtonView extends ConsumerWidget {
           buttonText: "購入",
         );
       } else if (listingStatus == ListingStatus.purchased && amIBuyer) {
-        return _createElevatedButton(
+        return ButtonComponent(
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
@@ -144,7 +117,7 @@ class PurchaseButtonView extends ConsumerWidget {
           buttonColor: MyColors.secondary,
         );
       } else {
-        return _createElevatedButton(
+        return const ButtonComponent(
           onPressed: null,
           buttonText: "SOLD OUT",
         );

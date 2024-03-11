@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trade_app/constant/image_path.dart';
 import 'package:trade_app/constant/my_colors.dart';
 import 'package:trade_app/constant/texts.dart';
 import 'package:trade_app/views/notification/notification_view.dart';
@@ -113,28 +114,34 @@ class _TopViewState extends ConsumerState<TopView> {
                   Row(
                     children: [
                       const Spacer(),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Text(
-                              '売り切れも表示する',
-                              style: TextStyle(color: MyColors.darkGrey),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                isShowSoldItem = !isShowSoldItem;
-                                //サクサク動かしたいのでチェックボックスの表示を切り替えてからローディング
-                                setState(() {});
-                                ref
-                                    .read(itemsProvider.notifier)
-                                    .setIsShowSoldItem(isShowSoldItem);
-                                await ref.read(itemsProvider.notifier).fetch();
-                              },
-                              child: const Icon(Icons.sunny),
-                            ),
-                          ],
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () async {
+                          isShowSoldItem = !isShowSoldItem;
+                          //サクサク動かしたいのでチェックボックスの表示を切り替えてからローディング
+                          setState(() {});
+                          ref
+                              .read(itemsProvider.notifier)
+                              .setIsShowSoldItem(isShowSoldItem);
+                          await ref.read(itemsProvider.notifier).fetch();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 4, 12, 4),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Text(
+                                '売り切れも表示する',
+                                style: TextStyle(color: MyColors.darkGrey),
+                              ),
+                              SizedBox(
+                                height: 20,
+                                child: Image.asset(
+                                  ImagePath.toggle(isShowSoldItem),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

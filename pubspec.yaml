@@ -77,10 +77,14 @@ flutter:
   assets:
     - assets/images/textbook.jpeg
     - assets/images/app_icon.png
+    - assets/images/new_app_icon.png
+    - assets/images/new_app_icon_text.png
     - assets/images/mark_question.png
     - assets/images/sold_out.png
     - assets/images/app_icon_transparent.png
     - assets/images/trading.png
+    - assets/images/toggle_true.png
+    - assets/images/toggle_false.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -88,7 +92,7 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/app_icon.png"
+  image_path: "assets/images/new_app_icon.png"
   # To add assets to your application, add an assets section, like this:
   #   - images/a_dot_ham.jpeg
 
